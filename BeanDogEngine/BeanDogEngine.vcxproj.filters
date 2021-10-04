@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ShaderManager">
+      <UniqueIdentifier>{056e4c24-99a0-4424-83cf-50c07b495a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VAOManager">
+      <UniqueIdentifier>{7e2bbd0e-1f53-4554-a834-1b9f1b665678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -21,10 +27,31 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cShader.cpp">
+      <Filter>ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderManager.cpp">
+      <Filter>ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cVAOManager.cpp">
+      <Filter>VAOManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cMesh.cpp">
+      <Filter>VAOManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLCommon.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cShaderManager.h">
+      <Filter>ShaderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cVAOManager.h">
+      <Filter>VAOManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cMesh.h">
+      <Filter>VAOManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

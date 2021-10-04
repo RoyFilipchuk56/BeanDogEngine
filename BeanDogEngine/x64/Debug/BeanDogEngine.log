@@ -1,2 +1,3 @@
 ﻿  Main.cpp
-LINK : fatal error LNK1104: cannot open file 'glfw3.lib'
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(166,19): warning C4101: 'mvp': unreferenced local variable
+  BeanDogEngine.vcxproj -> C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\BeanDogEngine.exe
