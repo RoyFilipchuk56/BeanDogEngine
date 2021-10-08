@@ -39,6 +39,9 @@
     <ClCompile Include="cMesh.cpp">
       <Filter>VAOManager</Filter>
     </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLCommon.h">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="cMesh.h">
       <Filter>VAOManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

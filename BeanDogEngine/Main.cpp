@@ -20,6 +20,7 @@
 #include "cShaderManager.h"
 #include "cVAOManager.h"
 #include "cMesh.h"
+#include "SceneManager.h"
 
 // Global Variables
 glm::vec3 cameraEye = glm::vec3(0.0, 0.0, -4.0f);
@@ -85,6 +86,10 @@ int main()
     GLuint program = 0;
     //Default to -1 since thats the error
     GLint mvp_location = -1;
+
+    SceneManager scene;
+    scene.LoadSceneFromXML("SceneOne.xml");
+    std::cout << scene.currentLevel.models[0].transform[0] << " " << scene.currentLevel.fileName << std::endl;
 
     glfwSetErrorCallback(error_callback);
 
