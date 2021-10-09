@@ -1,8 +1,3 @@
 ﻿  Main.cpp
-C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(171,19): warning C4101: 'mvp': unreferenced local variable
-  SceneManager.cpp
-  Generating Code...
-glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(183,19): warning C4101: 'mvp': unreferenced local variable
   BeanDogEngine.vcxproj -> C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\BeanDogEngine.exe

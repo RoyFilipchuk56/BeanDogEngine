@@ -23,10 +23,11 @@
 #include "SceneManager.h"
 
 // Global Variables
-glm::vec3 cameraEye = glm::vec3(0.0, 0.0, -4.0f);
+glm::vec3 cameraEye;
 cShaderManager  gShaderManager;
 cVAOManager     gVAOManager;
 std::vector<cMesh> g_vecMeshes;
+bool isWireframe = false;
 
 //calls the latest error
 static void error_callback(int error, const char* description)
@@ -71,6 +72,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     {
         cameraEye.y += cameraSpeed;     // Go "Up"
     }
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    {
+        isWireframe = !isWireframe;     //toggle wireframe
+    }
 
 
     std::cout << "Camera: "
@@ -87,9 +92,11 @@ int main()
     //Default to -1 since thats the error
     GLint mvp_location = -1;
 
+    //load scene from xml
     SceneManager scene;
     scene.LoadSceneFromXML("SceneOne.xml");
-    std::cout << scene.currentLevel.models[0].transform[0] << " " << scene.currentLevel.fileName << std::endl;
+    //set camera 
+    cameraEye = scene.currentLevel.camera.tranform;
 
     glfwSetErrorCallback(error_callback);
 
@@ -142,24 +149,29 @@ int main()
     GLint matView_Location = glGetUniformLocation(program, "matView");
     GLint matProjection_Location = glGetUniformLocation(program, "matProjection");
 
-    sModelDrawInfo modelGary;
-
-    if (gVAOManager.LoadModelIntoVAO("GaryBusey.ply", modelGary, program))
+    //load in each models in the scene
+    for (int i = 0; i < scene.currentLevel.models.size(); i++)
     {
-        std::cout << "Loaded the model: " << modelGary.meshName << std::endl;
-        std::cout << modelGary.numberOfVertices << " vertices loaded" << std::endl;
-        std::cout << modelGary.numberOfTriangles << " triangles loaded" << std::endl;
+        //make a temp model info
+        sModelDrawInfo tempInfo;
+        if (!gVAOManager.LoadModelIntoVAO(MODEL_DIR + scene.currentLevel.models[i].fileName, tempInfo, program))
+        {
+            std::cout << "Error: " << scene.currentLevel.models[i].fileName << " Didn't load OK" << std::endl;
+        }
+        else
+        {
+            std::cout << "Good: " << scene.currentLevel.models[i].fileName << " loaded OK" << std::endl;
+            std::cout << tempInfo.numberOfVertices << " vertices loaded" << std::endl;
+            std::cout << tempInfo.numberOfTriangles << " triangles loaded" << std::endl;
+        }
+        //make a temp mesh and load in all the attributes
+        cMesh tempMesh;
+        tempMesh.meshName = MODEL_DIR + scene.currentLevel.models[i].fileName;
+        tempMesh.positionXYZ = scene.currentLevel.models[i].transform;
+        tempMesh.orientationXYZ = scene.currentLevel.models[i].rotation;
+        tempMesh.scale = scene.currentLevel.models[i].scale;
+        g_vecMeshes.push_back(tempMesh);
     }
-    else
-    {
-        std::cout << "Error: Didn't load the model OK" << std::endl;
-    }
-
-    cMesh gary1;
-    gary1.meshName = "GaryBusey.ply";
-    gary1.positionXYZ.x = 1.0f;
-
-    g_vecMeshes.push_back(gary1);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -314,7 +326,7 @@ int main()
 
 
             // Wireframe
-            if (curMesh.bIsWireframe)                // GL_POINT, GL_LINE, and GL_FILL)
+            if (isWireframe)                // GL_POINT, GL_LINE, and GL_FILL)
             {
                 // Draw everything with only lines
                 glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

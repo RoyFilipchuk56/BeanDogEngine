@@ -31,7 +31,8 @@ bool SceneManager::ParseScene(rapidxml::xml_node<>* valueIn)
 	}
 
 	bool result = true;
-	result &= ParseModel(valueIn->first_node("Model"));
+	result &= ParseModel(valueIn->first_node("Models"));
+	result &= ParseCamera(valueIn->first_node("Camera"));
 
 	return result;
 }
@@ -42,21 +43,25 @@ bool SceneManager::ParseModel(rapidxml::xml_node<>* valueIn)
 	{
 		return false;
 	}
-	ModelInfo model;
+
 	bool result = true;
 
-	result &= SetValue(valueIn->first_attribute("Name"), currentLevel.fileName);
+	//start at first node of Model and go until theres no more
+	for (rapidxml::xml_node<>* child = valueIn->first_node("Model"); child; child = child->next_sibling())
+	{
+		ModelInfo model;
+		result &= SetValue(child->first_attribute("Name"), model.fileName);
+		result &= ParseTransform(child->first_node("Transform"), model.transform);
+		result &= ParseRotation(child->first_node("Rotation"), model.rotation);
+		result &= ParseScale(child->first_node("Scale"), model.scale);
 
-	result &= ParseTransform(valueIn->first_node("Transform"), model);
-	result &= ParseRotation(valueIn->first_node("Rotation"), model);
-	result &= ParseScale(valueIn->first_node("Scale"), model);
-
-	currentLevel.models.push_back(model);
+		currentLevel.models.push_back(model);
+	}
 
 	return result;
 }
 
-bool SceneManager::ParseTransform(rapidxml::xml_node<>* valueIn, ModelInfo& valueOut)
+bool SceneManager::ParseCamera(rapidxml::xml_node<>* valueIn)
 {
 	if (!valueIn)
 	{
@@ -64,14 +69,13 @@ bool SceneManager::ParseTransform(rapidxml::xml_node<>* valueIn, ModelInfo& valu
 	}
 
 	bool result = true;
-	result &= SetValue(valueIn->first_attribute("x"), valueOut.transform.x);
-	result &= SetValue(valueIn->first_attribute("y"), valueOut.transform.y);
-	result &= SetValue(valueIn->first_attribute("z"), valueOut.transform.z);
 
+	result &= ParseTransform(valueIn->first_node("Transform"), currentLevel.camera.tranform);
+	std::cout << currentLevel.camera.tranform.x << std::endl;
 	return result;
 }
 
-bool SceneManager::ParseRotation(rapidxml::xml_node<>* valueIn, ModelInfo& valueOut)
+bool SceneManager::ParseTransform(rapidxml::xml_node<>* valueIn, glm::vec3& valueOut)
 {
 	if (!valueIn)
 	{
@@ -79,14 +83,14 @@ bool SceneManager::ParseRotation(rapidxml::xml_node<>* valueIn, ModelInfo& value
 	}
 
 	bool result = true;
-	result &= SetValue(valueIn->first_attribute("x"), valueOut.rotation.x);
-	result &= SetValue(valueIn->first_attribute("y"), valueOut.rotation.y);
-	result &= SetValue(valueIn->first_attribute("z"), valueOut.rotation.z);
+	result &= SetValue(valueIn->first_attribute("x"), valueOut.x);
+	result &= SetValue(valueIn->first_attribute("y"), valueOut.y);
+	result &= SetValue(valueIn->first_attribute("z"), valueOut.z);
 
 	return result;
 }
 
-bool SceneManager::ParseScale(rapidxml::xml_node<>* valueIn, ModelInfo& valueOut)
+bool SceneManager::ParseRotation(rapidxml::xml_node<>* valueIn, glm::vec3& valueOut)
 {
 	if (!valueIn)
 	{
@@ -94,9 +98,22 @@ bool SceneManager::ParseScale(rapidxml::xml_node<>* valueIn, ModelInfo& valueOut
 	}
 
 	bool result = true;
-	result &= SetValue(valueIn->first_attribute("x"), valueOut.scale.x);
-	result &= SetValue(valueIn->first_attribute("y"), valueOut.scale.y);
-	result &= SetValue(valueIn->first_attribute("z"), valueOut.scale.z);
+	result &= SetValue(valueIn->first_attribute("x"), valueOut.x);
+	result &= SetValue(valueIn->first_attribute("y"), valueOut.y);
+	result &= SetValue(valueIn->first_attribute("z"), valueOut.z);
+
+	return result;
+}
+
+bool SceneManager::ParseScale(rapidxml::xml_node<>* valueIn, float& valueOut)
+{
+	if (!valueIn)
+	{
+		return false;
+	}
+
+	bool result = true;
+	result &= SetValue(valueIn->first_attribute("scale"), valueOut);
 
 	return result;
 }

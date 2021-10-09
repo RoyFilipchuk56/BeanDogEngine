@@ -47,6 +47,7 @@ bool cVAOManager::LoadModelIntoVAO(
 	    unsigned int shaderProgramID)
 
 {
+    //fileName.append(MODEL_DIR);
 	// Load the model from file
 	// (We do this here, since if we can't load it, there's 
 	//	no point in doing anything else, right?)
