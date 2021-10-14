@@ -1,3 +1,5 @@
 ﻿  Main.cpp
-C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(183,19): warning C4101: 'mvp': unreferenced local variable
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(251,19): warning C4101: 'mvp': unreferenced local variable
+  cFirework.cpp
+  Generating Code...
   BeanDogEngine.vcxproj -> C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\BeanDogEngine.exe

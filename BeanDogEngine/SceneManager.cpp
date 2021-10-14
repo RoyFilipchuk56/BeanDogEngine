@@ -9,12 +9,13 @@ SceneManager::SceneManager()
 bool SceneManager::LoadSceneFromXML(std::string sceneName)
 {
 	using namespace rapidxml;
+	//get the directory and find the xml to parse
 	std::string dir = SCENE_DIR + sceneName;
-	std::cout << dir << std::endl;
 	file<>* xmlFile = new file<>(dir.c_str());
 	xml_document<>* doc = new xml_document<>;
 	doc->parse<0>(xmlFile->data());
 
+	//start parsing the scene
 	bool result = ParseScene(doc->first_node("Scene"));
 
 	delete xmlFile;
@@ -30,6 +31,7 @@ bool SceneManager::ParseScene(rapidxml::xml_node<>* valueIn)
 		return false;
 	}
 
+	//parse the model and then the camera
 	bool result = true;
 	result &= ParseModel(valueIn->first_node("Models"));
 	result &= ParseCamera(valueIn->first_node("Camera"));
@@ -49,10 +51,11 @@ bool SceneManager::ParseModel(rapidxml::xml_node<>* valueIn)
 	//start at first node of Model and go until theres no more
 	for (rapidxml::xml_node<>* child = valueIn->first_node("Model"); child; child = child->next_sibling())
 	{
+		//set all the needed variables
 		ModelInfo model;
 		result &= SetValue(child->first_attribute("Name"), model.fileName);
-		result &= ParseTransform(child->first_node("Transform"), model.transform);
-		result &= ParseRotation(child->first_node("Rotation"), model.rotation);
+		result &= ParseVec3(child->first_node("Transform"), model.transform);
+		result &= ParseVec3(child->first_node("Rotation"), model.rotation);
 		result &= ParseScale(child->first_node("Scale"), model.scale);
 
 		currentLevel.models.push_back(model);
@@ -70,33 +73,19 @@ bool SceneManager::ParseCamera(rapidxml::xml_node<>* valueIn)
 
 	bool result = true;
 
-	result &= ParseTransform(valueIn->first_node("Transform"), currentLevel.camera.tranform);
-	std::cout << currentLevel.camera.tranform.x << std::endl;
+	//get the inital camera position
+	result &= ParseVec3(valueIn->first_node("Transform"), currentLevel.camera.tranform);
 	return result;
 }
 
-bool SceneManager::ParseTransform(rapidxml::xml_node<>* valueIn, glm::vec3& valueOut)
+bool SceneManager::ParseVec3(rapidxml::xml_node<>* valueIn, glm::vec3& valueOut)
 {
 	if (!valueIn)
 	{
 		return false;
 	}
 
-	bool result = true;
-	result &= SetValue(valueIn->first_attribute("x"), valueOut.x);
-	result &= SetValue(valueIn->first_attribute("y"), valueOut.y);
-	result &= SetValue(valueIn->first_attribute("z"), valueOut.z);
-
-	return result;
-}
-
-bool SceneManager::ParseRotation(rapidxml::xml_node<>* valueIn, glm::vec3& valueOut)
-{
-	if (!valueIn)
-	{
-		return false;
-	}
-
+	//get the x,y, and z values for a Vec3
 	bool result = true;
 	result &= SetValue(valueIn->first_attribute("x"), valueOut.x);
 	result &= SetValue(valueIn->first_attribute("y"), valueOut.y);
@@ -111,7 +100,8 @@ bool SceneManager::ParseScale(rapidxml::xml_node<>* valueIn, float& valueOut)
 	{
 		return false;
 	}
-
+	
+	//set the scale attribute
 	bool result = true;
 	result &= SetValue(valueIn->first_attribute("scale"), valueOut);
 
@@ -124,6 +114,8 @@ bool SceneManager::SetValue(rapidxml::xml_attribute<>* valueIn, float& valueOut)
 	{
 		return false;
 	}
+
+	//convert the attribute to the included float
 	valueOut = std::stof(valueIn->value());
 	return true;
 }
@@ -134,6 +126,8 @@ bool SceneManager::SetValue(rapidxml::xml_attribute<>* valueIn, std::string& val
 	{
 		return false;
 	}
+
+	//convert the attribute to the included string
 	valueOut = valueIn->value();
 	return true;
 }

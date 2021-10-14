@@ -12,8 +12,8 @@ public:
 	cMesh();
 	std::string meshName;
 
-	glm::vec3 positionXYZ;
-	glm::vec3 orientationXYZ;		// "angle"
+	glm::vec3 transformXYZ;
+	glm::vec3 rotationXYZ;		// "angle"
 	float scale;
 
 	// Sets the overall colour of the object

@@ -57,8 +57,7 @@ unsigned int cShaderManager::getIDFromFriendlyName( std::string friendlyName )
 	return itShad->second;
 }
 
-cShaderManager::cShaderProgram* 
-	cShaderManager::pGetShaderProgramFromFriendlyName( std::string friendlyName )
+cShaderManager::cShaderProgram* cShaderManager::pGetShaderProgramFromFriendlyName( std::string friendlyName )
 {
 	unsigned int shaderID = this->getIDFromFriendlyName(friendlyName);
 
@@ -98,24 +97,13 @@ bool cShaderManager::m_loadSourceFromFile( cShader &shader )
 		return false;
 	}
 
-	//std::stringstream ssSource;
-	//std::string temp;
-
-	//while ( theFile >> temp )
-	//{	// Add it to the string stream
-	//	ssSource << temp << " ";
-	//}
-
 	shader.vecSource.clear();
 
 	char pLineTemp[MAXLINELENGTH] = {0};
 	while ( theFile.getline( pLineTemp, MAXLINELENGTH ) )
 	{
 		std::string tempString(pLineTemp);
-		//if ( tempString != "" )
-		//{	// Line isn't empty, so add
-			shader.vecSource.push_back( tempString );
-		//}
+		shader.vecSource.push_back( tempString );
 	}
 	
 	theFile.close();
@@ -223,28 +211,7 @@ bool cShaderManager::m_compileShaderFromSource( cShaderManager::cShader &shader,
 		// At a '\0' at end (just in case)
 		arraySource[indexLine][numCharacters + 0] = '\n';
 		arraySource[indexLine][numCharacters + 1] = '\0';
-
-		// Or you could use the (unsecure) strcpy (string copy)
-//		strcpy( arraySource[indexLine], shader.vecSource[indexLine].c_str() );
-
-		// Or the "secure" version, where you specify the number of chars to copy
-//		strcpy_s( arraySource[indexLine], 
-//				  strlen( shader.vecSource[indexLine].c_str() + 1 ),	// Number of char in copy + 0 terminator
-//				  shader.vecSource[indexLine].c_str() );
-
-	}//for ( unsigned int indexLine = 0...
-
-//******************************************************************************************
-//	// Print it out (for debug)
-//	std::cout << "Source (from char** array):" << std::endl;
-//	for ( unsigned int indexLine = 0; indexLine != numberOfLines; indexLine++ )
-//	{
-//		std::cout << "(" << indexLine << "):\t" << arraySource[indexLine] << std::endl;
-//	}
-//	std::cout << "END" << std::endl;
-//******************************************************************************************
-
-	//const char* tempVertChar = "Hey there;";
+	}
 
 	glShaderSource(shader.ID, numberOfLines, arraySource, NULL);
     glCompileShader(shader.ID); 
@@ -285,19 +252,18 @@ bool cShaderManager::createProgramFromFile(
 	// Shader loading happening before vertex buffer array
 	vertexShad.ID = glCreateShader(GL_VERTEX_SHADER);
 	vertexShad.shaderType = cShader::VERTEX_SHADER;
-	//  char* vertex_shader_text = "wewherlkherlkh";
 	// Load some text from a file...
 	if ( ! this->m_loadSourceFromFile( vertexShad ) )
 	{
 		return false;
-	}//if ( ! this->m_loadSourceFromFile(...
+	}
 
 	errorText = "";
 	if ( ! this->m_compileShaderFromSource( vertexShad, errorText ) )
 	{
 		this->m_lastError = errorText;
 		return false;
-	}//if ( this->m_compileShaderFromSource(...
+	}
 
 
 
@@ -306,13 +272,13 @@ bool cShaderManager::createProgramFromFile(
 	if ( ! this->m_loadSourceFromFile( fragShader ) )
 	{
 		return false;
-	}//if ( ! this->m_loadSourceFromFile(...
+	}
 
 	if ( ! this->m_compileShaderFromSource( fragShader, errorText ) )
 	{
 		this->m_lastError = errorText;
 		return false;
-	}//if ( this->m_compileShaderFromSource(...
+	}
 
 
 	cShaderProgram curProgram;

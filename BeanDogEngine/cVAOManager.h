@@ -60,15 +60,9 @@ public:
 						  sModelDrawInfo &drawInfo, 
 						  unsigned int shaderProgramID);
 
-	// You could write this is you didn't want the sModelDrawInfo to return by ref
-	bool LoadModelIntoVAO(std::string fileName, 
-						  unsigned int shaderProgramID);
-
 	// We don't want to return an int, likely
 	bool FindDrawInfoByModelName(std::string filename,
 								 sModelDrawInfo &drawInfo);
-
-	std::string getLastError(bool bAndClear = true);
 
 private:
 

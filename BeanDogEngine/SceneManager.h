@@ -31,16 +31,24 @@ class SceneManager
 //	SceneInfo currentLevel;
 public:
 	SceneManager();
+	//Load the xml file
 	bool LoadSceneFromXML(std::string sceneName);
+	//parse the scene node
 	bool ParseScene(rapidxml::xml_node<>* valueIn);
+	//parse the model node
 	bool ParseModel(rapidxml::xml_node<>* valueIn);
+	//pase the camera node and set the initial transform of the camera
 	bool ParseCamera(rapidxml::xml_node<>* valueIn);
-	bool ParseTransform(rapidxml::xml_node<>* valueIn, glm::vec3& valueOut);
-	bool ParseRotation(rapidxml::xml_node<>* valueIn, glm::vec3& valueOut);
+	//parse the x, y, and z and add them to included value
+	bool ParseVec3(rapidxml::xml_node<>* valueIn, glm::vec3& valueOut);
+	//parse the scale node and add values to included value
 	bool ParseScale(rapidxml::xml_node<>* valueIn, float& valueOut);
+	//sets the value of value out to the attribute for a float
 	bool SetValue(rapidxml::xml_attribute<>* valueIn, float& valueOut);
+	//sets the value of value out to the attribute for a string
 	bool SetValue(rapidxml::xml_attribute<>* valueIn, std::string& valueOut);
 
+	//TODO: Save a modified scene
 	bool SaveScene(std::string sceneName);
 
 	SceneInfo currentLevel;

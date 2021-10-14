@@ -47,7 +47,6 @@ bool cVAOManager::LoadModelIntoVAO(
 	    unsigned int shaderProgramID)
 
 {
-    //fileName.append(MODEL_DIR);
 	// Load the model from file
 	// (We do this here, since if we can't load it, there's 
 	//	no point in doing anything else, right?)
@@ -87,14 +86,6 @@ bool cVAOManager::LoadModelIntoVAO(
 				  sizeof(sVertex_XYZW_RGBA_N_UV_T_B) * drawInfo.numberOfVertices,	// ::g_NumberOfVertsToDraw,	// sizeof(vertices), 
 				  (GLvoid*) drawInfo.pVertices,							// pVertices,			//vertices, 
 				  GL_STATIC_DRAW );
-	//glBufferData( GL_ARRAY_BUFFER, 
-	//			  sizeof(sVertex_XYZW_RGBA) * drawInfo.numberOfVertices,	// ::g_NumberOfVertsToDraw,	// sizeof(vertices), 
-	//			  (GLvoid*) drawInfo.pVertices,							// pVertices,			//vertices, 
-	//			  GL_STATIC_DRAW );
-	//glBufferData( GL_ARRAY_BUFFER, 
-	//			  sizeof(sVertex_XYZ_RGB) * drawInfo.numberOfVertices,	// ::g_NumberOfVertsToDraw,	// sizeof(vertices), 
-	//			  (GLvoid*) drawInfo.pVertices,							// pVertices,			//vertices, 
-	//			  GL_STATIC_DRAW );
 
 
 	// Copy the index buffer into the video card, too
@@ -107,16 +98,6 @@ bool cVAOManager::LoadModelIntoVAO(
 	              sizeof( unsigned int ) * drawInfo.numberOfIndices, 
 	              (GLvoid*) drawInfo.pIndices,
                   GL_STATIC_DRAW );
-
-    // ****************************************************************
-	// Set the vertex attributes.
-
-
-    //struct sVertex_XYZW_RGBA
-    //{
-    //    float x, y, z, w;   // Same as vec4 vPosition
-    //    float r, g, b, a;   // Same as vec4 vColour
-    //};
 
 	// Set the vertex attributes for this shader
 	GLint vpos_location = glGetAttribLocation(shaderProgramID, "vPosition");	    // program

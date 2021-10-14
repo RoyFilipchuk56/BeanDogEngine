@@ -84,8 +84,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>$(SolutionDir)common\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)common\lib\Release_x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)common/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -134,7 +135,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SHADER_DIR=R"($(SolutionDir)common\assets\shaders\)";MODEL_DIR=R"($(SolutionDir)common\assets\models\)";SCENES_DIR=R"($(SolutionDir)common\assets\scenes\)"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SHADER_DIR=R"($(SolutionDir)common\assets\shaders\)";MODEL_DIR=R"($(SolutionDir)common\assets\models\)";SCENE_DIR=R"($(SolutionDir)common\assets\scenes\)"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -146,19 +147,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cFirework.cpp" />
     <ClCompile Include="cMesh.cpp" />
+    <ClCompile Include="cParticle.cpp" />
+    <ClCompile Include="cParticleForceRegistry.cpp" />
+    <ClCompile Include="cParticleWorld.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cVAOManager.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="particle_force_generators.cpp" />
+    <ClCompile Include="random_helpers.cpp" />
     <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cFirework.h" />
     <ClInclude Include="cMesh.h" />
+    <ClInclude Include="cParticle.h" />
+    <ClInclude Include="cParticleForceRegistry.h" />
+    <ClInclude Include="cParticleWorld.h" />
     <ClInclude Include="cShaderManager.h" />
     <ClInclude Include="cVAOManager.h" />
     <ClInclude Include="GLCommon.h" />
+    <ClInclude Include="iParticleForceGenerator.h" />
+    <ClInclude Include="particle_force_generators.h" />
+    <ClInclude Include="random_helpers.h" />
     <ClInclude Include="SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

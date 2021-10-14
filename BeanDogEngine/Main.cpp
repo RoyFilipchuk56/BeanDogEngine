@@ -16,11 +16,42 @@
 #include <string>
 #include <vector>       // "smart array"
 #include <fstream>      // C++ file I-O library (look like any other stream)
+#include <map>
 
 #include "cShaderManager.h"
 #include "cVAOManager.h"
 #include "cMesh.h"
 #include "SceneManager.h"
+#include "cParticleWorld.h"
+#include "cFirework.h"
+#include "particle_force_generators.h"
+
+// Generate a random number between 0 and 1
+float getRandom();
+
+// Generate a random number between zero and a given high value
+float getRandom(float high);
+
+// Generate a random number in a given range
+float getRandom(float low, float high);
+
+// Returns a vector laying on the x-z plane, randomized in direction and magnitude.
+// The output is designed to be linearly independent from the output of getRandomZVector()
+glm::vec3 getRandomXVector();
+
+// Returns a vector laying on the x-z plane, randomized in direction and magnitude.
+// The output is designed to be linearly independent from the output of getRandomXVector()
+glm::vec3 getRandomZVector();
+
+// Determine from the parameters if the particle is currently above the ground.
+bool particleIsAboveGround(glm::mat3& axes, float& deltaTime, float& timeElapsed, glm::vec3& position, glm::vec3& velocity);
+
+// Determine from the parameters if the particle is currently moving "up".
+bool particleIsMovingUpward(glm::mat3& axes, float& deltaTime, float& timeElapsed, glm::vec3& position, glm::vec3& velocity);
+
+glm::mat3 orthonormalBasis(const glm::vec3& xVec, const glm::vec3& zVec);
+
+void InitProject1Variables(glm::mat3& axes, nPhysics::cParticle* particle);
 
 // Global Variables
 glm::vec3 cameraEye;
@@ -28,6 +59,11 @@ cShaderManager  gShaderManager;
 cVAOManager     gVAOManager;
 std::vector<cMesh> g_vecMeshes;
 bool isWireframe = false;
+nPhysics::cParticleWorld* world;
+nPhysics::cParticleGravityGenerator gravityGenerator(glm::vec3(0.0f, -9.81f, 0.0f));
+std::vector<nPhysics::cFirework*> fireworks;
+std::map<nPhysics::cParticle*, cMesh*> particleMap;
+
 
 //calls the latest error
 static void error_callback(int error, const char* description)
@@ -72,16 +108,30 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     {
         cameraEye.y += cameraSpeed;     // Go "Up"
     }
-    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
     {
         isWireframe = !isWireframe;     //toggle wireframe
     }
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    {
+        cMesh shpereMesh;
+        shpereMesh.meshName = "sphere.ply";
+        shpereMesh.scale = 0.1f;
+        g_vecMeshes.push_back(shpereMesh);
+
+        //create particle
+        nPhysics::cFirework* particle = new nPhysics::cFirework(1.0f, glm::vec3(0.f));
+        particle->SetStageOne();
+        if (world->AddParticle(particle))
+        {
+            std::cout << "Hurray!" << std::endl;
+        }
+        world->GetForceRegistry()->Register(particle, &gravityGenerator);
+        fireworks.push_back(particle);
 
 
-    std::cout << "Camera: "
-        << cameraEye.x << ", "
-        << cameraEye.y << ", "
-        << cameraEye.z << std::endl;
+        particleMap[particle] = &(g_vecMeshes[g_vecMeshes.size() - 1]);
+    }
 }
 
 int main()
@@ -91,6 +141,11 @@ int main()
     GLuint program = 0;
     //Default to -1 since thats the error
     GLint mvp_location = -1;
+    //set current time
+    float previousTime = static_cast<float>(glfwGetTime());
+
+    //Create a particle world
+    world = new nPhysics::cParticleWorld();
 
     //load scene from xml
     SceneManager scene;
@@ -167,10 +222,23 @@ int main()
         //make a temp mesh and load in all the attributes
         cMesh tempMesh;
         tempMesh.meshName = MODEL_DIR + scene.currentLevel.models[i].fileName;
-        tempMesh.positionXYZ = scene.currentLevel.models[i].transform;
-        tempMesh.orientationXYZ = scene.currentLevel.models[i].rotation;
+        tempMesh.transformXYZ = scene.currentLevel.models[i].transform;
+        tempMesh.rotationXYZ = scene.currentLevel.models[i].rotation;
         tempMesh.scale = scene.currentLevel.models[i].scale;
         g_vecMeshes.push_back(tempMesh);
+    }
+
+    //make a sphere model info
+    sModelDrawInfo sphereInfo;
+    if (!gVAOManager.LoadModelIntoVAO("sphere.ply", sphereInfo, program))
+    {
+        std::cout << "Error: " << "sphere.phy" << " Didn't load OK" << std::endl;
+    }
+    else
+    {
+        std::cout << "Good: " << "sphere.phy" << " loaded OK" << std::endl;
+        std::cout << sphereInfo.numberOfVertices << " vertices loaded" << std::endl;
+        std::cout << sphereInfo.numberOfTriangles << " triangles loaded" << std::endl;
     }
 
     while (!glfwWindowShouldClose(window))
@@ -181,8 +249,70 @@ int main()
         glm::mat4 p;
         glm::mat4 v;
         glm::mat4 mvp;
-        //        mat4x4 m, p, mvp;
+        //Set Times for physics
+        float currentTime = static_cast<float>(glfwGetTime());
+        float deltaTime = currentTime - previousTime;
+        previousTime = currentTime;
 
+
+        //timestep
+        world->TimeStep(deltaTime);
+        //update firework positions
+        /*
+        int particleNum = 0;
+        std::map<nPhysics::cParticle*, cMesh*>::iterator particleIterator;
+        for (particleIterator = particleMap.begin(); particleIterator != particleMap.end(); particleIterator++)
+        {
+            particleIterator->second->transformXYZ = particleIterator->first->GetPosition();
+            std::cout << "Particle " << particleNum++ << " Mesh: " << particleIterator->second->rotationXYZ.y << " Particle: " << particleIterator->first->GetPosition().y << " g_Mesh: " << g_vecMeshes[1].transformXYZ.y << std::endl;
+        }
+        */
+        if (fireworks.size() > 0)
+        {
+            for (int i = 0; i < fireworks.size(); i++)
+            {
+                //If the firework isnt alive
+                if (!fireworks[i]->IsAlive())
+                {
+                    //if the firework is in stage 1
+                    if (fireworks[i]->GetStage() == 1)
+                    {
+                        //create a new list
+                        std::vector<nPhysics::cFirework*> stageTwoList;
+                        //get the children
+                        fireworks[i]->GenerateChildren(stageTwoList);
+                        if (stageTwoList.size() > 0)
+                        {
+                            for (nPhysics::cFirework* p : stageTwoList)
+                            {
+                                cMesh sphereMesh;
+                                sphereMesh.meshName = "sphere.ply";
+                                sphereMesh.scale = 0.1f;
+                                g_vecMeshes.push_back(sphereMesh);
+
+                                nPhysics::cFirework* particle = new nPhysics::cFirework(1.0f, fireworks[i]->GetPosition());
+                                particle->SetStageTwo();
+                                if (world->AddParticle(particle))
+                                {
+                                    std::cout << "Hurray!" << std::endl;
+                                }
+                                world->GetForceRegistry()->Register(particle, &gravityGenerator);
+                                fireworks.push_back(particle);
+                            }
+                        }
+                    }
+                    //remove particle from world, delete it and erase all records of its existance
+                    world->RemoveParticle(fireworks[i]);
+                    delete fireworks[i];
+                    fireworks.erase(fireworks.begin() + i);
+                    g_vecMeshes.erase(g_vecMeshes.begin() + i + 1);
+                }
+                else
+                {
+                    g_vecMeshes[i + 1].transformXYZ = fireworks[i]->GetPosition();
+                }
+            }
+        }
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float)height;
 
@@ -193,12 +323,7 @@ int main()
         glViewport(0, 0, width, height);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // *******************************************************
         // Screen is cleared and we are ready to draw the scene...
-        // *******************************************************
-
-
-
         for (unsigned int index = 0; index != g_vecMeshes.size(); index++)
         {
             // So the code is a little easier...
@@ -212,7 +337,7 @@ int main()
             // *****************************************************
             // Translate or "move" the object somewhere
             glm::mat4 matTranslate = glm::translate(glm::mat4(1.0f),
-                curMesh.positionXYZ);
+                curMesh.transformXYZ);
 
             //matModel = matModel * matTranslate;
             // *****************************************************
@@ -221,7 +346,7 @@ int main()
             // *****************************************************
             // Rotation around the Z axis
             glm::mat4 rotateZ = glm::rotate(glm::mat4(1.0f),
-                curMesh.orientationXYZ.z,//(float)glfwGetTime(),
+                curMesh.rotationXYZ.z,//(float)glfwGetTime(),
                 glm::vec3(0.0f, 0.0f, 1.0f));
 
             //matModel = matModel * rotateZ;
@@ -230,7 +355,7 @@ int main()
             // *****************************************************
             // Rotation around the Y axis
             glm::mat4 rotateY = glm::rotate(glm::mat4(1.0f),
-                curMesh.orientationXYZ.y,
+                curMesh.rotationXYZ.y,
                 glm::vec3(0.0f, 1.0f, 0.0f));
 
             //matModel = matModel * rotateY;
@@ -239,7 +364,7 @@ int main()
             // *****************************************************
             // Rotation around the X axis
             glm::mat4 rotateX = glm::rotate(glm::mat4(1.0f),
-                curMesh.orientationXYZ.x,
+                curMesh.rotationXYZ.x,
                 glm::vec3(1.0f, 0.0f, 0.0f));
 
             //matModel = matModel * rotateX;
@@ -263,9 +388,6 @@ int main()
             matModel = matModel * rotateX;
             matModel = matModel * matScale;
 
-            // Now the matModel ("Model" or "World") matrix
-            //  represents ALL the transformations we want, in ONE matrix.
-
             p = glm::perspective(0.6f,
                 ratio,
                 0.1f,
@@ -280,20 +402,9 @@ int main()
             v = glm::lookAt(cameraEye,     // "eye"
                 cameraTarget,  // "at"
                 upVector);
-            //        mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-
-            //        mvp = p * v * matModel;
-            //        mat4x4_mul(mvp, p, m);
 
             glUseProgram(program);
 
-            //          glUniformMatrix4fv(mvp_location, 1, GL_FALSE, glm::value_ptr(mvp));
-                //        glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
-
-                        // Don't need this anymore as it's being done inside the shader:
-                        // 
-                        // mvp = p * v * matModel;
-                        //
             glUniformMatrix4fv(matModel_Location, 1, GL_FALSE, glm::value_ptr(matModel));
             glUniformMatrix4fv(matView_Location, 1, GL_FALSE, glm::value_ptr(v));
             glUniformMatrix4fv(matProjection_Location, 1, GL_FALSE, glm::value_ptr(p));
@@ -307,45 +418,22 @@ int main()
             glUniform3f(vertexColourOverride_Location, 0.0f, 1.0f, 1.0f);
             glUniform1f(bUseVertexColour_Location, (float)GL_TRUE);
 
-            // See if mesh is wanting the vertex colour override (HACK) to be used?
-            if (curMesh.bOverriveVertexColourHACK)
-            {
-                // Override the colour...
-                glUniform1f(bUseVertexColour_Location, (float)GL_TRUE);
-                glUniform3f(vertexColourOverride_Location,
-                    curMesh.vertexColourOverrideHACK.r,
-                    curMesh.vertexColourOverrideHACK.g,
-                    curMesh.vertexColourOverrideHACK.b);
-            }
-            else
-            {
-                // DON'T override the colour
-                glUniform1f(bUseVertexColour_Location, (float)GL_FALSE);
-            }
+            
+            //Set Vertex Color
+            glUniform1f(bUseVertexColour_Location, (float)GL_FALSE);
 
-
-
-            // Wireframe
+            //Check if the 1 button has been pressed
             if (isWireframe)                // GL_POINT, GL_LINE, and GL_FILL)
             {
-                // Draw everything with only lines
+                //Draw everything with only lines
                 glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             }
             else
             {
+                //Fill up those polys
                 glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             }
-
-
-
-
-            // glPointSize(20.0f); sometimes this works... Hey, it's not my fault!
-
-
-
             sModelDrawInfo modelInfo;
-            //        if (gVAOManager.FindDrawInfoByModelName("bun_zipper_res2 (justXYZ).ply", modelInfo))
-            //        if (gVAOManager.FindDrawInfoByModelName("Assembled_ISS.ply", modelInfo))
 
             if (gVAOManager.FindDrawInfoByModelName(g_vecMeshes[index].meshName, modelInfo))
             {
@@ -358,20 +446,101 @@ int main()
 
                 glBindVertexArray(0);
             }
-
-
-        }//for (unsigned int index
-        // Scene is drawn
-
-
-
+        }
         // "Present" what we've drawn.
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
+    // clean up!
+    for (nPhysics::cFirework* p : fireworks)
+    {
+        world->RemoveParticle(p);
+        delete p;
+    }
+    fireworks.clear();
+    delete world;
+
     glfwDestroyWindow(window);
 
     glfwTerminate();
     exit(EXIT_SUCCESS);
+}
+
+float getRandom()
+{
+    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+}
+
+float getRandom(float high)
+{
+    return static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / high);
+}
+
+float getRandom(float low, float high)
+{
+    return low + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / (high - low));
+}
+
+// Use as-is.  Do not change.
+glm::vec3 getRandomXVector()
+{
+    return glm::vec3(getRandom(0.1f, 1.f), 0.f, getRandom(0.1f, 1.f));
+}
+
+// Use as-is.  Do not change.
+glm::vec3 getRandomZVector()
+{
+    return glm::vec3(-getRandom(0.1f, 1.f), 0.f, getRandom(0.1f, 1.f));
+}
+
+bool particleIsAboveGround(glm::mat3& axes, float& deltaTime, float& timeElapsed, glm::vec3& position, glm::vec3& velocity)
+{
+    // TODO: Use the parameters to determine if the particle
+    //       is currently above the ground.
+    //       Return true if the particle is above the ground, false otherwise.
+    return position.y > 1.0f; // because our "sphere" has a radius of 1
+}
+
+bool particleIsMovingUpward(glm::mat3& axes, float& deltaTime, float& timeElapsed, glm::vec3& position, glm::vec3& velocity)
+{
+    // TODO: Use the parameters to determine if the particle
+    //       is currently moving upward.
+    //       Return true if the particle is above the ground, false otherwise.
+    return glm::dot(velocity, axes[1]) > 0;
+}
+
+glm::mat3 orthonormalBasis(const glm::vec3& xVec, const glm::vec3& zVec)
+{
+    // TODO: Generate an orthonormal basis, using xVec and zVec.
+    //       The input vectors may be manipulated, however the 
+    //       returned axes must essentially be:
+    //       x-axis: sourced from xVec
+    //       y-axis: generated using math!
+    //       z-axis: sourced from zVec
+
+    // Generate y, by crossing z and x.
+    glm::vec3 x(xVec);
+    glm::vec3 z(zVec);
+    glm::vec3 y(glm::cross(z, x));
+    // Ensure z is orthogonal to both x and y.
+    z = glm::cross(x, y);
+    // Normalize everything.
+    x = glm::normalize(x);
+    y = glm::normalize(y);
+    z = glm::normalize(z);
+    // Return the result.
+    return glm::mat3(x, y, z);
+}
+
+void InitProject1Variables(glm::mat3& axes, nPhysics::cParticle* particle)
+{
+    axes = orthonormalBasis(getRandomXVector(), getRandomZVector());
+    // because our "sphere" has a radius of 1
+    glm::vec3 position(0.0, 1.1f, 0.0);
+    glm::vec3 velocity = { 0, 2, 0 };
+    velocity = glm::normalize(velocity);
+    velocity *= 10.f;
+    particle->SetPosition(position);
+    particle->SetVelocity(velocity);
 }
