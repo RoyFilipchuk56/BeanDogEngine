@@ -7,6 +7,7 @@ namespace nPhysics
 		age = 0;
 		isAlive = true;
 		stage = 0;
+		this->SetAcceleration(glm::vec3(0, -9.3f, 0));
 	}
 
 	cFirework::~cFirework()
@@ -14,11 +15,11 @@ namespace nPhysics
 
 	}
 
-	void cFirework::GenerateChildren(std::vector<cFirework*>& childrenOut)
+	void cFirework::GenerateChildren(std::vector<cFirework*>& childrenOut, glm::vec3 location)
 	{
 		for (int i = 0; i < 50; i++)
 		{
-			nPhysics::cFirework* particle = new nPhysics::cFirework(1.0f, glm::vec3(0.f));
+			nPhysics::cFirework* particle = new nPhysics::cFirework(1.0f, location);
 			particle->SetStageTwo();
 			childrenOut.push_back(particle);
 		}
@@ -45,11 +46,6 @@ namespace nPhysics
 		// apply damping
 		mVelocity *= glm::pow(mDamping, deltaTime);
 
-		//Check if its still alive
-		if (mVelocity.y <= 0 && stage == 1)
-		{
-			isAlive = false;
-		}
 		// clear applied forces
 		ClearAppliedForces();
 	}
@@ -61,13 +57,11 @@ namespace nPhysics
 
 	void cFirework::SetStageOne()
 	{
-		stage = 1;
-		this->SetVelocity(glm::vec3(0, 10, 0));
+		
 	}
 
 	void cFirework::SetStageTwo()
 	{
-		stage = 2;
-		this->SetVelocity(getRandomVec3(10));
+		
 	}
 }

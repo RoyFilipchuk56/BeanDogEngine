@@ -32,4 +32,24 @@ namespace nPhysics
 		// eg. (x,y,z), (y,z,x), (x,z,y)
 		return glm::vec3(length * sinAlpha * cosDelta, length * sinAlpha * sinDelta, length * cosAlpha);
 	}
+	// Generate a glm::vec3 with a random direction of the x and z axis and specified length
+	glm::vec3 getRandomVec3XZ(float length)
+	{
+		// play around with the range of alpha and delta to get arcs, hemispheres, etc...
+		float alpha = getRandom(glm::pi<float>());
+		float delta = getRandom(-glm::half_pi<float>(), glm::pi<float>());
+		float sinAlpha = glm::sin(alpha);
+		float cosAlpha = glm::cos(alpha);
+		float sinDelta = glm::sin(delta);
+		float cosDelta = glm::cos(delta);
+		// play around with ordering to change the directionality of hemispheres, arcs, etc...
+		// eg. (x,y,z), (y,z,x), (x,z,y)
+		return glm::vec3(length * sinAlpha * cosDelta, 0.0f, length * cosAlpha);
+	}
+
+	glm::vec3 getSpiralVec(int num, int space)
+	{
+		float angle = 0.2f * num;
+		return glm::vec3((space * angle) * cos(angle), 0, (space * angle) * sin(angle));
+	}
 }

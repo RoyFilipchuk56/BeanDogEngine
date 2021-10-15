@@ -25,43 +25,23 @@
 #include "cParticleWorld.h"
 #include "cFirework.h"
 #include "particle_force_generators.h"
-
-// Generate a random number between 0 and 1
-float getRandom();
-
-// Generate a random number between zero and a given high value
-float getRandom(float high);
-
-// Generate a random number in a given range
-float getRandom(float low, float high);
-
-// Returns a vector laying on the x-z plane, randomized in direction and magnitude.
-// The output is designed to be linearly independent from the output of getRandomZVector()
-glm::vec3 getRandomXVector();
-
-// Returns a vector laying on the x-z plane, randomized in direction and magnitude.
-// The output is designed to be linearly independent from the output of getRandomXVector()
-glm::vec3 getRandomZVector();
-
-// Determine from the parameters if the particle is currently above the ground.
-bool particleIsAboveGround(glm::mat3& axes, float& deltaTime, float& timeElapsed, glm::vec3& position, glm::vec3& velocity);
-
-// Determine from the parameters if the particle is currently moving "up".
-bool particleIsMovingUpward(glm::mat3& axes, float& deltaTime, float& timeElapsed, glm::vec3& position, glm::vec3& velocity);
-
-glm::mat3 orthonormalBasis(const glm::vec3& xVec, const glm::vec3& zVec);
-
-void InitProject1Variables(glm::mat3& axes, nPhysics::cParticle* particle);
+#include "random_helpers.h"
 
 // Global Variables
+
 glm::vec3 cameraEye;
 cShaderManager  gShaderManager;
 cVAOManager     gVAOManager;
+//A vector of meshes to be drawn in the scene
 std::vector<cMesh> g_vecMeshes;
 bool isWireframe = false;
 nPhysics::cParticleWorld* world;
+//default gravity value
 nPhysics::cParticleGravityGenerator gravityGenerator(glm::vec3(0.0f, -9.81f, 0.0f));
+//A list of fireworks currently alive
 std::vector<nPhysics::cFirework*> fireworks;
+//A map of fireworks and their coresponding mesh
+//TODO: Fix this so it works
 std::map<nPhysics::cParticle*, cMesh*> particleMap;
 
 
@@ -114,23 +94,50 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     }
     if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
+        //Create a mesh for the firework
         cMesh shpereMesh;
-        shpereMesh.meshName = "sphere.ply";
+        shpereMesh.meshName = MODEL_DIR + std::string("sphere.ply");
         shpereMesh.scale = 0.1f;
         g_vecMeshes.push_back(shpereMesh);
 
         //create particle
-        nPhysics::cFirework* particle = new nPhysics::cFirework(1.0f, glm::vec3(0.f));
+        nPhysics::cBigChungus* particle = new nPhysics::cBigChungus(1.0f, glm::vec3(nPhysics::getRandom(-5.0f, 5.0f), 0.0f, nPhysics::getRandom(-5.0f, 5.0f)));
         particle->SetStageOne();
-        if (world->AddParticle(particle))
-        {
-            std::cout << "Hurray!" << std::endl;
-        }
-        world->GetForceRegistry()->Register(particle, &gravityGenerator);
+        world->AddParticle(particle);
         fireworks.push_back(particle);
 
+        //WIP particle and mesh map
+        particleMap[particle] = &(g_vecMeshes.back());
+    }
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    {
+        //Create a mesh for the firework
+        cMesh shpereMesh;
+        shpereMesh.meshName = MODEL_DIR + std::string("sphere.ply");
+        shpereMesh.scale = 0.1f;
+        g_vecMeshes.push_back(shpereMesh);
 
-        particleMap[particle] = &(g_vecMeshes[g_vecMeshes.size() - 1]);
+        //create particle
+        nPhysics::cVortex* particle = new nPhysics::cVortex(1.0f, glm::vec3(nPhysics::getRandom(-5.0f, 5.0f), 0.0f, nPhysics::getRandom(-5.0f, 5.0f)));
+        particle->SetStageOne();
+        world->AddParticle(particle);
+        fireworks.push_back(particle);
+
+    }
+    if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+    {
+        //Create a mesh for the firework
+        cMesh shpereMesh;
+        shpereMesh.meshName = MODEL_DIR + std::string("sphere.ply");
+        shpereMesh.scale = 0.1f;
+        g_vecMeshes.push_back(shpereMesh);
+
+        //create particle
+        nPhysics::cSpiral* particle = new nPhysics::cSpiral(1.0f, glm::vec3(nPhysics::getRandom(-5.0f, 5.0f), 0.0f, nPhysics::getRandom(-5.0f, 5.0f)));
+        particle->SetStageOne();
+        world->AddParticle(particle);
+        fireworks.push_back(particle);
+
     }
 }
 
@@ -230,7 +237,7 @@ int main()
 
     //make a sphere model info
     sModelDrawInfo sphereInfo;
-    if (!gVAOManager.LoadModelIntoVAO("sphere.ply", sphereInfo, program))
+    if (!gVAOManager.LoadModelIntoVAO(MODEL_DIR + std::string("sphere.ply"), sphereInfo, program))
     {
         std::cout << "Error: " << "sphere.phy" << " Didn't load OK" << std::endl;
     }
@@ -239,6 +246,19 @@ int main()
         std::cout << "Good: " << "sphere.phy" << " loaded OK" << std::endl;
         std::cout << sphereInfo.numberOfVertices << " vertices loaded" << std::endl;
         std::cout << sphereInfo.numberOfTriangles << " triangles loaded" << std::endl;
+    }
+
+    //make a sphere model info
+    sModelDrawInfo sphere2Info;
+    if (!gVAOManager.LoadModelIntoVAO(MODEL_DIR + std::string("sphere2.ply"), sphere2Info, program))
+    {
+        std::cout << "Error: " << "sphere2.phy" << " Didn't load OK" << std::endl;
+    }
+    else
+    {
+        std::cout << "Good: " << "sphere2.phy" << " loaded OK" << std::endl;
+        std::cout << sphere2Info.numberOfVertices << " vertices loaded" << std::endl;
+        std::cout << sphere2Info.numberOfTriangles << " triangles loaded" << std::endl;
     }
 
     while (!glfwWindowShouldClose(window))
@@ -267,6 +287,7 @@ int main()
             std::cout << "Particle " << particleNum++ << " Mesh: " << particleIterator->second->rotationXYZ.y << " Particle: " << particleIterator->first->GetPosition().y << " g_Mesh: " << g_vecMeshes[1].transformXYZ.y << std::endl;
         }
         */
+
         if (fireworks.size() > 0)
         {
             for (int i = 0; i < fireworks.size(); i++)
@@ -280,24 +301,21 @@ int main()
                         //create a new list
                         std::vector<nPhysics::cFirework*> stageTwoList;
                         //get the children
-                        fireworks[i]->GenerateChildren(stageTwoList);
+                        fireworks[i]->GenerateChildren(stageTwoList, fireworks[i]->GetPosition());
                         if (stageTwoList.size() > 0)
                         {
                             for (nPhysics::cFirework* p : stageTwoList)
                             {
+                                //Create mesh for child
                                 cMesh sphereMesh;
-                                sphereMesh.meshName = "sphere.ply";
+                                sphereMesh.meshName = MODEL_DIR + std::string("sphere2.ply");
                                 sphereMesh.scale = 0.1f;
                                 g_vecMeshes.push_back(sphereMesh);
 
-                                nPhysics::cFirework* particle = new nPhysics::cFirework(1.0f, fireworks[i]->GetPosition());
-                                particle->SetStageTwo();
-                                if (world->AddParticle(particle))
-                                {
-                                    std::cout << "Hurray!" << std::endl;
-                                }
-                                world->GetForceRegistry()->Register(particle, &gravityGenerator);
-                                fireworks.push_back(particle);
+                                //add child to the world and give it gravity
+                                world->AddParticle(p);
+                                world->GetForceRegistry()->Register(p, &gravityGenerator);
+                                fireworks.push_back(p);
                             }
                         }
                     }
@@ -307,6 +325,7 @@ int main()
                     fireworks.erase(fireworks.begin() + i);
                     g_vecMeshes.erase(g_vecMeshes.begin() + i + 1);
                 }
+                //If its alive then update its position
                 else
                 {
                     g_vecMeshes[i + 1].transformXYZ = fireworks[i]->GetPosition();
@@ -465,82 +484,4 @@ int main()
 
     glfwTerminate();
     exit(EXIT_SUCCESS);
-}
-
-float getRandom()
-{
-    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-}
-
-float getRandom(float high)
-{
-    return static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / high);
-}
-
-float getRandom(float low, float high)
-{
-    return low + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / (high - low));
-}
-
-// Use as-is.  Do not change.
-glm::vec3 getRandomXVector()
-{
-    return glm::vec3(getRandom(0.1f, 1.f), 0.f, getRandom(0.1f, 1.f));
-}
-
-// Use as-is.  Do not change.
-glm::vec3 getRandomZVector()
-{
-    return glm::vec3(-getRandom(0.1f, 1.f), 0.f, getRandom(0.1f, 1.f));
-}
-
-bool particleIsAboveGround(glm::mat3& axes, float& deltaTime, float& timeElapsed, glm::vec3& position, glm::vec3& velocity)
-{
-    // TODO: Use the parameters to determine if the particle
-    //       is currently above the ground.
-    //       Return true if the particle is above the ground, false otherwise.
-    return position.y > 1.0f; // because our "sphere" has a radius of 1
-}
-
-bool particleIsMovingUpward(glm::mat3& axes, float& deltaTime, float& timeElapsed, glm::vec3& position, glm::vec3& velocity)
-{
-    // TODO: Use the parameters to determine if the particle
-    //       is currently moving upward.
-    //       Return true if the particle is above the ground, false otherwise.
-    return glm::dot(velocity, axes[1]) > 0;
-}
-
-glm::mat3 orthonormalBasis(const glm::vec3& xVec, const glm::vec3& zVec)
-{
-    // TODO: Generate an orthonormal basis, using xVec and zVec.
-    //       The input vectors may be manipulated, however the 
-    //       returned axes must essentially be:
-    //       x-axis: sourced from xVec
-    //       y-axis: generated using math!
-    //       z-axis: sourced from zVec
-
-    // Generate y, by crossing z and x.
-    glm::vec3 x(xVec);
-    glm::vec3 z(zVec);
-    glm::vec3 y(glm::cross(z, x));
-    // Ensure z is orthogonal to both x and y.
-    z = glm::cross(x, y);
-    // Normalize everything.
-    x = glm::normalize(x);
-    y = glm::normalize(y);
-    z = glm::normalize(z);
-    // Return the result.
-    return glm::mat3(x, y, z);
-}
-
-void InitProject1Variables(glm::mat3& axes, nPhysics::cParticle* particle)
-{
-    axes = orthonormalBasis(getRandomXVector(), getRandomZVector());
-    // because our "sphere" has a radius of 1
-    glm::vec3 position(0.0, 1.1f, 0.0);
-    glm::vec3 velocity = { 0, 2, 0 };
-    velocity = glm::normalize(velocity);
-    velocity *= 10.f;
-    particle->SetPosition(position);
-    particle->SetVelocity(velocity);
 }

@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cBigChungus.cpp" />
     <ClCompile Include="cFirework.cpp" />
     <ClCompile Include="cMesh.cpp" />
     <ClCompile Include="cParticle.cpp" />
@@ -154,7 +155,9 @@
     <ClCompile Include="cParticleWorld.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
+    <ClCompile Include="cSpiral.cpp" />
     <ClCompile Include="cVAOManager.cpp" />
+    <ClCompile Include="cVortex.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="particle_force_generators.cpp" />

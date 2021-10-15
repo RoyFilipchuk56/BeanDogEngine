@@ -25,6 +25,9 @@
     <Filter Include="Physics\Headers">
       <UniqueIdentifier>{bbac7bc4-715c-44f0-9c6a-f5582492d7f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics\Fireworks">
+      <UniqueIdentifier>{9a3ff798-98bc-4451-9a43-8162a96cebcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -60,11 +63,20 @@
     <ClCompile Include="cParticle.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="cFirework.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="random_helpers.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cFirework.cpp">
+      <Filter>Physics\Fireworks</Filter>
+    </ClCompile>
+    <ClCompile Include="cBigChungus.cpp">
+      <Filter>Physics\Fireworks</Filter>
+    </ClCompile>
+    <ClCompile Include="cVortex.cpp">
+      <Filter>Physics\Fireworks</Filter>
+    </ClCompile>
+    <ClCompile Include="cSpiral.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,11 +110,11 @@
     <ClInclude Include="particle_force_generators.h">
       <Filter>Physics\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="cFirework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="random_helpers.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cFirework.h">
+      <Filter>Physics\Fireworks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
