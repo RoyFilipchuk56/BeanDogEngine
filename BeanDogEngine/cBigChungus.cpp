@@ -56,7 +56,6 @@ namespace nPhysics
 		stage = 1;
 		//launch it in the air
 		this->SetVelocity(glm::vec3(0, 15, 0));
-
 	}
 	void cBigChungus::SetStageTwo()
 	{

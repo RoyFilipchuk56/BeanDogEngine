@@ -28,6 +28,21 @@
     <Filter Include="Physics\Fireworks">
       <UniqueIdentifier>{9a3ff798-98bc-4451-9a43-8162a96cebcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics\Projectiles">
+      <UniqueIdentifier>{ad3e0f59-dceb-44ee-8ed5-f9d1ab5e8d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configs">
+      <UniqueIdentifier>{c1b33484-1d4c-4659-9bb1-fb74b8499b38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configs\XML">
+      <UniqueIdentifier>{5de335e5-6c60-48c0-9c10-eec8b83de023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configs\SceneManager">
+      <UniqueIdentifier>{edf99eac-053f-482f-9b5c-602fc2a7ef13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configs\ProjectileManager">
+      <UniqueIdentifier>{80d33bb5-a93b-4afb-ac9c-05d12e109922}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -47,9 +62,6 @@
     </ClCompile>
     <ClCompile Include="cMesh.cpp">
       <Filter>VAOManager</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cParticleForceRegistry.cpp">
       <Filter>Physics</Filter>
@@ -78,6 +90,30 @@
     <ClCompile Include="cSpiral.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="cProjectile.cpp">
+      <Filter>Physics\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="cBullet.cpp">
+      <Filter>Physics\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="cCannonBall.cpp">
+      <Filter>Physics\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="cLaser.cpp">
+      <Filter>Physics\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnergyBall.cpp">
+      <Filter>Physics\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Configs\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileManager.cpp">
+      <Filter>Configs\ProjectileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonLoader.cpp">
+      <Filter>Configs\ProjectileManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLCommon.h">
@@ -91,9 +127,6 @@
     </ClInclude>
     <ClInclude Include="cMesh.h">
       <Filter>VAOManager</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cParticle.h">
       <Filter>Physics\Headers</Filter>
@@ -116,5 +149,25 @@
     <ClInclude Include="cFirework.h">
       <Filter>Physics\Fireworks</Filter>
     </ClInclude>
+    <ClInclude Include="cProjectile.h">
+      <Filter>Physics\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Configs\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileManager.h">
+      <Filter>Configs\ProjectileManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="assets\config\Cannon.xml">
+      <Filter>Configs\XML</Filter>
+    </Xml>
+    <Xml Include="assets\config\Projectile.xml">
+      <Filter>Configs\XML</Filter>
+    </Xml>
+    <Xml Include="assets\scenes\SceneOne.xml">
+      <Filter>Configs\XML</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

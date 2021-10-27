@@ -120,7 +120,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SHADER_DIR=R"($(SolutionDir)common\assets\shaders\)";MODEL_DIR=R"($(SolutionDir)common\assets\models\)";SCENE_DIR=R"($(SolutionDir)common\assets\scenes\)"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SHADER_DIR=R"(assets\shaders\)";MODEL_DIR=R"(assets\models\)";SCENE_DIR=R"(assets\scenes\)";CONFIG_DIR=R"(assets\config\)"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -135,7 +135,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SHADER_DIR=R"($(SolutionDir)common\assets\shaders\)";MODEL_DIR=R"($(SolutionDir)common\assets\models\)";SCENE_DIR=R"($(SolutionDir)common\assets\scenes\)"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SHADER_DIR=R"($(SolutionDir)common\assets\shaders\)";MODEL_DIR=R"($(SolutionDir)common\assets\models\)";SCENE_DIR=R"($(SolutionDir)common\assets\scenes\)";CONFIG_DIR=R"($(SolutionDir)common\assets\config\)"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -147,8 +147,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CannonLoader.cpp" />
     <ClCompile Include="cBigChungus.cpp" />
+    <ClCompile Include="cBullet.cpp" />
+    <ClCompile Include="cCannonBall.cpp" />
+    <ClCompile Include="cEnergyBall.cpp" />
     <ClCompile Include="cFirework.cpp" />
+    <ClCompile Include="cLaser.cpp" />
     <ClCompile Include="cMesh.cpp" />
     <ClCompile Include="cParticle.cpp" />
     <ClCompile Include="cParticleForceRegistry.cpp" />
@@ -161,6 +166,8 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="particle_force_generators.cpp" />
+    <ClCompile Include="cProjectile.cpp" />
+    <ClCompile Include="ProjectileManager.cpp" />
     <ClCompile Include="random_helpers.cpp" />
     <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
@@ -175,10 +182,43 @@
     <ClInclude Include="GLCommon.h" />
     <ClInclude Include="iParticleForceGenerator.h" />
     <ClInclude Include="particle_force_generators.h" />
+    <ClInclude Include="cProjectile.h" />
+    <ClInclude Include="ProjectileManager.h" />
     <ClInclude Include="random_helpers.h" />
     <ClInclude Include="SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <PropertyGroup>
+    <DeploymentFolderName>MyDeployFolder</DeploymentFolderName>
+    <ExternFolder>$(ProjectDir)..\common\</ExternFolder>
+  </PropertyGroup>
+  <ItemGroup>
+    <DeploymentCopyFiles Include="$(ProjectDir)..\$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)" />
+    <DeploymentCopyFiles Include="$(ExternFolder)lib\Debug_x64\glfw3.lib" />
+    <DeploymentCopyFiles Include="$(ExternFolder)lib\Release_x64\glfw3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <AssetCopyFiles Include="$(ProjectDir)assets\**\*.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="assets\config\Cannon.xml" />
+    <Xml Include="assets\config\Projectile.xml" />
+    <Xml Include="assets\scenes\SceneOne.xml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <DeploymentPath>$(ProjectDir)$(DeploymentFolderName)</DeploymentPath>
+  </PropertyGroup>
+  <Target Name="CreateMyDeployfolder">
+    <Message Text="Creating the deployment folder" />
+    <MakeDir Directories="$(DeploymentPath)" />
+  </Target>
+  <Target Name="AfterBuild" DependsOnTargets="CreateMyDeployfolder">
+    <Message Text="Copying Files Into Deployment Folder" />
+    <Copy sourceFiles="@(DeploymentCopyFiles)" DestinationFolder="$(DeploymentPath)" />
+    <Copy sourceFiles="@(AssetCopyFiles)" DestinationFolder="$(DeploymentPath)\assets\%(RecursiveDir)" />
+    <Message Text="Creating Zip Folder" />
+    <Exec Command="$(ProjectDir)7z.exe a &quot;$(ProjectDir)$(DeploymentFolderName).zip&quot; &quot;$(DeploymentPath)&quot;" />
+  </Target>
 </Project>

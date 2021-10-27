@@ -1,0 +1,12 @@
+<Scene>
+	<Models>
+		<Model Name="GreenFloor.ply">
+			<Transform x="0.0f" y="-0.45f" z="0.0f"></Transform>
+			<Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+			<Scale scale="3.0f"></Scale>
+		</Model>
+	</Models>
+	<Camera>
+		<Transform x="0.0f" y="16.7f" z="-38.6f"></Transform>
+	</Camera>
+</Scene>

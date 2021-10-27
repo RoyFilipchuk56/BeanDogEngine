@@ -1,0 +1,32 @@
+<Projectiles>
+  <Type Name="Bullet" ModelFile="Bullet.ply">
+    <Entry Key="Size">0.5</Entry>
+    <Entry Key="Damping">0.995</Entry>
+    <Entry Key="Mass">5</Entry>
+    <Entry Key="Velocity">15</Entry>
+    <Entry Key="Acceleration">-1</Entry>
+  </Type>
+  <Type Name="Laser" ModelFile="Laser.ply">
+    <Entry Key="Size">1</Entry>
+    <Entry Key="Damping">0.995</Entry>
+    <Entry Key="Mass">0.5</Entry>
+    <Entry Key="Velocity">50</Entry>
+    <Entry Key="Acceleration">-1</Entry>
+    <Entry Key="MaxDistance">1000</Entry>
+  </Type>
+  <Type Name="CannonBall" ModelFile="CannonBall.ply">
+    <Entry Key="Size">3</Entry>
+    <Entry Key="Damping">0.5</Entry>
+    <Entry Key="Mass">50</Entry>
+    <Entry Key="Velocity">12</Entry>
+    <Entry Key="Acceleration">-5</Entry>
+  </Type>
+  <Type Name="EnergyBall" ModelFile="EnergyBall.ply">
+    <Entry Key="Size">2</Entry>
+    <Entry Key="Damping">0.995</Entry>
+    <Entry Key="Mass">1</Entry>
+    <Entry Key="Velocity">5</Entry>
+    <Entry Key="Acceleration">0</Entry>
+    <Entry Key="AgeLimit">3</Entry>
+  </Type>
+</Projectiles>
