@@ -1,12 +1,1285 @@
 <Scene>
 	<Models>
-		<Model Name="GreenFloor.ply">
-			<Transform x="0.0f" y="-0.45f" z="0.0f"></Transform>
-			<Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
-			<Scale scale="3.0f"></Scale>
-		</Model>
+    <!--Corridor Start-->
+    <!--Corridor floor-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="25.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="30.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="35.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="40.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!--Corridor cealing-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="2.5f" z="25.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="2.5f" z="30.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="2.5f" z="35.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="2.5f" z="40.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!--Corridor Right walls-->
+    <Model Name="midterm/env/walls/SM_Env_Wall_Curved_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="25.0f"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Wall_Curved_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="30.0f"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Wall_Curved_04_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="35.0f"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Wall_Curved_05_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="40.0f"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!--Corridor Left walls-->
+    <Model Name="midterm/env/walls/SM_Env_Wall_Curved_02_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="30.0f"></Transform>
+      <Rotation x="0.0f" y="4.71239f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Wall_Curved_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="35.0f"></Transform>
+      <Rotation x="0.0f" y="4.71239f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Wall_Curved_02_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="40.0f"></Transform>
+      <Rotation x="0.0f" y="4.71239f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Wall_Curved_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="45.0f"></Transform>
+      <Rotation x="0.0f" y="4.71239f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!--Corridor door-->
+    <Model Name="midterm/env/door/SM_Env_Transition_Door_Curved_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="42.5f"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!--Corridor Lights-->
+    <Model Name="midterm/env/lights/SM_Env_Ceiling_Light_02_xyz_n_rgba_uv.ply">
+      <Transform x="0.0f" y="2.5f" z="27"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/lights/SM_Env_Ceiling_Light_02_xyz_n_rgba_uv.ply">
+      <Transform x="0.0f" y="2.5f" z="32.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/lights/SM_Env_Ceiling_Light_02_xyz_n_rgba_uv.ply">
+      <Transform x="0.0f" y="2.5f" z="37.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/lights/SM_Env_Ceiling_Light_02_xyz_n_rgba_uv.ply">
+      <Transform x="0.0f" y="2.5f" z="42.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!--Corridor End-->
+    
+    <!--Hangar Start-->
+    <!-- Floor Culumb 1-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 2-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 3-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 4-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 5-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 6-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 7-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 8-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 9-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 10-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 11-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor Culumb 12-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Floor End -->
+    
+    <!-- Ceiling Columb 1-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="22.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 2-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="2.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 3-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 4-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="12.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 5-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 6-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="22.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 7-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 8-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="32.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 9-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 10-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="42.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 11-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling Columb 12-->
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="50.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="60.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="70.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/floors/SM_Env_Floor_01_xyz_n_rgba_uv.ply">
+      <Transform x="52.5f" y="-2.5f" z="80.0"></Transform>
+      <Rotation x="0.0f" y="1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Ceiling End -->
+    
+    <!-- South wall-->
+    <!-- Layer 1-->
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Layer 2-->
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5" y="2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Layer 3-->
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="7.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="7.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="7.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="7.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="7.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="7.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Layer 4-->
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="12.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="12.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="12.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="12.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="12.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="12.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- Layer 5-->
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="-2.5f" y="17.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="7.5f" y="17.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="17.5f" y="17.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="27.5f" y="17.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="37.5f" y="17.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="47.5f" y="17.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <!-- South wall End-->
+    
+    <!-- West Wall-->
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="57.5f" y="-2.5f" z="45.0"></Transform>
+      <Rotation x="0.0f" y="-1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="57.5f" y="-2.5f" z="55.0"></Transform>
+      <Rotation x="0.0f" y="-1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="57.5f" y="-2.5f" z="65.0"></Transform>
+      <Rotation x="0.0f" y="-1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    <Model Name="midterm/env/walls/SM_Env_Construction_Wall_01_xyz_n_rgba_uv.ply">
+      <Transform x="57.5f" y="-2.5f" z="75.0"></Transform>
+      <Rotation x="0.0f" y="-1.5708f" z="0.0f"></Rotation>
+      <Scale scale="1.0f"></Scale>
+    </Model>
+    
 	</Models>
 	<Camera>
-		<Transform x="0.0f" y="16.7f" z="-38.6f"></Transform>
+		<Transform x="0.0f" y="1.0f" z="0.0f"></Transform>
 	</Camera>
 </Scene>

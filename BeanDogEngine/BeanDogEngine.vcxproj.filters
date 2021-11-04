@@ -40,8 +40,23 @@
     <Filter Include="Configs\SceneManager">
       <UniqueIdentifier>{edf99eac-053f-482f-9b5c-602fc2a7ef13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Configs\ProjectileManager">
+    <Filter Include="Lighting">
+      <UniqueIdentifier>{cc2b873d-aee4-4bb7-b5c9-47823cd699b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\ProjectileManager">
       <UniqueIdentifier>{80d33bb5-a93b-4afb-ac9c-05d12e109922}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{af15cec0-dcc6-4ea9-8e33-f521c56a5275}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{a970f2bf-7d60-4c57-a8fa-85872c9b0af0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cameras">
+      <UniqueIdentifier>{7f418fd9-9a26-4383-8abb-a59f6bda1ab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinContextMenu">
+      <UniqueIdentifier>{6252bbe2-6283-41d5-9e00-af1eff5badd8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -109,10 +124,37 @@
       <Filter>Configs\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="ProjectileManager.cpp">
-      <Filter>Configs\ProjectileManager</Filter>
+      <Filter>Physics\ProjectileManager</Filter>
     </ClCompile>
     <ClCompile Include="CannonLoader.cpp">
-      <Filter>Configs\ProjectileManager</Filter>
+      <Filter>Physics\ProjectileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cLightHelper.cpp">
+      <Filter>Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="cLightManager.cpp">
+      <Filter>Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="cGFLWKeyboardModifiers.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GLFW_error_callback.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GLFW_key_callback.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandling.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalItems.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="cFlyCamera.cpp">
+      <Filter>Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="cWinContextMenu.cpp">
+      <Filter>WinContextMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +198,25 @@
       <Filter>Configs\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="ProjectileManager.h">
-      <Filter>Configs\ProjectileManager</Filter>
+      <Filter>Physics\ProjectileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cLightHelper.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="cLightManager.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalItems.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="cFlyCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="iCamera.h">
+      <Filter>Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="cWinContextMenu.h">
+      <Filter>WinContextMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

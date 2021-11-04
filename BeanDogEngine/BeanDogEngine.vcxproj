@@ -135,7 +135,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SHADER_DIR=R"($(SolutionDir)common\assets\shaders\)";MODEL_DIR=R"($(SolutionDir)common\assets\models\)";SCENE_DIR=R"($(SolutionDir)common\assets\scenes\)";CONFIG_DIR=R"($(SolutionDir)common\assets\config\)"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SHADER_DIR=R"(assets\shaders\)";MODEL_DIR=R"(assets\models\)";SCENE_DIR=R"(assets\scenes\)";CONFIG_DIR=R"(assets\config\)"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -153,7 +153,11 @@
     <ClCompile Include="cCannonBall.cpp" />
     <ClCompile Include="cEnergyBall.cpp" />
     <ClCompile Include="cFirework.cpp" />
+    <ClCompile Include="cFlyCamera.cpp" />
+    <ClCompile Include="cGFLWKeyboardModifiers.cpp" />
     <ClCompile Include="cLaser.cpp" />
+    <ClCompile Include="cLightHelper.cpp" />
+    <ClCompile Include="cLightManager.cpp" />
     <ClCompile Include="cMesh.cpp" />
     <ClCompile Include="cParticle.cpp" />
     <ClCompile Include="cParticleForceRegistry.cpp" />
@@ -163,7 +167,12 @@
     <ClCompile Include="cSpiral.cpp" />
     <ClCompile Include="cVAOManager.cpp" />
     <ClCompile Include="cVortex.cpp" />
+    <ClCompile Include="cWinContextMenu.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="GLFW_error_callback.cpp" />
+    <ClCompile Include="GLFW_key_callback.cpp" />
+    <ClCompile Include="GlobalItems.cpp" />
+    <ClCompile Include="InputHandling.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="particle_force_generators.cpp" />
     <ClCompile Include="cProjectile.cpp" />
@@ -173,13 +182,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cFirework.h" />
+    <ClInclude Include="cFlyCamera.h" />
+    <ClInclude Include="cLightHelper.h" />
+    <ClInclude Include="cLightManager.h" />
     <ClInclude Include="cMesh.h" />
     <ClInclude Include="cParticle.h" />
     <ClInclude Include="cParticleForceRegistry.h" />
     <ClInclude Include="cParticleWorld.h" />
     <ClInclude Include="cShaderManager.h" />
     <ClInclude Include="cVAOManager.h" />
+    <ClInclude Include="cWinContextMenu.h" />
     <ClInclude Include="GLCommon.h" />
+    <ClInclude Include="GlobalItems.h" />
+    <ClInclude Include="iCamera.h" />
     <ClInclude Include="iParticleForceGenerator.h" />
     <ClInclude Include="particle_force_generators.h" />
     <ClInclude Include="cProjectile.h" />

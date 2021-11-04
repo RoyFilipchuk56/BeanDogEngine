@@ -210,6 +210,8 @@ bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo)
         // (Note the file is in HTML style, so 0 to 255
         //  but the shader wants 0.0 to 1.0)
         float red, green, blue, alpha;
+
+        float u0, u1;
     };
     struct sTriangle
     {
@@ -290,6 +292,9 @@ bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo)
         theFile >> tempVertex.blue;
         theFile >> tempVertex.alpha;
 
+        theFile >> tempVertex.u0;
+        theFile >> tempVertex.u1;
+
 
                 //vecVertexArray[index] = tempVertex;
                 // "Add to the end of the vector"
@@ -352,6 +357,8 @@ bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo)
         drawInfo.pVertices[index].nz = vecVertexArray[index].nz;
         drawInfo.pVertices[index].nw = 1.0f;
 
+        drawInfo.pVertices[index].u0 = vecVertexArray[index].nx;
+        drawInfo.pVertices[index].u1 = vecVertexArray[index].nx;
 //        float u0, v0, u1, v1;   //in vec4 vUVx2;					// 2 x Texture coords (vec4) UV0, UV1
 //        float tx, ty, tz, tw;   //in vec4 vTangent;				// For bump mapping X,Y,Z (W ignored)
 //        float bx, by, bz, bw;   //in vec4 vBiNormal;				// For bump mapping X,Y,Z (W ignored)

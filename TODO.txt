@@ -1,0 +1,5 @@
+Implament free fly camera
+Add a save scene feature
+	Be able to load and save lights
+seperate input manager
+Global.h
