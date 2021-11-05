@@ -351,4 +351,6 @@ MigrationBackup/
 
 # Common folder for Assets
 common/
-BeanDogEngine/assets/*
+
+# Assets folder for other assets
+BeanDogEngine/assets/
