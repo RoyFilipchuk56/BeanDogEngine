@@ -1,4 +1,103 @@
-﻿  BeanDogEngine.vcxproj -> C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\BeanDogEngine.exe
+﻿  cFlyCamera.cpp
+  cGFLWKeyboardModifiers.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  cWinContextMenu.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Doors.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  GLFW_error_callback.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  GLFW_key_callback.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  GlobalItems.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  InputHandling.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  LeftDoor.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Main.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(313,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(327,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(328,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(339,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(351,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(363,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(375,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(387,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(399,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(411,54): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(638,25): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(592,19): warning C4101: 'mvp': unreferenced local variable
+  RightDoor.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Doors.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Generating Code...
+glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(context.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(init.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(vulkan.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(vulkan.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_init.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_init.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_monitor.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_time.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_time.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_thread.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_thread.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(osmesa_context.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+  BeanDogEngine.vcxproj -> C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\BeanDogEngine.exe
   
   7-Zip 19.00 (x64) : Copyright (c) 1999-2018 Igor Pavlov : 2019-02-21
   
@@ -6,16 +105,16 @@
   --
   Path = C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   Type = zip
-  Physical Size = 392473
+  Physical Size = 1560172
   
   Scanning the drive:
-  6 folders, 15 files, 2514380 bytes (2456 KiB)
+  18 folders, 240 files, 9415811 bytes (9196 KiB)
   
   Updating archive: C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   
-  Add new data to archive: 6 folders, 15 files, 2514380 bytes (2456 KiB)
+  Add new data to archive: 18 folders, 240 files, 9415811 bytes (9196 KiB)
   
   
-  Files read from disk: 15
-  Archive size: 501885 bytes (491 KiB)
+  Files read from disk: 240
+  Archive size: 1678390 bytes (1640 KiB)
   Everything is Ok

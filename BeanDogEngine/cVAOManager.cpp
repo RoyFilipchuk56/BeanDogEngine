@@ -292,6 +292,7 @@ bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo)
         theFile >> tempVertex.blue;
         theFile >> tempVertex.alpha;
 
+        //Newly added for uv's
         theFile >> tempVertex.u0;
         theFile >> tempVertex.u1;
 
@@ -357,6 +358,7 @@ bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo)
         drawInfo.pVertices[index].nz = vecVertexArray[index].nz;
         drawInfo.pVertices[index].nw = 1.0f;
 
+        //added for uv's
         drawInfo.pVertices[index].u0 = vecVertexArray[index].nx;
         drawInfo.pVertices[index].u1 = vecVertexArray[index].nx;
 //        float u0, v0, u1, v1;   //in vec4 vUVx2;					// 2 x Texture coords (vec4) UV0, UV1

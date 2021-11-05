@@ -58,6 +58,15 @@
     <Filter Include="WinContextMenu">
       <UniqueIdentifier>{6252bbe2-6283-41d5-9e00-af1eff5badd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{a7243ed0-1716-4ab7-b2e8-b4afad14f81c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Doors">
+      <UniqueIdentifier>{7468a3d5-6bc9-40ab-a398-9a1cc96974bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mediator">
+      <UniqueIdentifier>{30e8ba3d-8634-4f18-8f98-2627f8f258b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -156,6 +165,18 @@
     <ClCompile Include="cWinContextMenu.cpp">
       <Filter>WinContextMenu</Filter>
     </ClCompile>
+    <ClCompile Include="Doors.cpp">
+      <Filter>GameObjects\Doors</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftDoor.cpp">
+      <Filter>GameObjects\Doors</Filter>
+    </ClCompile>
+    <ClCompile Include="RightDoor.cpp">
+      <Filter>GameObjects\Doors</Filter>
+    </ClCompile>
+    <ClCompile Include="iMessage.h">
+      <Filter>Mediator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLCommon.h">
@@ -217,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="cWinContextMenu.h">
       <Filter>WinContextMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Doors.h">
+      <Filter>GameObjects\Doors</Filter>
+    </ClInclude>
+    <ClInclude Include="iMediator.h">
+      <Filter>Mediator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

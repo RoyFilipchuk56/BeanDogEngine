@@ -168,16 +168,20 @@
     <ClCompile Include="cVAOManager.cpp" />
     <ClCompile Include="cVortex.cpp" />
     <ClCompile Include="cWinContextMenu.cpp" />
+    <ClCompile Include="Doors.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="GLFW_error_callback.cpp" />
     <ClCompile Include="GLFW_key_callback.cpp" />
     <ClCompile Include="GlobalItems.cpp" />
+    <ClCompile Include="iMessage.h" />
     <ClCompile Include="InputHandling.cpp" />
+    <ClCompile Include="LeftDoor.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="particle_force_generators.cpp" />
     <ClCompile Include="cProjectile.cpp" />
     <ClCompile Include="ProjectileManager.cpp" />
     <ClCompile Include="random_helpers.cpp" />
+    <ClCompile Include="RightDoor.cpp" />
     <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +196,11 @@
     <ClInclude Include="cShaderManager.h" />
     <ClInclude Include="cVAOManager.h" />
     <ClInclude Include="cWinContextMenu.h" />
+    <ClInclude Include="Doors.h" />
     <ClInclude Include="GLCommon.h" />
     <ClInclude Include="GlobalItems.h" />
     <ClInclude Include="iCamera.h" />
+    <ClInclude Include="iMediator.h" />
     <ClInclude Include="iParticleForceGenerator.h" />
     <ClInclude Include="particle_force_generators.h" />
     <ClInclude Include="cProjectile.h" />

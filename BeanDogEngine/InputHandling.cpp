@@ -15,7 +15,8 @@
 // not directly over the window. 
 bool g_MouseIsInsideWindow = false;
 
-
+bool vKeyAlreadyPressed = false;
+bool bKeyAlreadyPressed = false;
 
 void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
 {
@@ -135,18 +136,24 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
         //change the object you control in debug
         if (glfwGetKey(pWindow, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS)
         {
-            curLight++;
-            if (curLight >= gTheLights->NUMBER_OF_LIGHTS)
+            if (debugObjType == 1)
             {
-                curLight = cLightManager::NUMBER_OF_LIGHTS - 1;
+                curLight++;
+                if (curLight >= gTheLights->NUMBER_OF_LIGHTS)
+                {
+                    curLight = cLightManager::NUMBER_OF_LIGHTS - 1;
+                }
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS)
         {
-            curLight--;
-            if (curLight >= cLightManager::NUMBER_OF_LIGHTS)
+            if (debugObjType == 1)
             {
-                curLight = 0;
+                curLight--;
+                if (curLight >= cLightManager::NUMBER_OF_LIGHTS)
+                {
+                    curLight = 0;
+                }
             }
         }
 
@@ -169,50 +176,17 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             }
         }
 
-        // constant attenuation
+        // The start
         if (glfwGetKey(pWindow, GLFW_KEY_1) == GLFW_PRESS)
         {
-            ::gTheLights->theLights[::curLight].atten.x *= 0.99f; // -1% less
+            g_pFlyCamera->eye = glm::vec3(0, 0, 17);
+            //g_pFlyCamera->m_at;
         }
+
+        //The Hanger
         if (glfwGetKey(pWindow, GLFW_KEY_2) == GLFW_PRESS)
         {
-            // Is it at (or below) zero?
-            if (::gTheLights->theLights[::curLight].atten.x <= 0.0f)
-            {
-                // Set it to some really small initial attenuation
-                ::gTheLights->theLights[::curLight].atten.x = 0.001f;
-            }
-            ::gTheLights->theLights[::curLight].atten.x *= 1.01f; // +1% more
-        }
-        // linear attenuation
-        if (glfwGetKey(pWindow, GLFW_KEY_3) == GLFW_PRESS)
-        {
-            ::gTheLights->theLights[::curLight].atten.y *= 0.99f; // -1% less
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_4) == GLFW_PRESS)
-        {
-            // Is it at (or below) zero?
-            if (::gTheLights->theLights[::curLight].atten.y <= 0.0f)
-            {
-                // Set it to some really small initial attenuation
-                ::gTheLights->theLights[::curLight].atten.y = 0.001f;
-            }
-            ::gTheLights->theLights[::curLight].atten.y *= 1.01f; // +1% more
-        }
-        // quadratic attenuation
-        if (glfwGetKey(pWindow, GLFW_KEY_5) == GLFW_PRESS)
-        {
-            ::gTheLights->theLights[::curLight].atten.z *= 0.99f; // -1% less
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_6) == GLFW_PRESS)
-        {
-            // Is it at (or below) zero?
-            if (::gTheLights->theLights[::curLight].atten.z <= 0.0f)
-            {
-                // Set it to some really small initial attenuation
-                ::gTheLights->theLights[::curLight].atten.z = 0.001f;
-            }
-            ::gTheLights->theLights[::curLight].atten.z *= 1.01f; // +1% more
+            g_pFlyCamera->eye = glm::vec3(22.5, 0, 60.0);
         }
 
         std::stringstream strTitle;
@@ -232,6 +206,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
     // If JUST the shift is down, move the "selected" object
     if ( cGFLWKeyboardModifiers::isModifierDown(pWindow, true, false, false ) )
     {
+        std::cout << "Is this thing woprking" << std::endl;
         if ( glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS ) { ::g_vecMeshes[::g_selectedObject]->transformXYZ.x -= objectMovementSpeed; } // Go left
         if ( glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS ) { ::g_vecMeshes[::g_selectedObject]->transformXYZ.x += objectMovementSpeed; } // Go right
         if ( glfwGetKey(pWindow, GLFW_KEY_W) == GLFW_PRESS ) { ::g_vecMeshes[::g_selectedObject]->transformXYZ.z += objectMovementSpeed; }// Go forward 
@@ -350,7 +325,7 @@ void handleAsyncMouse(GLFWwindow* window, double deltaTime)
 
     ::g_pFlyCamera->setMouseXY(x, y);
 
-    const float MOUSE_SENSITIVITY = 1.0f;
+    const float MOUSE_SENSITIVITY = 5.0f;
 
 
     // Mouse left (primary?) button pressed? 
@@ -358,7 +333,6 @@ void handleAsyncMouse(GLFWwindow* window, double deltaTime)
     if ( (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
         && ::g_MouseIsInsideWindow )
     {
-        std::cout << "Mouse is down" << std::endl;
         // Mouse button is down so turn the camera
         ::g_pFlyCamera->Yaw_LeftRight( ::g_pFlyCamera->getDeltaMouseX() * MOUSE_SENSITIVITY, deltaTime );
 

@@ -13,7 +13,8 @@ std::vector< cMesh* > g_vecMeshes;
 
 cMesh* g_pDebugSphere = NULL;
 bool g_bShowDebugShere = true;
-
+LeftDoor* leftDoorObj = NULL;
+RightDoor* rightDoorObj = NULL;
 
 unsigned int g_selectedObject = 0;
 unsigned int g_selectedLight = 0;

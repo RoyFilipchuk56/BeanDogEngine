@@ -98,7 +98,7 @@ void main()
                                             fVertWorldLocation.xyz,	// Vertex WORLD position
 											wholeObjectSpecularColour.rgba );
 											
-	pixelColour = outColour;
+	pixelColour = outColour * fVertexColour;
 };
 
 // Calculates the colour of the vertex based on the lighting and vertex information:

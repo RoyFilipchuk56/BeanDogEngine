@@ -6,6 +6,7 @@
 #include "cShaderManager.h"
 #include "cLightManager.h"
 #include "cMesh.h"
+#include "Doors.h"
 #include <vector>
 
 // These are all things that are "project global", 
@@ -35,7 +36,6 @@ extern cLightManager* gTheLights;
 
 extern cMesh* g_pDebugSphere;	// = NULL;
 extern bool g_bShowDebugShere;	// = true;
-
 
 extern unsigned int g_selectedObject;	// = 0;
 extern unsigned int g_selectedLight;	// = 0;
