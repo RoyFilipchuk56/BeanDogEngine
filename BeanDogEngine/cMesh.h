@@ -13,10 +13,16 @@ public:
 	cMesh();
 	std::string meshName;
 
+	//Human readable and changeable values
 	glm::vec3 transformXYZ;
 	glm::vec3 rotationXYZ;		// "angle"
 	float scale;
 
+	//Current rotation maxtrix of model
+	glm::mat4 matRotationX;
+	glm::mat4 matRotationY;
+	glm::mat4 matRotationZ;
+	
 	// Sets the overall colour of the object
 	//	by overwriting the colour variable
 	// HACK: We'll get rid of this once we have textures

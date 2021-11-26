@@ -5,18 +5,20 @@
 #include "cVAOManager.h"
 #include "cShaderManager.h"
 #include "cLightManager.h"
+#include "cParticleWorld.h"
+#include "cProjectile.h"
 #include "cMesh.h"
-#include "Doors.h"
+#include "TheCannon.h"
 #include <vector>
 
 // These are all things that are "project global", 
 //	so need to be visible to many files and parts
 
 // Creates global things, etc. (to control the order)
-bool g_StartUp(GLFWwindow* pWindow);
+bool StartUp(GLFWwindow* pWindow);
 
 // Deletes global things, etc. 
-bool g_ShutDown(GLFWwindow* pWindow);
+bool CleanUp(GLFWwindow* pWindow);
 
 
 //Fly Camera                          
@@ -33,12 +35,13 @@ extern cFlyCamera* g_pFlyCamera; // = NULL;
 extern cVAOManager* gVAOManager;
 extern cShaderManager* gShaderManager;
 extern cLightManager* gTheLights;
+extern nPhysics::cParticleWorld* gParticleWorld;
 
-extern cMesh* g_pDebugSphere;	// = NULL;
-extern bool g_bShowDebugShere;	// = true;
+extern cMesh* g_pDebugSphere;
+extern bool g_bShowDebugShere;
 
-extern unsigned int g_selectedObject;	// = 0;
-extern unsigned int g_selectedLight;	// = 0;
+extern unsigned int g_selectedObject;
+extern unsigned int g_selectedLight;
 
 
 // This will be printed in the title bar
@@ -46,8 +49,6 @@ extern std::string g_TitleText;
 
 // List of objects to draw
 extern std::vector< cMesh* > g_vecMeshes;
-
-//Engine stuff
 
 //Is debug mode on
 extern bool isDebug;
@@ -61,7 +62,11 @@ extern int debugObjType;
 //Debug object move amount
 extern float objectMoveValue;
 
+//The Cannon
+extern TheCannon* cannon;
 
+//List of projectiles
+extern std::vector<nPhysics::cProjectile*> projectiles;
 
 //Keyboard Modifiers
 class cGFLWKeyboardModifiers

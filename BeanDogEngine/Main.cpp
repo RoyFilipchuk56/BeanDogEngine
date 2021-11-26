@@ -19,25 +19,16 @@
 #include <map>
 
 #include "GlobalItems.h"
-#include "cShaderManager.h"
-#include "cVAOManager.h"
-#include "cMesh.h"
 #include "SceneManager.h"
-#include "cLightManager.h"
-#include "cParticleWorld.h"
-#include "cProjectile.h"
-#include "ProjectileManager.h"
-#include "particle_force_generators.h"
+#include "MapManager.h"
 #include "random_helpers.h"
 
+#include "cParticleContactGenerators.h"
 
 //check if the string is a number
 bool IsANumber(std::string number);
 //Draw send in cMesh
 void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModel, GLint matModel_Location, GLint matModelInverseTranspose_Location, GLuint program, cVAOManager* pVAOManager);
-
-//Static locations
-const std::string PROJECTILE_XML_LOCATION = CONFIG_DIR + std::string("Projectile.xml");
 
 // Global Variables
 float deltaTime;
@@ -58,19 +49,9 @@ int main()
     GLint mvp_location = -1;
     //set current time
     float previousTime = static_cast<float>(glfwGetTime());
-    //Create a new vao manager
-    gVAOManager = new cVAOManager();
-    //Create a new shader manager
-    gShaderManager = new cShaderManager();
-    //Create a new light manager
-    gTheLights = new cLightManager();
-    //new fly camera 
-    g_pFlyCamera = new cFlyCamera();
 
     SceneManager scene;
     scene.LoadSceneFromXML("SceneOne.xml");
-
-    float angle = 0;
 
     glfwSetErrorCallback(error_callback);
 
@@ -97,14 +78,20 @@ int main()
     glfwSetCursorPosCallback(window, GLFW_cursor_position_callback);
     glfwSetScrollCallback(window, GLFW_scroll_callback);
     glfwSetMouseButtonCallback(window, GLFW_mouse_button_callback);
+    //This crashes and i have no clue to why 
     //glfwSetWindowSizeCallback(window, GLFW_window_size_callback);
 
     glfwMakeContextCurrent(window);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
 
-    g_pFlyCamera->setEye(glm::vec3(0.0f, 0.0f, 20.0f));
+    //Set all the globals 
+    StartUp(window);
 
+    //Set camera eye (AKA Location)
+    g_pFlyCamera->setEye(scene.currentLevel.camera.tranform);
+
+    //Load the shaders
     cShaderManager::cShader vertShader;
     vertShader.fileName = SHADER_DIR;
     vertShader.fileName.append("vertShader_01.glsl");
@@ -134,118 +121,7 @@ int main()
     GLint matView_Location = glGetUniformLocation(program, "matView");
     GLint matProjection_Location = glGetUniformLocation(program, "matProjection");
     GLint matModelInverseTranspose_Location = glGetUniformLocation(program, "matModelInverseTranspose");
-
-    //Hallway light
-    gTheLights->theLights[0].position = glm::vec4(0.0f, 33.5f, 26.0f, 1.0f);
-    gTheLights->theLights[0].param1.x = 2.0f;    // directional light
-    gTheLights->theLights[0].param1.y = 15.0f;   // Inner
-    gTheLights->theLights[0].param1.z = 30.0f;   // Outer
-    gTheLights->theLights[0].atten.y = 0.000001f;
-    gTheLights->theLights[0].atten.z = 0.00000001f;
-    gTheLights->theLights[0].direction = glm::vec4(0.0f, -1.0f, 0.0f, 1.0f);
-    gTheLights->theLights[0].diffuse = glm::vec4(0.9922f, 0.9f, 0.0f, 1.0f);
-    gTheLights->TurnOnLight(0);
-    curLight = 0;
     
-    
-    //Jank Area Light
-    gTheLights->theLights[1].position = glm::vec4(22.5f, 100.5f, 65.0f, 1.0f);
-    gTheLights->theLights[1].param1.x = 1.0f;    // Spot Light
-    gTheLights->theLights[1].param1.y = 15.0f;   // Inner
-    gTheLights->theLights[1].param1.z = 35.0f;   // Outer
-    gTheLights->theLights[1].atten.x = 0.950721145f;
-    gTheLights->theLights[1].atten.y = 2.70651506e-19;
-    gTheLights->theLights[1].atten.z = 9.08062014e-10;
-    gTheLights->theLights[1].direction = glm::vec4(0.0f, -1.0f, 0.0f, 1.0f);
-    gTheLights->theLights[1].diffuse = glm::vec4(0.9922f, 0.9843f, 0.8275f, 1.0f);
-    gTheLights->TurnOnLight(1);
-
-    //Light 1
-    gTheLights->theLights[2].position = glm::vec4(7.06f, 19.89f, 53.0f, 1.0f);
-    gTheLights->theLights[2].param1.x = 1.0f;    // Spot Light
-    gTheLights->theLights[2].param1.y = 10.0f;   // Inner
-    gTheLights->theLights[2].param1.z = 30.0f;   // Outer
-    gTheLights->theLights[2].atten.x = 0.175677472f;
-    gTheLights->theLights[2].atten.y = 2.10954101e-11;
-    gTheLights->theLights[2].atten.z = 0.000656904012f;
-    gTheLights->theLights[2].direction = glm::vec4(0.0f, -1.0f, 0.0f, 1.0f);
-    gTheLights->theLights[2].diffuse = glm::vec4(0.9922f, 0.9843f, 0.8275f, 1.0f);
-    gTheLights->TurnOnLight(2);
-
-    //Light 2
-    gTheLights->theLights[3].position = glm::vec4(7.06f, 19.89f, 73.0f, 1.0f);
-    gTheLights->theLights[3].param1.x = 1.0f;    // Spot Light
-    gTheLights->theLights[3].param1.y = 10.0f;   // Inner
-    gTheLights->theLights[3].param1.z = 30.0f;   // Outer
-    gTheLights->theLights[3].atten.x = 0.175677472f;
-    gTheLights->theLights[3].atten.y = 2.10954101e-11;
-    gTheLights->theLights[3].atten.z = 0.000409985863f;
-    gTheLights->theLights[3].direction = glm::vec4(0.0f, -1.0f, 0.0f, 1.0f);
-    gTheLights->theLights[3].diffuse = glm::vec4(0.9922f, 0.9843f, 0.8275f, 1.0f);
-    gTheLights->TurnOnLight(3);
-
-    //Light 3
-    gTheLights->theLights[4].position = glm::vec4(31.06f, 19.89f, 53.0f, 1.0f);
-    gTheLights->theLights[4].param1.x = 1.0f;    // Spot Light
-    gTheLights->theLights[4].param1.y = 30.0f;   // Inner
-    gTheLights->theLights[4].param1.z = 30.0f;   // Outer
-    gTheLights->theLights[4].atten.x = 0.175677472f;
-    gTheLights->theLights[4].atten.y = 2.10954101e-11;
-    gTheLights->theLights[4].atten.z = 0.00148269173f;
-    gTheLights->theLights[4].direction = glm::vec4(0.0f, -1.0f, 0.0f, 1.0f);
-    gTheLights->theLights[4].diffuse = glm::vec4(0.9922f, 0.9843f, 0.8275f, 1.0f);
-    gTheLights->TurnOnLight(4);
-
-    //Light 4
-    gTheLights->theLights[5].position = glm::vec4(31.06f, 19.89f, 73.0f, 1.0f);
-    gTheLights->theLights[5].param1.x = 1.0f;    // Spot Light
-    gTheLights->theLights[5].param1.y = 10.0f;   // Inner
-    gTheLights->theLights[5].param1.z = 30.0f;   // Outer
-    gTheLights->theLights[5].atten.x = 0.175677472f;
-    gTheLights->theLights[5].atten.y = 2.10954101e-11;
-    gTheLights->theLights[5].atten.z = 0.00148269173f;
-    gTheLights->theLights[5].direction = glm::vec4(0.0f, -1.0f, 0.0f, 1.0f);
-    gTheLights->theLights[5].diffuse = glm::vec4(0.9922f, 0.9843f, 0.8275f, 1.0f);
-    gTheLights->TurnOnLight(5);
-
-    //Light 5
-    gTheLights->theLights[6].position = glm::vec4(51.06f, 19.89f, 53.0f, 1.0f);
-    gTheLights->theLights[6].param1.x = 1.0f;    // Spot Light
-    gTheLights->theLights[6].param1.y = 10.0f;   // Inner
-    gTheLights->theLights[6].param1.z = 30.0f;   // Outer
-    gTheLights->theLights[6].atten.x = 0.175677472f;
-    gTheLights->theLights[6].atten.y = 2.10954101e-11;
-    gTheLights->theLights[6].atten.z = 0.00148269173f;
-    gTheLights->theLights[6].direction = glm::vec4(0.0f, -1.0f, 0.0f, 1.0f);
-    gTheLights->theLights[6].diffuse = glm::vec4(0.9922f, 0.9843f, 0.8275f, 1.0f);
-    gTheLights->TurnOnLight(6);
-
-    //Light 6
-    gTheLights->theLights[7].position = glm::vec4(51.06f, 19.89f, 73.0f, 1.0f);
-    gTheLights->theLights[7].param1.x = 1.0f;    // Spot Light
-    gTheLights->theLights[7].param1.y = 10.0f;   // Inner
-    gTheLights->theLights[7].param1.z = 30.0f;   // Outer
-    gTheLights->theLights[7].atten.x = 0.175677472f;
-    gTheLights->theLights[7].atten.y = 2.10954101e-11;
-    gTheLights->theLights[7].atten.z = 0.00148269173f;
-    gTheLights->theLights[7].direction = glm::vec4(0.0f, -1.0f, 0.0f, 1.0f);
-    gTheLights->theLights[7].diffuse = glm::vec4(0.9922f, 0.9843f, 0.8275f, 1.0f);
-    gTheLights->TurnOnLight(7);
-
-    //Door Light
-    gTheLights->theLights[8].position = glm::vec4(51.06f, 18.89f, 73.0f, 1.0f);
-    gTheLights->theLights[8].param1.x = 1.0f;    // Spot Light
-    gTheLights->theLights[8].param1.y = 10.0f;   // Inner
-    gTheLights->theLights[8].param1.z = 20.0f;   // Outer
-    gTheLights->theLights[8].atten.x = 1.16313887f;
-    gTheLights->theLights[8].atten.y = 1.65212687e-11;
-    gTheLights->theLights[8].atten.z = 0.00148269173f;
-    gTheLights->theLights[8].direction = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-    gTheLights->theLights[8].diffuse = glm::vec4(1.0f, 0.6f, 0.0f, 1.0f);
-    gTheLights->theLights[8].specular = glm::vec4(1.0f, 0.8f, 0.0f, 1.0f);
-    gTheLights->TurnOnLight(8);
-    
-
     // Get the uniform locations of the light shader values
     gTheLights->SetUpUniformLocations(program);
 
@@ -273,7 +149,26 @@ int main()
         g_vecMeshes.push_back(tempMesh);
     }
 
-    //make a bullet model info
+    //Change to base projectile
+    sModelDrawInfo cannonInfo;
+    if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("Cannon.ply"), cannonInfo, program))
+    {
+        std::cout << "Error: " << "Cannon.ply" << " Didn't load OK" << std::endl;
+    }
+    else
+    {
+        std::cout << "Good: " << "Cannon.ply" << " loaded OK" << std::endl;
+        std::cout << cannonInfo.numberOfVertices << " vertices loaded" << std::endl;
+        std::cout << cannonInfo.numberOfTriangles << " triangles loaded" << std::endl;
+    }
+
+    //Create a mesh for the cannon
+    cMesh* cannonMesh = new cMesh;
+    cannonMesh->meshName = MODEL_DIR + std::string("Cannon.ply");
+    cannonMesh->transformXYZ = glm::vec3(0, 1, 0);
+    g_vecMeshes.push_back(cannonMesh);
+
+    //Change to base projectile
     sModelDrawInfo bulletInfo;
     if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("WhiteBall.ply"), bulletInfo, program))
     {
@@ -286,12 +181,62 @@ int main()
         std::cout << bulletInfo.numberOfTriangles << " triangles loaded" << std::endl;
     }
 
+
+
     //Create a mesh for the debug
     cMesh* debugMesh = new cMesh;
     debugMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
     debugMesh->transformXYZ = glm::vec3(0, 2, 0);
-    debugMesh->bDontLight = true; 
+    debugMesh->bDontLight = true;
+
+    if (scene.currentLevel.lights.size() > GL_MAX_LIGHTS)
+    {
+        std::cout << "Max number of lights has been reached, please stop" << std::endl;
+    }
+
+    for (int i = 0; i < scene.currentLevel.lights.size(); i++)
+    {
+        LightInfo currLight = scene.currentLevel.lights[i];
+        gTheLights->theLights[i].position = glm::vec4(currLight.transform.x, currLight.transform.y, currLight.transform.z, 1.0f);
+        gTheLights->theLights[i].direction = glm::vec4(currLight.direction.x, currLight.direction.y, currLight.direction.z, 1.0f);
+        gTheLights->theLights[i].param1.x = currLight.param1.x;    // directional light
+        gTheLights->theLights[i].param1.y = currLight.param1.y;   // Inner
+        gTheLights->theLights[i].param1.z = currLight.param1.z;   // Outer
+        gTheLights->theLights[i].atten.x = currLight.atten.x;
+        gTheLights->theLights[i].atten.y = currLight.atten.y;
+        gTheLights->theLights[i].atten.z = currLight.atten.z;
+        gTheLights->theLights[i].diffuse = glm::vec4(currLight.diffuse.x, currLight.diffuse.y, currLight.diffuse.z, 1.0f);
+        gTheLights->TurnOnLight(i);
+    }
+
+    //Create a cannon and set it in globals
+    cannon = new TheCannon(cannonMesh);
+
+    //Add the plane Generator
+    nPhysics::cPlaneParticleContactGenerator* groundPlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(0, 0.5f, 0), glm::vec3(0, 1, 0));
+    gParticleWorld->AddContactGenerator(groundPlane);
+
+    nPhysics::cPlaneParticleContactGenerator* zPositivePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(0, 0, 14.5f), glm::vec3(0, 0, -1));
+    gParticleWorld->AddContactGenerator(zPositivePlane);
+
+    nPhysics::cPlaneParticleContactGenerator* zNegativePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(0, 0, -14.5f), glm::vec3(0, 0, 1));
+    gParticleWorld->AddContactGenerator(zNegativePlane);
+
+    nPhysics::cPlaneParticleContactGenerator* xNegativePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(-14.5f, 0, 0), glm::vec3(1, 0, 0));
+    gParticleWorld->AddContactGenerator(xNegativePlane);
+
+    nPhysics::cPlaneParticleContactGenerator* xPositivePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(14.5, 0, 0), glm::vec3(-1, 0, 0));
+    gParticleWorld->AddContactGenerator(xPositivePlane);
     
+    nPhysics::cSphereParticleContactGenerator* collideThoseSpheres = new nPhysics::cSphereParticleContactGenerator();
+    gParticleWorld->AddContactGenerator(collideThoseSpheres);
+
+    //Dont render the back of the plane
+    //TODO: Remove
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    
+    //Main Loop
     while (!glfwWindowShouldClose(window))
     {
         float ratio;
@@ -302,7 +247,7 @@ int main()
         glm::mat4 mvp;
         //Set Times for physics
         float currentTime = static_cast<float>(glfwGetTime());
-        deltaTime = previousTime - currentTime;
+        deltaTime = currentTime - previousTime;
         previousTime = currentTime;
 
         glfwGetFramebufferSize(window, &width, &height);
@@ -336,8 +281,12 @@ int main()
 
         glUniformMatrix4fv(matView_Location, 1, GL_FALSE, glm::value_ptr(v));
         glUniformMatrix4fv(matProjection_Location, 1, GL_FALSE, glm::value_ptr(p));
-
         
+        //Update the cannon
+        cannon->Update(deltaTime);
+
+        //Update the particle world
+        gParticleWorld->TimeStep(deltaTime);
 
         // Screen is cleared and we are ready to draw the scene...
         for (unsigned int index = 0; index != g_vecMeshes.size(); index++)
@@ -345,6 +294,17 @@ int main()
             // So the code is a little easier...
             cMesh* curMesh = g_vecMeshes[index];
             //curMesh->bDontLight = true;
+
+            matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)
+            DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
+        }
+
+        // Screen is cleared and we are ready to draw the scene...
+        for (unsigned int index = 0; index != projectiles.size(); index++)
+        {
+            // So the code is a little easier...
+            cMesh* curMesh = projectiles[index]->myMesh;
+            curMesh->bDontLight = true;
 
             matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)
             DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
@@ -367,8 +327,8 @@ int main()
         handleAsyncMouse(window, deltaTime);
     }
 
-    
-    //TODO:: Proper destory method for global
+    //Gotta clean up
+    CleanUp(window);
 
     glfwDestroyWindow(window);
 
@@ -376,6 +336,7 @@ int main()
     exit(EXIT_SUCCESS);
 }
 
+//TODO: Add to random helpers
 //check if the string is a number
 bool IsANumber(std::string number)
 {
@@ -400,6 +361,7 @@ bool IsANumber(std::string number)
     return true;
 }
 
+//TODO: Add this to a graphics engine/manager
 void DrawObject(cMesh* curMesh, glm::mat4 matModel, GLint matModel_Location, GLint matModelInverseTranspose_Location, GLuint program, cVAOManager* pVAOManager)
 {
     // Translate or "move" the object somewhere
@@ -411,15 +373,21 @@ void DrawObject(cMesh* curMesh, glm::mat4 matModel, GLint matModel_Location, GLi
         curMesh->rotationXYZ.z,//(float)glfwGetTime(),
         glm::vec3(0.0f, 0.0f, 1.0f));
 
+    curMesh->matRotationZ = rotateZ;
+
     // Rotation around the Y axis
     glm::mat4 rotateY = glm::rotate(glm::mat4(1.0f),
         curMesh->rotationXYZ.y,
         glm::vec3(0.0f, 1.0f, 0.0f));
 
+    curMesh->matRotationY = rotateY;
+
     // Rotation around the X axis
     glm::mat4 rotateX = glm::rotate(glm::mat4(1.0f),
         curMesh->rotationXYZ.x,
         glm::vec3(1.0f, 0.0f, 0.0f));
+
+    curMesh->matRotationX = rotateX;
 
     // Scale the model
     glm::mat4 matScale = glm::scale(glm::mat4(1.0f),

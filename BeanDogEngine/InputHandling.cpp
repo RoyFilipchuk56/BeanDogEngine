@@ -15,8 +15,7 @@
 // not directly over the window. 
 bool g_MouseIsInsideWindow = false;
 
-bool vKeyAlreadyPressed = false;
-bool bKeyAlreadyPressed = false;
+bool isSpacePressed = false;
 
 void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
 {
@@ -52,6 +51,8 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
         {
             ::g_pFlyCamera->MoveUpDown_Y(+cameraMoveSpeed);
         }
+        
+        //Cannon Movement
 
         //Toggle Debug
         if (glfwGetKey(pWindow,GLFW_KEY_T) == GLFW_PRESS)
@@ -176,37 +177,74 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             }
         }
 
-        // The start
+        // Cannon Movement
+        if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS)
+        {
+            cannon->isMovingLeft = true;
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_RELEASE)
+        {
+            cannon->isMovingLeft = false;
+        }
+        
+        if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        {
+            cannon->isMovingRight = true;
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_RELEASE)
+        {
+            cannon->isMovingRight = false;
+        }
+        
+        if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_PRESS)
+        {
+            cannon->isMovingUp = true;
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_RELEASE)
+        {
+            cannon->isMovingUp = false;
+        }
+        
+        if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_PRESS)
+        {
+            cannon->isMovingDown = true;
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_RELEASE)
+        {
+            cannon->isMovingDown = false;
+        }
+
+        //Fire a bullet
+        if (glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_PRESS)
+        {
+            if (!isSpacePressed)
+            {
+                isSpacePressed = true;
+                nPhysics::cProjectile* tempProjectile = cannon->ShootBullet();
+                gParticleWorld->AddParticle(tempProjectile);
+                projectiles.push_back(tempProjectile);
+            }
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_RELEASE)
+        {
+            isSpacePressed = false;
+        }
+
+        // Reset the camera
         if (glfwGetKey(pWindow, GLFW_KEY_1) == GLFW_PRESS)
         {
-            g_pFlyCamera->eye = glm::vec3(0, 0, 17);
+            g_pFlyCamera->setEye(glm::vec3(0.0f, 30.09f, -116.68f));
             //g_pFlyCamera->m_at;
         }
-
-        //The Hanger
-        if (glfwGetKey(pWindow, GLFW_KEY_2) == GLFW_PRESS)
-        {
-            g_pFlyCamera->eye = glm::vec3(22.5, 0, 60.0);
-        }
-
-        std::stringstream strTitle;
-        // std::cout << 
-        glm::vec3 cameraEye = ::g_pFlyCamera->getEye();
-        strTitle << "Camera: "
-            << cameraEye.x << ", "
-            << cameraEye.y << ", "
-            << cameraEye.z; //<< std::endl;
-
-        ::g_TitleText = strTitle.str();
-
     }
 
 
-    
+    // This stays for an example of modifier Keys
     // If JUST the shift is down, move the "selected" object
+    
+    /*
     if ( cGFLWKeyboardModifiers::isModifierDown(pWindow, true, false, false ) )
     {
-        std::cout << "Is this thing woprking" << std::endl;
         if ( glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS ) { ::g_vecMeshes[::g_selectedObject]->transformXYZ.x -= objectMovementSpeed; } // Go left
         if ( glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS ) { ::g_vecMeshes[::g_selectedObject]->transformXYZ.x += objectMovementSpeed; } // Go right
         if ( glfwGetKey(pWindow, GLFW_KEY_W) == GLFW_PRESS ) { ::g_vecMeshes[::g_selectedObject]->transformXYZ.z += objectMovementSpeed; }// Go forward 
@@ -228,90 +266,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
 
 
     }//if ( cGFLWKeyboardModifiers::...
-
-
-    // If JUST the ALT is down, move the "selected" light
-    if ( cGFLWKeyboardModifiers::isModifierDown(pWindow, false, true, false) )
-    {
-        if ( glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS ) { 
-            std::cout << "POG" << std::endl;
-            ::gTheLights->theLights[::g_selectedLight].position.x -= lightMovementSpeed; 
-        } // Go left
-        if ( glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS ) { ::gTheLights->theLights[::g_selectedLight].position.x += lightMovementSpeed; } // Go right
-        if ( glfwGetKey(pWindow, GLFW_KEY_W) == GLFW_PRESS ) { ::gTheLights->theLights[::g_selectedLight].position.z += lightMovementSpeed; }// Go forward 
-        if ( glfwGetKey(pWindow, GLFW_KEY_S) == GLFW_PRESS ) { ::gTheLights->theLights[::g_selectedLight].position.z -= lightMovementSpeed; }// Go backwards
-        if ( glfwGetKey(pWindow, GLFW_KEY_Q) == GLFW_PRESS ) { ::gTheLights->theLights[::g_selectedLight].position.y -= lightMovementSpeed; }// Go "Down"
-        if ( glfwGetKey(pWindow, GLFW_KEY_E) == GLFW_PRESS ) { ::gTheLights->theLights[::g_selectedLight].position.y += lightMovementSpeed; }// Go "Up"
-
-        // constant attenuation
-        if ( glfwGetKey(pWindow, GLFW_KEY_1) == GLFW_PRESS )
-        {
-            ::gTheLights->theLights[::g_selectedLight].atten.x *= 0.99f; // -1% less
-        }
-        if ( glfwGetKey(pWindow, GLFW_KEY_2) == GLFW_PRESS )
-        {
-            // Is it at (or below) zero?
-            if ( ::gTheLights->theLights[::g_selectedLight].atten.x <= 0.0f )
-            {
-                // Set it to some really small initial attenuation
-                ::gTheLights->theLights[::g_selectedLight].atten.x = 0.001f;
-            }
-            ::gTheLights->theLights[::g_selectedLight].atten.x *= 1.01f; // +1% more
-        }
-        // linear attenuation
-        if ( glfwGetKey(pWindow, GLFW_KEY_3) == GLFW_PRESS )
-        {
-            ::gTheLights->theLights[::g_selectedLight].atten.y *= 0.99f; // -1% less
-        }
-        if ( glfwGetKey(pWindow, GLFW_KEY_4) == GLFW_PRESS )
-        {
-            // Is it at (or below) zero?
-            if ( ::gTheLights->theLights[::g_selectedLight].atten.y <= 0.0f )
-            {
-                // Set it to some really small initial attenuation
-                ::gTheLights->theLights[::g_selectedLight].atten.y = 0.001f;
-            }
-            ::gTheLights->theLights[::g_selectedLight].atten.y *= 1.01f; // +1% more
-        }
-        // quadratic attenuation
-        if ( glfwGetKey(pWindow, GLFW_KEY_5) == GLFW_PRESS )
-        {
-            ::gTheLights->theLights[::g_selectedLight].atten.z *= 0.99f; // -1% less
-        }
-        if ( glfwGetKey(pWindow, GLFW_KEY_6) == GLFW_PRESS )
-        {
-            // Is it at (or below) zero?
-            if ( ::gTheLights->theLights[::g_selectedLight].atten.z <= 0.0f )
-            {
-                // Set it to some really small initial attenuation
-                ::gTheLights->theLights[::g_selectedLight].atten.z = 0.001f;
-            }
-            ::gTheLights->theLights[::g_selectedLight].atten.z *= 1.01f; // +1% more
-        }
-
-        if ( glfwGetKey(pWindow, GLFW_KEY_U) == GLFW_PRESS ) { ::gTheLights->theLights[0].param1.y -= 0.5f; }   // Inner
-        if ( glfwGetKey(pWindow, GLFW_KEY_I) == GLFW_PRESS ) { ::gTheLights->theLights[0].param1.y += 0.5f; }   // Inner
-        if ( glfwGetKey(pWindow, GLFW_KEY_O) == GLFW_PRESS ) { ::gTheLights->theLights[0].param1.z -= 0.5f; }   // Outer
-        if ( glfwGetKey(pWindow, GLFW_KEY_P) == GLFW_PRESS ) { ::gTheLights->theLights[0].param1.z += 0.5f; }   // Outer
-
-
-        std::stringstream strTitle;
-        // std::cout << 
-        strTitle << "Light # " << ::g_selectedLight << " positionXYZ : "
-            << ::gTheLights->theLights[::g_selectedLight].position.x << ", "
-            << ::gTheLights->theLights[::g_selectedLight].position.y << ", "
-            << ::gTheLights->theLights[::g_selectedLight].position.z << "  "
-            << "attenuation (C, L, Q): "
-            << ::gTheLights->theLights[::g_selectedLight].atten.x << ", "        // Const
-            << ::gTheLights->theLights[::g_selectedLight].atten.y << ", "        // Linear
-            << ::gTheLights->theLights[::g_selectedLight].atten.z << "  "        // Quadratic
-            << (::gTheLights->theLights[::g_selectedLight].param2.x > 0.0f ? " is on" : " is off");
-        //<< std::endl;
-        ::g_TitleText = strTitle.str();
-
-
-    }//if ( cGFLWKeyboardModifiers::...
-    
+    */
     return;
 }
 
@@ -366,12 +321,10 @@ void GLFW_cursor_enter_callback(GLFWwindow* window, int entered)
 {
     if ( entered )
     {
-        std::cout << "Mouse cursor is over the window" << std::endl;
         ::g_MouseIsInsideWindow = true;
     }
     else
     {
-        std::cout << "Mouse cursor is no longer over the window" << std::endl;
         ::g_MouseIsInsideWindow = false;
     }
     return;
@@ -389,15 +342,6 @@ void GLFW_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void GLFW_mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
-
-#ifdef YO_NERDS_WE_USING_WINDOWS_CONTEXT_MENUS_IN_THIS_THANG
-    // Right button is pop-up
-    if ( button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS )
-    {
-        ShowWindowsContextMenu(window, button, action, mods);
-    }
-#endif
-
     return;
 }
 

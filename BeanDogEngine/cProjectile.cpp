@@ -3,15 +3,16 @@
 
 namespace nPhysics
 {
-	cProjectile::cProjectile(float mass, const glm::vec3& position) : cParticle(mass, position)
+	cProjectile::cProjectile(float mass, const glm::vec3& position, cMesh* myMesh) : cParticle(mass, position)
 	{
 		age = 0;
 		isAlive = true;
+		this->myMesh = myMesh;
 	}
 
 	cProjectile::~cProjectile()
 	{
-
+		delete myMesh;
 	}
 
 	bool cProjectile::IsAlive()
@@ -38,10 +39,7 @@ namespace nPhysics
 		// clear applied forces
 		ClearAppliedForces();
 
-		//All Projectiles die when they hit the ground
-		if (mPosition.y <= 0)
-		{
-			isAlive = false;
-		}
+		//Set my mesh to the current position
+		myMesh->transformXYZ = mPosition;
 	}
 }

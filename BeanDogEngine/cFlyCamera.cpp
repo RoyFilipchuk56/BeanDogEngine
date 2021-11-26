@@ -44,6 +44,8 @@ cFlyCamera::cFlyCamera()
 
 	this->m_CurrentState = cFlyCamera::DEFAULT_OR_UNSPECIFIED;
 
+	this->setMinimumDeltaTimeStep(cFlyCamera::m_DEFAULT_MIN_DELTA_TIME_STEP);
+
 	return;
 }
 

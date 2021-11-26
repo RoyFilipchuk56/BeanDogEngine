@@ -8,17 +8,21 @@ cShaderManager* gShaderManager = NULL;
 
 cLightManager* gTheLights = NULL;
 
+nPhysics::cParticleWorld* gParticleWorld = NULL;
+
 // List of objects to draw
 std::vector< cMesh* > g_vecMeshes;
 
 cMesh* g_pDebugSphere = NULL;
 bool g_bShowDebugShere = true;
-LeftDoor* leftDoorObj = NULL;
-RightDoor* rightDoorObj = NULL;
 
 unsigned int g_selectedObject = 0;
 unsigned int g_selectedLight = 0;
 
+//The Cannon
+TheCannon* cannon = NULL;
+//List of projectiles
+std::vector<nPhysics::cProjectile*> projectiles;
 
 // This will be printed in the title bar
 std::string g_TitleText = "";

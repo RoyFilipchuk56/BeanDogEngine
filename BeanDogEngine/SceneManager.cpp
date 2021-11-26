@@ -34,6 +34,7 @@ bool SceneManager::ParseScene(rapidxml::xml_node<>* valueIn)
 	//parse the model and then the camera
 	bool result = true;
 	result &= ParseModel(valueIn->first_node("Models"));
+	result &= ParseLights(valueIn->first_node("Lights"));
 	result &= ParseCamera(valueIn->first_node("Camera"));
 
 	return result;
@@ -59,6 +60,32 @@ bool SceneManager::ParseModel(rapidxml::xml_node<>* valueIn)
 		result &= ParseScale(child->first_node("Scale"), model.scale);
 
 		currentLevel.models.push_back(model);
+	}
+
+	return result;
+}
+
+bool SceneManager::ParseLights(rapidxml::xml_node<>* valueIn)
+{
+	if (!valueIn)
+	{
+		return false;
+	}
+
+	bool result = true;
+
+	//start at first node of Model and go until theres no more
+	for (rapidxml::xml_node<>* child = valueIn->first_node("Light"); child; child = child->next_sibling())
+	{
+		//set all the needed variables
+		LightInfo light;
+		result &= ParseVec3(child->first_node("Transform"), light.transform);
+		result &= ParseVec3(child->first_node("Direction"), light.direction);
+		result &= ParseVec3(child->first_node("Param1"), light.param1);
+		result &= ParseVec3(child->first_node("Atten"), light.atten);
+		result &= ParseVec3(child->first_node("Diffuse"), light.diffuse);
+
+		currentLevel.lights.push_back(light);
 	}
 
 	return result;
