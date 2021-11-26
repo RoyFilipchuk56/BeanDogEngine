@@ -181,7 +181,28 @@ int main()
         std::cout << bulletInfo.numberOfTriangles << " triangles loaded" << std::endl;
     }
 
+    //TODO: Remove
+    //Testing textures
+    sModelDrawInfo chunkyInfo;
+    if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("Chunky.ply"), chunkyInfo, program))
+    {
+        std::cout << "Error: " << "Cannon.ply" << " Didn't load OK" << std::endl;
+    }
+    else
+    {
+        std::cout << "Good: " << "Cannon.ply" << " loaded OK" << std::endl;
+        std::cout << chunkyInfo.numberOfVertices << " vertices loaded" << std::endl;
+        std::cout << chunkyInfo.numberOfTriangles << " triangles loaded" << std::endl;
+    }
 
+    //Testing textures pt2
+    cMesh* chunkyMesh = new cMesh;
+    chunkyMesh->meshName = MODEL_DIR + std::string("Chunky.ply");
+    chunkyMesh->transformXYZ = glm::vec3(0, 1, 0);
+    chunkyMesh->rotationXYZ = glm::vec3(0, 3.1, 0);
+    chunkyMesh->textureNames[0] = "chunky.bmp";
+    chunkyMesh->textureRatios[0] = 1.0f;
+    g_vecMeshes.push_back(chunkyMesh);
 
     //Create a mesh for the debug
     cMesh* debugMesh = new cMesh;
@@ -189,6 +210,36 @@ int main()
     debugMesh->transformXYZ = glm::vec3(0, 2, 0);
     debugMesh->bDontLight = true;
 
+    //Get max texture information from OpenGL
+    GLint glMaxCombinedTextureImageUnits = 0;
+    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &glMaxCombinedTextureImageUnits);
+    std::cout << "GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS = " << glMaxCombinedTextureImageUnits << std::endl;
+
+    GLint glMaxVertexTextureImageUnits = 0;
+    glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &glMaxVertexTextureImageUnits);
+    std::cout << "GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS = " << glMaxVertexTextureImageUnits << std::endl;
+
+    GLint glMaxTextureSize = 0;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &glMaxTextureSize);
+    std::cout << "GL_MAX_TEXTURE_SIZE = " << glMaxTextureSize << std::endl;
+
+    //TODO: Load in the textures
+    gTextureManager->SetBasePath("assets/textures");
+
+    gTextureManager->Create2DTextureFromBMPFile("BrightColouredUVMap.bmp", true);
+    gTextureManager->Create2DTextureFromBMPFile("chunky.bmp", true);
+    std::cout << "Textures Loaded:" << std::endl;
+
+    std::vector<std::string> texturesLoaded;
+    ::gTextureManager->GetLoadedTextureList(texturesLoaded);
+
+    for (std::vector<std::string>::iterator itTexName = texturesLoaded.begin(); itTexName != texturesLoaded.end(); itTexName++)
+    {
+        std::cout << "\t" << *itTexName << std::endl;
+    }
+
+
+    //Load in the lights
     if (scene.currentLevel.lights.size() > GL_MAX_LIGHTS)
     {
         std::cout << "Max number of lights has been reached, please stop" << std::endl;
@@ -230,11 +281,6 @@ int main()
     
     nPhysics::cSphereParticleContactGenerator* collideThoseSpheres = new nPhysics::cSphereParticleContactGenerator();
     gParticleWorld->AddContactGenerator(collideThoseSpheres);
-
-    //Dont render the back of the plane
-    //TODO: Remove
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
     
     //Main Loop
     while (!glfwWindowShouldClose(window))
@@ -299,12 +345,12 @@ int main()
             DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
         }
 
-        // Screen is cleared and we are ready to draw the scene...
+        // Screen is cleared and we are ready to draw the projectiles...
         for (unsigned int index = 0; index != projectiles.size(); index++)
         {
             // So the code is a little easier...
             cMesh* curMesh = projectiles[index]->myMesh;
-            curMesh->bDontLight = true;
+            //curMesh->bDontLight = true;
 
             matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)
             DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
@@ -359,140 +405,4 @@ bool IsANumber(std::string number)
         if (std::isdigit(c) == 0) return false;
     }
     return true;
-}
-
-//TODO: Add this to a graphics engine/manager
-void DrawObject(cMesh* curMesh, glm::mat4 matModel, GLint matModel_Location, GLint matModelInverseTranspose_Location, GLuint program, cVAOManager* pVAOManager)
-{
-    // Translate or "move" the object somewhere
-    glm::mat4 matTranslate = glm::translate(glm::mat4(1.0f),
-        curMesh->transformXYZ);
-
-    // Rotation around the Z axis
-    glm::mat4 rotateZ = glm::rotate(glm::mat4(1.0f),
-        curMesh->rotationXYZ.z,//(float)glfwGetTime(),
-        glm::vec3(0.0f, 0.0f, 1.0f));
-
-    curMesh->matRotationZ = rotateZ;
-
-    // Rotation around the Y axis
-    glm::mat4 rotateY = glm::rotate(glm::mat4(1.0f),
-        curMesh->rotationXYZ.y,
-        glm::vec3(0.0f, 1.0f, 0.0f));
-
-    curMesh->matRotationY = rotateY;
-
-    // Rotation around the X axis
-    glm::mat4 rotateX = glm::rotate(glm::mat4(1.0f),
-        curMesh->rotationXYZ.x,
-        glm::vec3(1.0f, 0.0f, 0.0f));
-
-    curMesh->matRotationX = rotateX;
-
-    // Scale the model
-    glm::mat4 matScale = glm::scale(glm::mat4(1.0f),
-        glm::vec3(curMesh->scale,  // Scale in X
-            curMesh->scale,  // Scale in Y
-            curMesh->scale));// Scale in Z
-
-    
-    matModel = matModel * matTranslate;
-    matModel = matModel * rotateZ;
-    matModel = matModel * rotateY;
-    matModel = matModel * rotateX;
-    matModel = matModel * matScale;
-
-    glUniformMatrix4fv(matModel_Location, 1, GL_FALSE, glm::value_ptr(matModel));
-
-    // Used to calculate the normal location in vertex space, using only rotation
-    glm::mat4 matInvTransposeModel = glm::inverse(glm::transpose(matModel));
-    glUniformMatrix4fv(matModelInverseTranspose_Location, 1, GL_FALSE, glm::value_ptr(matInvTransposeModel));
-
-    // If bUseDebugColour is TRUE, then the fragment colour is "objectDebugColour"
-    GLint bUseDebugColour_Location = glGetUniformLocation(program, "bUseDebugColour");
-    GLint objectDebugColour_Location = glGetUniformLocation(program, "objectDebugColour");
-
-    // If true, then the lighting contribution is NOT used
-    GLint bDontLightObject_Location = glGetUniformLocation(program, "bDontLightObject");
-
-    // The "whole object" colour (diffuse and specular)
-    GLint wholeObjectDiffuseColour_Location = glGetUniformLocation(program, "wholeObjectDiffuseColour");
-    GLint bUseWholeObjectDiffuseColour_Location = glGetUniformLocation(program, "bUseWholeObjectDiffuseColour");
-    GLint wholeObjectSpecularColour_Location = glGetUniformLocation(program, "wholeObjectSpecularColour");
-
-
-    if (curMesh->bUseWholeObjectDiffuseColour)
-    {
-        glUniform1f(bUseWholeObjectDiffuseColour_Location, (float)GL_TRUE);
-        glUniform4f(wholeObjectDiffuseColour_Location,
-            curMesh->wholeObjectDiffuseRGBA.r,
-            curMesh->wholeObjectDiffuseRGBA.g,
-            curMesh->wholeObjectDiffuseRGBA.b,
-            curMesh->wholeObjectDiffuseRGBA.a);
-    }
-    else
-    {
-        glUniform1f(bUseWholeObjectDiffuseColour_Location, (float)GL_FALSE);
-    }
-
-    glUniform4f(wholeObjectSpecularColour_Location,
-        curMesh->wholeObjectSpecularRGB.r,
-        curMesh->wholeObjectSpecularRGB.g,
-        curMesh->wholeObjectSpecularRGB.b,
-        curMesh->wholeObjectShininess_SpecPower);
-
-    // See if mesh is wanting the vertex colour override (HACK) to be used?
-    if (curMesh->bUseObjectDebugColour)
-    {
-        // Override the colour...
-        glUniform1f(bUseDebugColour_Location, (float)GL_TRUE);
-        glUniform4f(objectDebugColour_Location,
-            curMesh->objectDebugColourRGBA.r,
-            curMesh->objectDebugColourRGBA.g,
-            curMesh->objectDebugColourRGBA.b,
-            curMesh->objectDebugColourRGBA.a);
-    }
-    else
-    {
-        // DON'T override the colour
-        glUniform1f(bUseDebugColour_Location, (float)GL_FALSE);
-    }
-
-    // See if mesh wants to be lit
-    if (curMesh->bDontLight)
-    {
-        // Override the light
-        glUniform1f(bDontLightObject_Location, (float)GL_TRUE);
-    }
-    else
-    {
-        // DON'T override the light
-        glUniform1f(bDontLightObject_Location, (float)GL_FALSE);
-    }
-
-    //Check if the 1 button has been pressed
-    if (curMesh->bIsWireframe)                // GL_POINT, GL_LINE, and GL_FILL)
-    {
-        //Draw everything with only lines
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    }
-    else
-    {
-        //Fill up those polys
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    }
-
-    sModelDrawInfo modelInfo;
-
-    if (gVAOManager->FindDrawInfoByModelName(curMesh->meshName, modelInfo))
-    {
-        glBindVertexArray(modelInfo.VAO_ID);
-
-        glDrawElements(GL_TRIANGLES,
-                       modelInfo.numberOfIndices,
-                       GL_UNSIGNED_INT,
-                       (void*)0);
-
-        glBindVertexArray(0);
-    }
 }

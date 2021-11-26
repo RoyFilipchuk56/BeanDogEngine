@@ -5,8 +5,8 @@ cFlyCamera* g_pFlyCamera = NULL;
 
 cVAOManager* gVAOManager = NULL;
 cShaderManager* gShaderManager = NULL;
-
 cLightManager* gTheLights = NULL;
+cBasicTextureManager* gTextureManager = NULL;
 
 nPhysics::cParticleWorld* gParticleWorld = NULL;
 

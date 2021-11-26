@@ -21,4 +21,26 @@ cMesh::cMesh()
 	this->wholeObjectSpecularRGB = glm::vec3(1.0f, 1.0f, 1.0f);
 	// Specular highlight power
 	this->wholeObjectShininess_SpecPower = 1.0f;
+	// Default to 1.0f (all solid)
+	this->alphaTransparency = 1.0f;
+
+	// Clear all the textures
+	for (unsigned int index = 0; index != cMesh::MAX_TEXTURES; index++)
+	{
+		this->textureNames[index] = "";
+		this->textureRatios[index] = 0.0f;
+	}
+
+	//TODO: Change this to source engine texture for default
+	this->textureNames[0] = "BrightColouredUVMap.bmp";
+	this->textureRatios[0] = 1.0f;
+}
+
+void cMesh::SetTextureRatiosToZero()
+{
+	for (unsigned int index = 0; index != cMesh::MAX_TEXTURES; index++)
+	{
+		this->textureRatios[index] = 0.0f;
+	}
+	return;
 }

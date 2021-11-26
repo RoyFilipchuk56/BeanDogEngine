@@ -8,8 +8,8 @@ uniform mat4 matProjection;
 uniform mat4 matModelInverseTranspose;	// For normal calculation
 
 
-uniform bool bUseVertexColour;		// Will default to GL_FALSE, which is zero (0)
-uniform vec3 vertexColourOverride;
+//uniform bool bUseVertexColour;		// Will default to GL_FALSE, which is zero (0)
+//uniform vec3 vertexColourOverride;
 
 in vec4 vColour;
 in vec4 vPosition;

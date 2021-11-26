@@ -64,6 +64,21 @@ public:
 	bool FindDrawInfoByModelName(std::string filename,
 								 sModelDrawInfo &drawInfo);
 
+	// This is modified from GenerateSphericalTextureCoords.cpp file,
+	//	specifically that it's using the sModelDrawInfo structure
+	enum enumTEXCOORDBIAS
+	{
+		POSITIVE_X, POSITIVE_Y, POSITIVE_Z
+	};
+
+	void GenerateSphericalTextureCoords(
+		enumTEXCOORDBIAS uBias, enumTEXCOORDBIAS vBias,
+		sModelDrawInfo& drawInfo, bool basedOnNormals, float scale, bool fast);
+
+	// Defaults to POSITIVE_X, POSITIVE_Y
+	void GenerateSphericalTextureCoords(
+		sModelDrawInfo& drawInfo, bool basedOnNormals, float scale, bool fast);
+
 private:
 
 	std::map< std::string /*model name*/,

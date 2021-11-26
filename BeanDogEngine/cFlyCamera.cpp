@@ -38,7 +38,7 @@ cFlyCamera::cFlyCamera()
 
 	this->bKeepCameraFacingUp = true;
 
-	this->nearPlane = 1.0f;
+	this->nearPlane = 0.1f;
 	this->farPlane = 10'000'000.0f;
 	this->FOV = 0.6f;			// Field of view
 

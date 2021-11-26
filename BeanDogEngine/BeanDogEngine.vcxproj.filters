@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ShaderManager">
-      <UniqueIdentifier>{056e4c24-99a0-4424-83cf-50c07b495a63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VAOManager">
-      <UniqueIdentifier>{7e2bbd0e-1f53-4554-a834-1b9f1b665678}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{9579675d-9225-4326-b6b7-c793bea023cf}</UniqueIdentifier>
     </Filter>
@@ -42,9 +36,6 @@
     </Filter>
     <Filter Include="Cameras">
       <UniqueIdentifier>{7f418fd9-9a26-4383-8abb-a59f6bda1ab2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="WinContextMenu">
-      <UniqueIdentifier>{6252bbe2-6283-41d5-9e00-af1eff5badd8}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObjects">
       <UniqueIdentifier>{a7243ed0-1716-4ab7-b2e8-b4afad14f81c}</UniqueIdentifier>
@@ -79,6 +70,24 @@
     <Filter Include="GameObjects\Projectiles">
       <UniqueIdentifier>{60d5b1dd-3282-4072-b8e4-168cbe233b32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine">
+      <UniqueIdentifier>{bf7a3ad8-b724-4857-9785-5336b6ede394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\TextureManager">
+      <UniqueIdentifier>{8319e84a-b01b-45c8-8989-dd3b0a798eb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\ShaderManager">
+      <UniqueIdentifier>{056e4c24-99a0-4424-83cf-50c07b495a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\VAOManager">
+      <UniqueIdentifier>{7e2bbd0e-1f53-4554-a834-1b9f1b665678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\WinContextMenu">
+      <UniqueIdentifier>{6252bbe2-6283-41d5-9e00-af1eff5badd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\ShaderManager\Shaders">
+      <UniqueIdentifier>{e1dfe45f-d5ba-4130-a48a-6da4b8cdd332}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -88,16 +97,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cShader.cpp">
-      <Filter>ShaderManager</Filter>
+      <Filter>GraphicsEngine\ShaderManager</Filter>
     </ClCompile>
     <ClCompile Include="cShaderManager.cpp">
-      <Filter>ShaderManager</Filter>
+      <Filter>GraphicsEngine\ShaderManager</Filter>
     </ClCompile>
     <ClCompile Include="cVAOManager.cpp">
-      <Filter>VAOManager</Filter>
+      <Filter>GraphicsEngine\VAOManager</Filter>
     </ClCompile>
     <ClCompile Include="cMesh.cpp">
-      <Filter>VAOManager</Filter>
+      <Filter>GraphicsEngine\VAOManager</Filter>
     </ClCompile>
     <ClCompile Include="cParticleForceRegistry.cpp">
       <Filter>Physics</Filter>
@@ -142,7 +151,7 @@
       <Filter>Cameras</Filter>
     </ClCompile>
     <ClCompile Include="cWinContextMenu.cpp">
-      <Filter>WinContextMenu</Filter>
+      <Filter>GraphicsEngine\WinContextMenu</Filter>
     </ClCompile>
     <ClCompile Include="Doors.cpp">
       <Filter>GameObjects\Doors</Filter>
@@ -204,19 +213,31 @@
     <ClCompile Include="CleanUp.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="C24BitBMPpixel.cpp">
+      <Filter>GraphicsEngine\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cBasicTextureManager.cpp">
+      <Filter>GraphicsEngine\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextureFromBMP.cpp">
+      <Filter>GraphicsEngine\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawFunction.cpp">
+      <Filter>GraphicsEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLCommon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cShaderManager.h">
-      <Filter>ShaderManager</Filter>
+      <Filter>GraphicsEngine\ShaderManager</Filter>
     </ClInclude>
     <ClInclude Include="cVAOManager.h">
-      <Filter>VAOManager</Filter>
+      <Filter>GraphicsEngine\VAOManager</Filter>
     </ClInclude>
     <ClInclude Include="cMesh.h">
-      <Filter>VAOManager</Filter>
+      <Filter>GraphicsEngine\VAOManager</Filter>
     </ClInclude>
     <ClInclude Include="random_helpers.h">
       <Filter>Header Files</Filter>
@@ -240,7 +261,7 @@
       <Filter>Cameras</Filter>
     </ClInclude>
     <ClInclude Include="cWinContextMenu.h">
-      <Filter>WinContextMenu</Filter>
+      <Filter>GraphicsEngine\WinContextMenu</Filter>
     </ClInclude>
     <ClInclude Include="Doors.h">
       <Filter>GameObjects\Doors</Filter>
@@ -305,6 +326,15 @@
     <ClInclude Include="cParticleContactGenerators.h">
       <Filter>Physics\Contact</Filter>
     </ClInclude>
+    <ClInclude Include="C24BitBMPpixel.h">
+      <Filter>GraphicsEngine\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cBasicTextureManager.h">
+      <Filter>GraphicsEngine\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextureFromBMP.h">
+      <Filter>GraphicsEngine\TextureManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="assets\config\Cannon.xml">
@@ -316,5 +346,13 @@
     <Xml Include="assets\scenes\SceneOne.xml">
       <Filter>Configs\XML</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\fragShader_01.glsl">
+      <Filter>GraphicsEngine\ShaderManager\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\vertShader_01.glsl">
+      <Filter>GraphicsEngine\ShaderManager\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

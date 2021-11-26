@@ -5,6 +5,7 @@
 #include <RapidXML/rapidxml.hpp>
 #include <RapidXML/rapidxml_utils.hpp>
 #include <glm/vec3.hpp>
+#include "GlobalItems.h"
 
 struct ModelInfo
 {

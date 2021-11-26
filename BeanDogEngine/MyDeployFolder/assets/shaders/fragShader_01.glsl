@@ -13,10 +13,15 @@ out vec4 pixelColour;			// RGB A   (0 to 1)
 
 // Whole object diffuse colour
 uniform vec4 wholeObjectDiffuseColour;
+
 // If true, the whole object colour is used (instead of vertex colour)
 uniform bool bUseWholeObjectDiffuseColour;
+
 // Colour of the specular highlight (optional)
 uniform vec4 wholeObjectSpecularColour;	
+
+// Alpha transparency value
+uniform float wholeObjectAlphaTransparency;
 
 // If bUseDebugColour is TRUE, then the fragment colour is "objectDebugColour".
 uniform bool bUseDebugColour;	
@@ -51,13 +56,13 @@ const int DIRECTIONAL_LIGHT_TYPE = 2;
 
 const int NUMBEROFLIGHTS = 10;
 uniform sLight theLights[NUMBEROFLIGHTS];  	// 80 uniforms
-// 
-// uniform vec4 theLights[0].position;
-// uniform vec4 theLights[0].diffuse;
-// ...
-// uniform vec4 theLights[1].position;
-// uniform vec4 theLights[1].diffuse;
-// ...
+
+uniform sampler2D texture_00;		// GL_TEXTURE_2D
+uniform sampler2D texture_01;		// GL_TEXTURE_2D
+uniform sampler2D texture_02;		// GL_TEXTURE_2D
+uniform sampler2D texture_03;		// GL_TEXTURE_2D
+
+uniform vec4 texture2D_Ratios0to3;		//  = vec4( 1.0f, 0.0f, 0.0f, 0.0f );
 
 vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal, 
                             vec3 vertexWorldPos, vec4 vertexSpecular );
@@ -68,6 +73,11 @@ void main()
 	// This is the pixel colour on the screen.
 	// Just ONE pixel, though.
 	
+	pixelColour.rgba = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	
+	// Set the alpha value: 0.0 = clear, 1.0 = solid
+	pixelColour.a = wholeObjectAlphaTransparency;
+
 	// Copy model vertex colours?
 	vec4 vertexDiffuseColour = fVertexColour;
 	
@@ -83,7 +93,17 @@ void main()
 		// Overwrite the vertex colour with this debug colour
 		vertexDiffuseColour = objectDebugColour;	
 	}
+
+	// Makes this "black" but not quite...
+	vertexDiffuseColour.rgb *= 0.0001f;
 	
+	// Add the texture colors
+	vertexDiffuseColour.rgb += 	
+			(texture( texture_00, fUVx2.xy ).rgb * texture2D_Ratios0to3.x)  + 
+		    (texture( texture_01, fUVx2.xy ).rgb * texture2D_Ratios0to3.y)  + 
+			(texture( texture_02, fUVx2.xy ).rgb * texture2D_Ratios0to3.z)  + 
+			(texture( texture_03, fUVx2.xy ).rgb * texture2D_Ratios0to3.w);
+
 	// Used for drawing "debug" objects (usually wireframe)
 	if ( bDontLightObject )
 	{
@@ -91,8 +111,8 @@ void main()
 		// Early exit from shader
 		return;
 	}
-	
-	
+
+
 	vec4 outColour = calcualteLightContrib( vertexDiffuseColour.rgb,		
 	                                        fNormal.xyz, 		// Normal at the vertex (in world coords)
                                             fVertWorldLocation.xyz,	// Vertex WORLD position
@@ -107,7 +127,7 @@ vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal,
 {
 	vec3 norm = normalize(vertexNormal);
 	
-	vec4 finalObjectColour = vec4( 0.0f, 0.0f, 0.0f, 1.0f );
+	vec4 finalObjectColour = vec4( 0.5f, 0.5f, 0.5f, 1.0f );
 	
 	for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 	{	

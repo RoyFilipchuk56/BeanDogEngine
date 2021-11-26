@@ -5,6 +5,7 @@
 #include "cVAOManager.h"
 #include "cShaderManager.h"
 #include "cLightManager.h"
+#include "cBasicTextureManager.h"
 #include "cParticleWorld.h"
 #include "cProjectile.h"
 #include "cMesh.h"
@@ -35,6 +36,7 @@ extern cFlyCamera* g_pFlyCamera; // = NULL;
 extern cVAOManager* gVAOManager;
 extern cShaderManager* gShaderManager;
 extern cLightManager* gTheLights;
+extern cBasicTextureManager* gTextureManager;
 extern nPhysics::cParticleWorld* gParticleWorld;
 
 extern cMesh* g_pDebugSphere;

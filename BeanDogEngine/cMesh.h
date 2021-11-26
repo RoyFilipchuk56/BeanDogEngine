@@ -44,6 +44,15 @@ public:
 	glm::vec3 wholeObjectSpecularRGB;		// Specular HIGHLIGHT colour (usually the same as the light, or white)
 	float wholeObjectShininess_SpecPower;	// 1.0 to ??
 
+	// Alpha Transparency (0.0 to 1.0f)
+	float alphaTransparency;
+
+	static const unsigned int MAX_TEXTURES = 8;
+	std::string textureNames[MAX_TEXTURES];
+	float textureRatios[MAX_TEXTURES];
+
 	// All the "child" mesh objects
 	std::vector< cMesh* > vec_pChildMeshes;
+
+	void SetTextureRatiosToZero();
 };

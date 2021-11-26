@@ -6,10 +6,11 @@ bool StartUp(GLFWwindow* pWindow)
 
 	g_pFlyCamera = new cFlyCamera();
 
-	// Create the shader manager
 	gShaderManager = new cShaderManager();
 
 	gTheLights = new cLightManager();
+
+	gTextureManager = new cBasicTextureManager();
 
 	gVAOManager = new cVAOManager();
 

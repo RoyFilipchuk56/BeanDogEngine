@@ -72,6 +72,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             if (debugObjType == 1)
             {
                 gTheLights->theLights[curLight].position += glm::vec4(0, objectMoveValue, 0, 1);
+                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_K) == GLFW_PRESS)
@@ -84,6 +85,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             if (debugObjType == 1)
             {
                 gTheLights->theLights[curLight].position += glm::vec4(0, -objectMoveValue, 0, 1);
+                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_J) == GLFW_PRESS)
@@ -96,6 +98,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             if (debugObjType == 1)
             {
                 gTheLights->theLights[curLight].position += glm::vec4(objectMoveValue, 0, 0, 1);
+                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_L) == GLFW_PRESS)
@@ -108,6 +111,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             if (debugObjType == 1)
             {
                 gTheLights->theLights[curLight].position += glm::vec4(-objectMoveValue, 0, 0, 1);
+                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_O) == GLFW_PRESS)
@@ -120,6 +124,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             if (debugObjType == 1)
             {
                 gTheLights->theLights[curLight].position += glm::vec4(0, 0, objectMoveValue, 1);
+                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_U) == GLFW_PRESS)
@@ -132,6 +137,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             if (debugObjType == 1)
             {
                 gTheLights->theLights[curLight].position += glm::vec4(0, 0, -objectMoveValue, 1);
+                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
             }
         }
         //change the object you control in debug
@@ -144,6 +150,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
                 {
                     curLight = cLightManager::NUMBER_OF_LIGHTS - 1;
                 }
+                std::cout << "Current Light: " << curLight << std::endl;
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS)
@@ -155,6 +162,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
                 {
                     curLight = 0;
                 }
+                std::cout << "Current Light: " << curLight << std::endl;
             }
         }
 

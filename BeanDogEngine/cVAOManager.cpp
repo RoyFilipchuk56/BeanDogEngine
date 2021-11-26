@@ -2,6 +2,8 @@
 
 #include "cVAOManager.h"
 
+#include <glm/glm.hpp>              // For normalize
+#include <glm/gtc/constants.hpp>    // For pi
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 
@@ -211,7 +213,7 @@ bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo)
         //  but the shader wants 0.0 to 1.0)
         float red, green, blue, alpha;
 
-        float u0, u1;
+        float u, v;
     };
     struct sTriangle
     {
@@ -293,8 +295,8 @@ bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo)
         theFile >> tempVertex.alpha;
 
         //Newly added for uv's
-        theFile >> tempVertex.u0;
-        theFile >> tempVertex.u1;
+        theFile >> tempVertex.u;
+        theFile >> tempVertex.v;
 
 
                 //vecVertexArray[index] = tempVertex;
@@ -359,9 +361,10 @@ bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo)
         drawInfo.pVertices[index].nw = 1.0f;
 
         //added for uv's
-        drawInfo.pVertices[index].u0 = vecVertexArray[index].nx;
-        drawInfo.pVertices[index].u1 = vecVertexArray[index].nx;
-//        float u0, v0, u1, v1;   //in vec4 vUVx2;					// 2 x Texture coords (vec4) UV0, UV1
+        drawInfo.pVertices[index].u0 = vecVertexArray[index].u;
+        drawInfo.pVertices[index].v0 = vecVertexArray[index].v;
+        drawInfo.pVertices[index].u1 = 0.0f;
+        drawInfo.pVertices[index].v1 = 0.0f;
 //        float tx, ty, tz, tw;   //in vec4 vTangent;				// For bump mapping X,Y,Z (W ignored)
 //        float bx, by, bz, bw;   //in vec4 vBiNormal;				// For bump mapping X,Y,Z (W ignored)
 
@@ -379,4 +382,96 @@ bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo)
 
 
     return true;
+}
+
+// Generates texture coordinates based on a shperical projection from the 
+// origin (0,0,0) location of the model. 
+// NOTE: Will overwrite any existing texture coordinates 
+// Inspired by: http://www.mvps.org/directx/articles/spheremap.htm
+// 
+//	basedOnNormals = true --> uses normals for calculation, so good for reflections
+//	basedOnNormals = false --> uses model coordinates, so more 'shrink wrapped'
+//  fast -> approximate or not (not uses sin() )
+//  scale -> normally 1.0, but can be the limits of the texture coord
+//
+// The 'bias' is what coordinates are used for the generation. 
+// For example, if POSITIVE_X is for u and POSITIVE_Y is for v, then:
+//	u coords: based on -x to +x
+//  v coords: based on -y to +y
+//
+//  enum enumTEXCOORDBIAS {
+//    POSITIVE_X, POSITIVE_Y, POSITIVE_Z
+//  };
+void cVAOManager::GenerateSphericalTextureCoords(
+    sModelDrawInfo& drawInfo, bool basedOnNormals, float scale, bool fast)
+{
+    this->GenerateSphericalTextureCoords(
+        cVAOManager::POSITIVE_X, cVAOManager::POSITIVE_Y, drawInfo,
+        basedOnNormals, scale, fast);
+
+    return;
+}
+
+void cVAOManager::GenerateSphericalTextureCoords(
+    enumTEXCOORDBIAS uBias, enumTEXCOORDBIAS vBias,
+    sModelDrawInfo& drawInfo, bool basedOnNormals, float scale, bool fast)
+{
+    // determine the 'remaining' coordinate...
+    bool xUsed = false;
+    bool yUsed = false;
+    bool zUsed = false;
+    if (uBias == POSITIVE_X || vBias == POSITIVE_X)	xUsed = true;
+    if (uBias == POSITIVE_Y || vBias == POSITIVE_Y)	yUsed = true;
+    if (uBias == POSITIVE_Z || vBias == POSITIVE_Z)	yUsed = true;
+
+    for (unsigned int index = 0; index != drawInfo.numberOfVertices; index++)
+    {
+        glm::vec3 xyz;
+        if (basedOnNormals)
+        {
+            if (uBias == POSITIVE_X)		xyz.x = drawInfo.pVertices[index].nx;
+            else if (uBias == POSITIVE_Y)	xyz.x = drawInfo.pVertices[index].ny;
+            else if (uBias == POSITIVE_Z)	xyz.x = drawInfo.pVertices[index].nz;
+
+            if (vBias == POSITIVE_X)		xyz.y = drawInfo.pVertices[index].nx;
+            else if (vBias == POSITIVE_Y)	xyz.y = drawInfo.pVertices[index].ny;
+            else if (vBias == POSITIVE_Z)	xyz.y = drawInfo.pVertices[index].nz;
+
+            // Fill in the remaining coordinate...
+            if (!xUsed)	xyz.z = drawInfo.pVertices[index].nx;
+            if (!yUsed)	xyz.z = drawInfo.pVertices[index].ny;
+            if (!zUsed)	xyz.z = drawInfo.pVertices[index].nz;
+        }
+        else
+        {
+            if (uBias == POSITIVE_X)		xyz.x = drawInfo.pVertices[index].x;
+            else if (uBias == POSITIVE_Y)	xyz.x = drawInfo.pVertices[index].y;
+            else if (uBias == POSITIVE_Z)	xyz.x = drawInfo.pVertices[index].z;
+
+            if (vBias == POSITIVE_X)		xyz.y = drawInfo.pVertices[index].x;
+            else if (vBias == POSITIVE_Y)	xyz.y = drawInfo.pVertices[index].y;
+            else if (vBias == POSITIVE_Z)	xyz.y = drawInfo.pVertices[index].z;
+
+            // Fill in the remaining coordinate...
+            if (!xUsed)	xyz.z = drawInfo.pVertices[index].x;
+            if (!yUsed)	xyz.z = drawInfo.pVertices[index].y;
+            if (!zUsed)	xyz.z = drawInfo.pVertices[index].z;
+        }
+
+        xyz = glm::normalize(xyz);
+
+        if (fast)
+        {
+            drawInfo.pVertices[index].u0 = ((xyz.x / 2.0f) + 0.5f) * scale;
+            drawInfo.pVertices[index].v0 = ((xyz.y / 2.0f) + 0.5f) * scale;
+        }
+        else
+        {
+            drawInfo.pVertices[index].u0 = ((asin(xyz.x) / glm::pi<float>()) + 0.5f) * scale;
+            drawInfo.pVertices[index].v0 = ((asin(xyz.y) / glm::pi<float>()) + 0.5f) * scale;
+        }
+        drawInfo.pVertices[index].u1 = drawInfo.pVertices[index].u0;
+        drawInfo.pVertices[index].v1 = drawInfo.pVertices[index].v0;
+    }
+    return;
 }

@@ -1,46 +1,21 @@
 <Scene>
 	<Models>
-    <Model Name="PlainPlane.ply">
-      <Transform x="0.0f" y="0.0f" z="0.0f"></Transform>
+    <!-- Ground plane probably keep-->
+    <Model Name="GreenFloor.ply">
+      <Transform x="0.0f" y="-2.0f" z="0.0f"></Transform>
       <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
-      <Scale scale="15.0f"></Scale>
-    </Model>
-    <Model Name="PlainPlane.ply">
-      <Transform x="15.0f" y="15.0f" z="0.0f"></Transform>
-      <Rotation x="0.0f" y="0.0f" z="1.5708f"></Rotation>
-      <Scale scale="15.0f"></Scale>
-    </Model>
-    <Model Name="PlainPlane.ply">
-      <Transform x="-15.0f" y="15.0f" z="0.0f"></Transform>
-      <Rotation x="0.0f" y="0.0f" z="-1.5708f"></Rotation>
-      <Scale scale="15.0f"></Scale>
-    </Model>
-    <Model Name="PlainPlane.ply">
-      <Transform x="0.0f" y="15.0f" z="15.0f"></Transform>
-      <Rotation x="-1.5708f" y="0.0f" z="1.5708f"></Rotation>
-      <Scale scale="15.0f"></Scale>
-    </Model>
-    <Model Name="PlainPlane.ply">
-      <Transform x="0.0f" y="15.0f" z="-15.0f"></Transform>
-      <Rotation x="1.5708f" y="0.0f" z="1.5708f"></Rotation>
       <Scale scale="15.0f"></Scale>
     </Model>
 	</Models>
 
   <Lights>
+    <!-- The spot light-->
     <Light>
-      <Transform x="0.0f" y="5.0f" z="0.0f"></Transform>
-      <Direction x="0.0f" y="-1.0f" z="0.0f"></Direction>
-      <Param1 x="0.0f" y="5.0f" z="10.0f"></Param1>
-      <Atten x="0.01f" y="0.1f" z="0.1f"></Atten>
-      <Diffuse x="0.9922f" y="0.9843" z="0.8275f"></Diffuse>
-    </Light>
-    <Light>
-      <Transform x="0.0f" y="10.0f" z="0.0f"></Transform>
-      <Direction x="0.0f" y="-1.0f" z="0.0f"></Direction>
+      <Transform x="0.0f" y="-250.0f" z="0.0f"></Transform>
+      <Direction x="0.0f" y="1.0f" z="0.0f"></Direction>
       <Param1 x="1.0f" y="15.0f" z="30.0f"></Param1>
-      <Atten x="0.01f" y="0.0001f" z="0.00001f"></Atten>
-      <Diffuse x="0.9922f" y="0.9843" z="0.8275f"></Diffuse>
+      <Atten x="0.001f" y="0.0001f" z="0.00001f"></Atten>
+      <Diffuse x="0.9922f" y="0.9843f" z="0.8275f"></Diffuse>
     </Light>
     <!-- Sunlight Directional light breaks everything unless its at the end-->
     <Light>

@@ -1,20 +1,7 @@
 ﻿  Main.cpp
-C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(246,19): warning C4101: 'mvp': unreferenced local variable
-glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(context.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(init.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(vulkan.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(vulkan.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(win32_init.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_init.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_monitor.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(win32_time.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_time.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(win32_thread.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_thread.obj)' or at ''; linking object as if no debug info
-glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(osmesa_context.obj)' or at 'C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\glfw3.pdb'; linking object as if no debug info
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(293,19): warning C4101: 'mvp': unreferenced local variable
+  SceneManager.cpp
+  Generating Code...
   BeanDogEngine.vcxproj -> C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\BeanDogEngine.exe
   
   7-Zip 19.00 (x64) : Copyright (c) 1999-2018 Igor Pavlov : 2019-02-21
@@ -23,16 +10,16 @@ glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found w
   --
   Path = C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   Type = zip
-  Physical Size = 2408973
+  Physical Size = 5705499
   
   Scanning the drive:
-  18 folders, 246 files, 16354010 bytes (16 MiB)
+  19 folders, 251 files, 27099419 bytes (26 MiB)
   
   Updating archive: C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   
-  Add new data to archive: 18 folders, 246 files, 16354010 bytes (16 MiB)
+  Add new data to archive: 19 folders, 251 files, 27099419 bytes (26 MiB)
   
   
-  Files read from disk: 246
-  Archive size: 2408660 bytes (2353 KiB)
+  Files read from disk: 251
+  Archive size: 5705509 bytes (5572 KiB)
   Everything is Ok
