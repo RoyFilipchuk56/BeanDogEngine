@@ -127,7 +127,7 @@ vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal,
 {
 	vec3 norm = normalize(vertexNormal);
 	
-	vec4 finalObjectColour = vec4( 0.5f, 0.5f, 0.5f, 1.0f );
+	vec4 finalObjectColour = vec4( 0.0f, 0.0f, 0.0f, 1.0f );
 	
 	for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 	{	
@@ -160,7 +160,10 @@ vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal,
 			dotProduct = max( 0.0f, dotProduct );		// 0 to 1
 		
 			lightContrib *= dotProduct;		
-			
+
+			//Sets the max darkness so the models arent pitch black
+			lightContrib.rgb = max(lightContrib.rgb, vec3(0.2f, 0.2f, 0.2f));
+
 //			finalObjectColour.rgb += (vertexMaterialColour.rgb * theLights[index].diffuse.rgb * lightContrib); 
 			finalObjectColour.rgb += (vertexMaterialColour.rgb * lightContrib); 
 									 //+ (materialSpecular.rgb * lightSpecularContrib.rgb);
@@ -258,7 +261,8 @@ vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal,
 						
 		}// if ( intLightType == 1 )
 		
-		
+		//Sets the max darkness
+		//lightDiffuseContrib.rgb = max(lightDiffuseContrib.rgb, vec3(1.0f, 1.0f, 1.0f));
 					
 		finalObjectColour.rgb += (vertexMaterialColour.rgb * lightDiffuseContrib.rgb)
 								  + (vertexSpecular.rgb  * lightSpecularContrib.rgb );

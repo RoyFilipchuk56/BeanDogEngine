@@ -125,31 +125,44 @@ int main()
     // Get the uniform locations of the light shader values
     gTheLights->SetUpUniformLocations(program);
 
-    //load in each model in the scene
-    for (int i = 0; i < scene.currentLevel.models.size(); i++)
+    //load each model into the vaoManager
+    for (int i = 0; i < scene.currentLevel.meshsToLoad.size(); i++)
     {
         //make a temp model info
         sModelDrawInfo tempInfo;
-        if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + scene.currentLevel.models[i].fileName, tempInfo, program))
+        if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + scene.currentLevel.meshsToLoad[i], tempInfo, program))
         {
-            std::cout << "Error: " << scene.currentLevel.models[i].fileName << " Didn't load OK" << std::endl;
+            std::cout << "Error: " << scene.currentLevel.meshsToLoad[i] << " Didn't load OK" << std::endl;
         }
         else
         {
-            std::cout << "Good: " << scene.currentLevel.models[i].fileName << " loaded OK" << std::endl;
+            std::cout << "Good: " << scene.currentLevel.meshsToLoad[i] << " loaded OK" << std::endl;
             std::cout << tempInfo.numberOfVertices << " vertices loaded" << std::endl;
             std::cout << tempInfo.numberOfTriangles << " triangles loaded" << std::endl;
         }
+    }
+
+    //load in each model in the scene
+    for (int i = 0; i < scene.currentLevel.models.size(); i++)
+    {
         //make a temp mesh and load in all the attributes
         cMesh* tempMesh = new cMesh;
         tempMesh->meshName = MODEL_DIR + scene.currentLevel.models[i].fileName;
         tempMesh->transformXYZ = scene.currentLevel.models[i].transform;
         tempMesh->rotationXYZ = scene.currentLevel.models[i].rotation;
         tempMesh->scale = scene.currentLevel.models[i].scale;
+        if (scene.currentLevel.models[i].textures.size() > 0)
+        {
+            for (int i = 0; i < scene.currentLevel.models[i].textures.size(); i++)
+            {
+                tempMesh->textureNames[i] = scene.currentLevel.models[i].textures[i].texName;
+                tempMesh->textureRatios[i] = scene.currentLevel.models[i].textures[i].ratio;
+            }
+        }
         g_vecMeshes.push_back(tempMesh);
     }
 
-    //Change to base projectile
+    //Change to cannon
     sModelDrawInfo cannonInfo;
     if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("Cannon.ply"), cannonInfo, program))
     {
@@ -181,34 +194,11 @@ int main()
         std::cout << bulletInfo.numberOfTriangles << " triangles loaded" << std::endl;
     }
 
-    //TODO: Remove
-    //Testing textures
-    sModelDrawInfo chunkyInfo;
-    if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("Chunky.ply"), chunkyInfo, program))
-    {
-        std::cout << "Error: " << "Cannon.ply" << " Didn't load OK" << std::endl;
-    }
-    else
-    {
-        std::cout << "Good: " << "Cannon.ply" << " loaded OK" << std::endl;
-        std::cout << chunkyInfo.numberOfVertices << " vertices loaded" << std::endl;
-        std::cout << chunkyInfo.numberOfTriangles << " triangles loaded" << std::endl;
-    }
-
-    //Testing textures pt2
-    cMesh* chunkyMesh = new cMesh;
-    chunkyMesh->meshName = MODEL_DIR + std::string("Chunky.ply");
-    chunkyMesh->transformXYZ = glm::vec3(0, 1, 0);
-    chunkyMesh->rotationXYZ = glm::vec3(0, 3.1, 0);
-    chunkyMesh->textureNames[0] = "chunky.bmp";
-    chunkyMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(chunkyMesh);
-
-    //Create a mesh for the debug
+    //Create a mesh debug sphere
     cMesh* debugMesh = new cMesh;
     debugMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    debugMesh->transformXYZ = glm::vec3(0, 2, 0);
-    debugMesh->bDontLight = true;
+    debugMesh->transformXYZ = glm::vec3(0, 0, 0);
+    g_vecMeshes.push_back(debugMesh);
 
     //Get max texture information from OpenGL
     GLint glMaxCombinedTextureImageUnits = 0;
@@ -223,11 +213,18 @@ int main()
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &glMaxTextureSize);
     std::cout << "GL_MAX_TEXTURE_SIZE = " << glMaxTextureSize << std::endl;
 
-    //TODO: Load in the textures
+    //set the path for textures
     gTextureManager->SetBasePath("assets/textures");
 
-    gTextureManager->Create2DTextureFromBMPFile("BrightColouredUVMap.bmp", true);
-    gTextureManager->Create2DTextureFromBMPFile("chunky.bmp", true);
+    //Always load in the default texture
+    gTextureManager->Create2DTextureFromBMPFile("MissingTexture.bmp", true);
+    //Load in model textures from scene
+    for (std::string texture : scene.currentLevel.texturesToLoad)
+    {
+        gTextureManager->Create2DTextureFromBMPFile(texture, true);
+    }
+
+    //Inform user of loaded textures
     std::cout << "Textures Loaded:" << std::endl;
 
     std::vector<std::string> texturesLoaded;

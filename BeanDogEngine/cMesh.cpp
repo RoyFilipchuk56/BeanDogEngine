@@ -32,7 +32,7 @@ cMesh::cMesh()
 	}
 
 	//TODO: Change this to source engine texture for default
-	this->textureNames[0] = "BrightColouredUVMap.bmp";
+	this->textureNames[0] = "MissingTexture.bmp";
 	this->textureRatios[0] = 1.0f;
 }
 

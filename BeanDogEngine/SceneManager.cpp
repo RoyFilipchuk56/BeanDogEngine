@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include <algorithm>
 #include <iostream>
 
 SceneManager::SceneManager()
@@ -58,9 +59,25 @@ bool SceneManager::ParseModel(rapidxml::xml_node<>* valueIn)
 		result &= ParseVec3(child->first_node("Transform"), model.transform);
 		result &= ParseVec3(child->first_node("Rotation"), model.rotation);
 		result &= ParseScale(child->first_node("Scale"), model.scale);
+		result &= ParseTextures(child->first_node("Textures"), model.textures);
 
 		currentLevel.models.push_back(model);
 	}
+
+	//copy list of names
+	for (ModelInfo model : currentLevel.models)
+	{
+		currentLevel.meshsToLoad.push_back(model.fileName);
+		for (TextureInfo texture : model.textures)
+		{
+			currentLevel.texturesToLoad.push_back(texture.texName);
+		}
+	}
+
+	//erase all duplicates
+	//We only do this once so its not terrible but should be replaced if it becomes too slow
+	currentLevel.meshsToLoad.erase(std::unique(currentLevel.meshsToLoad.begin(), currentLevel.meshsToLoad.end()), currentLevel.meshsToLoad.end());
+	currentLevel.texturesToLoad.erase(std::unique(currentLevel.texturesToLoad.begin(), currentLevel.texturesToLoad.end()), currentLevel.texturesToLoad.end());
 
 	return result;
 }
@@ -102,6 +119,25 @@ bool SceneManager::ParseCamera(rapidxml::xml_node<>* valueIn)
 
 	//get the inital camera position
 	result &= ParseVec3(valueIn->first_node("Transform"), currentLevel.camera.tranform);
+	return result;
+}
+
+bool SceneManager::ParseTextures(rapidxml::xml_node<>* valueIn, std::vector<TextureInfo>& model)
+{
+	if (!valueIn)
+	{
+		return false;
+	}
+
+	bool result = true;
+	for (rapidxml::xml_node<>* child = valueIn->first_node("Texture"); child; child = child->next_sibling())
+	{
+		TextureInfo texture;
+		result &= SetValue(child->first_attribute("name"), texture.texName);
+		result &= SetValue(child->first_attribute("ratio"), texture.ratio);
+		model.push_back(texture);
+	}
+
 	return result;
 }
 
@@ -157,6 +193,17 @@ bool SceneManager::SetValue(rapidxml::xml_attribute<>* valueIn, std::string& val
 	//convert the attribute to the included string
 	valueOut = valueIn->value();
 	return true;
+}
+
+bool SceneManager::SetValue(rapidxml::xml_node<>* valueIn, std::string& valueOut)
+{
+	if (!valueIn)
+	{
+		return false;
+	}
+	//convert the node to the included string
+	valueOut = valueIn->value();
+	return false;
 }
 
 bool SceneManager::SaveScene(std::string sceneName)
