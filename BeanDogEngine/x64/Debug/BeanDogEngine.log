@@ -1,4 +1,5 @@
-﻿  SceneManager.cpp
+﻿  InputHandling.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\InputHandling.cpp(194,61): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   BeanDogEngine.vcxproj -> C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\BeanDogEngine.exe
   
   7-Zip 19.00 (x64) : Copyright (c) 1999-2018 Igor Pavlov : 2019-02-21
@@ -7,16 +8,16 @@
   --
   Path = C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   Type = zip
-  Physical Size = 5861403
+  Physical Size = 5859220
   
   Scanning the drive:
-  19 folders, 254 files, 31431689 bytes (30 MiB)
+  19 folders, 254 files, 31431669 bytes (30 MiB)
   
   Updating archive: C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   
-  Add new data to archive: 19 folders, 254 files, 31431689 bytes (30 MiB)
+  Add new data to archive: 19 folders, 254 files, 31431669 bytes (30 MiB)
   
   
   Files read from disk: 254
-  Archive size: 5861232 bytes (5724 KiB)
+  Archive size: 5859285 bytes (5722 KiB)
   Everything is Ok

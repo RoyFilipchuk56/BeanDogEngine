@@ -16,11 +16,6 @@ bool CleanUp(GLFWwindow* pWindow)
 
 	//game objects
 	delete g_pDebugSphere;
-	delete cannon;
 
-	for (nPhysics::cProjectile* proj : projectiles)
-	{
-		delete proj;
-	}
 	return true;
 }

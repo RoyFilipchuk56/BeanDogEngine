@@ -16,6 +16,10 @@
 bool g_MouseIsInsideWindow = false;
 
 bool isSpacePressed = false;
+bool isTabPressed = false;
+bool isTPressed = false;
+bool isLeftBracketPressed = false;
+bool isRightBracketPressed = false;
 
 void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
 {
@@ -57,185 +61,224 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
         //Toggle Debug
         if (glfwGetKey(pWindow,GLFW_KEY_T) == GLFW_PRESS)
         {
-            isDebug = !isDebug;
+            if (!isTPressed)
+            {
+                isTPressed = true;
+                isDebug = !isDebug;
+                if (isDebug)
+                {
+                    std::cout << "Debug mode on" << std::endl;
+                }
+                
+                else
+                {
+                    std::cout << "Debug mode off" << std::endl;
+                }
+            }
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_T) == GLFW_RELEASE)
+        {
+            isTPressed = false;
         }
 
         //Control Object Placement in Debug
         if (glfwGetKey(pWindow, GLFW_KEY_I) == GLFW_PRESS)
         {
-
-            if (debugObjType == 0)
+            if (isDebug)
             {
-                g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, objectMoveValue, 0);
-            }
+                if (debugObjType == 0)
+                {
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, objectMoveValue, 0);
+                }
 
-            if (debugObjType == 1)
-            {
-                gTheLights->theLights[curLight].position += glm::vec4(0, objectMoveValue, 0, 1);
-                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                else if (debugObjType == 1)
+                {
+                    gTheLights->theLights[curLight].position += glm::vec4(0, objectMoveValue, 0, 1);
+                    std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                }
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_K) == GLFW_PRESS)
         {
-            if (debugObjType == 0)
+            if (isDebug)
             {
-                g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, -objectMoveValue, 0);
-            }
+                if (debugObjType == 0)
+                {
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, -objectMoveValue, 0);
+                }
 
-            if (debugObjType == 1)
-            {
-                gTheLights->theLights[curLight].position += glm::vec4(0, -objectMoveValue, 0, 1);
-                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                else if (debugObjType == 1)
+                {
+                    gTheLights->theLights[curLight].position += glm::vec4(0, -objectMoveValue, 0, 1);
+                    std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                }
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_J) == GLFW_PRESS)
         {
-            if (debugObjType == 0)
+            if (isDebug)
             {
-                g_vecMeshes[curMesh]->transformXYZ += glm::vec3(objectMoveValue, 0, 0);
-            }
+                if (debugObjType == 0)
+                {
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(objectMoveValue, 0, 0);
+                }
 
-            if (debugObjType == 1)
-            {
-                gTheLights->theLights[curLight].position += glm::vec4(objectMoveValue, 0, 0, 1);
-                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                else if (debugObjType == 1)
+                {
+                    gTheLights->theLights[curLight].position += glm::vec4(objectMoveValue, 0, 0, 1);
+                    std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                }
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_L) == GLFW_PRESS)
         {
-            if (debugObjType == 0)
+            if (isDebug)
             {
-                g_vecMeshes[curMesh]->transformXYZ += glm::vec3(-objectMoveValue, 0, 0);
-            }
+                if (debugObjType == 0)
+                {
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(-objectMoveValue, 0, 0);
+                }
 
-            if (debugObjType == 1)
-            {
-                gTheLights->theLights[curLight].position += glm::vec4(-objectMoveValue, 0, 0, 1);
-                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                else if (debugObjType == 1)
+                {
+                    gTheLights->theLights[curLight].position += glm::vec4(-objectMoveValue, 0, 0, 1);
+                    std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                }
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_O) == GLFW_PRESS)
         {
-            if (debugObjType == 0)
+            if (isDebug)
             {
-                g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, 0, objectMoveValue);
-            }
+                if (debugObjType == 0)
+                {
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, 0, objectMoveValue);
+                }
 
-            if (debugObjType == 1)
-            {
-                gTheLights->theLights[curLight].position += glm::vec4(0, 0, objectMoveValue, 1);
-                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                else if (debugObjType == 1)
+                {
+                    gTheLights->theLights[curLight].position += glm::vec4(0, 0, objectMoveValue, 1);
+                    std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                }
             }
         }
         if (glfwGetKey(pWindow, GLFW_KEY_U) == GLFW_PRESS)
         {
-            if (debugObjType == 0)
+            if (isDebug)
             {
-                g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, 0, -objectMoveValue);
-            }
+                if (debugObjType == 0)
+                {
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, 0, -objectMoveValue);
+                }
 
-            if (debugObjType == 1)
-            {
-                gTheLights->theLights[curLight].position += glm::vec4(0, 0, -objectMoveValue, 1);
-                std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                else if (debugObjType == 1)
+                {
+                    gTheLights->theLights[curLight].position += glm::vec4(0, 0, -objectMoveValue, 1);
+                    std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
+                }
             }
         }
         //change the object you control in debug
         if (glfwGetKey(pWindow, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS)
         {
-            if (debugObjType == 1)
+            if (isDebug)
             {
-                curLight++;
-                if (curLight >= gTheLights->NUMBER_OF_LIGHTS)
+                if (!isRightBracketPressed)
                 {
-                    curLight = cLightManager::NUMBER_OF_LIGHTS - 1;
+                    isRightBracketPressed = true;
+                    if (debugObjType == 0)
+                    {
+                        curMesh++;
+                        if (curMesh >= g_vecMeshes.size())
+                        {
+                            curMesh = g_vecMeshes.size() - 1;
+                        }
+                        std::cout << "Current Mesh: " << curMesh << std::endl;
+                    }
+
+                    else if (debugObjType == 1)
+                    {
+                        curLight++;
+                        if (curLight >= gTheLights->NUMBER_OF_LIGHTS)
+                        {
+                            curLight = cLightManager::NUMBER_OF_LIGHTS - 1;
+                        }
+                        std::cout << "Current Light: " << curLight << std::endl;
+                    }
                 }
-                std::cout << "Current Light: " << curLight << std::endl;
             }
         }
+
+        if (glfwGetKey(pWindow, GLFW_KEY_RIGHT_BRACKET) == GLFW_RELEASE)
+        {
+            isRightBracketPressed = false;
+        }
+
         if (glfwGetKey(pWindow, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS)
         {
-            if (debugObjType == 1)
+            if (isDebug)
             {
-                curLight--;
-                if (curLight >= cLightManager::NUMBER_OF_LIGHTS)
+                if (!isLeftBracketPressed)
                 {
-                    curLight = 0;
+                    isLeftBracketPressed = true;
+
+                    if (debugObjType == 0)
+                    {
+                        curMesh--;
+                        if (curMesh >= g_vecMeshes.size())
+                        {
+                            curMesh = 0;
+                        }
+                        std::cout << "Current Mesh: " << curMesh << std::endl;
+                    }
+
+                    if (debugObjType == 1)
+                    {
+                        curLight--;
+                        if (curLight >= cLightManager::NUMBER_OF_LIGHTS)
+                        {
+                            curLight = 0;
+                        }
+                        std::cout << "Current Light: " << curLight << std::endl;
+                    }
                 }
-                std::cout << "Current Light: " << curLight << std::endl;
             }
+        }
+
+        if (glfwGetKey(pWindow, GLFW_KEY_LEFT_BRACKET) == GLFW_RELEASE)
+        {
+            isLeftBracketPressed = false;
         }
 
         //Change what type of object you control in debug (lights or meshes)
         if (glfwGetKey(pWindow, GLFW_KEY_TAB) == GLFW_PRESS)
         {
-            debugObjType = 1;
-            if (debugObjType == 1)
+            if (isDebug)
             {
-                std::cout << "Debug Lights" << std::endl;
-            }
-            else
-            {
-                std::cout << "Debug Objects" << std::endl;
-            }
+                if (!isTabPressed)
+                {
+                    isTabPressed = true;
+                    debugObjType++;
+                    if (debugObjType == 1)
+                    {
+                        std::cout << "Debug Lights" << std::endl;
+                    }
+                    else
+                    {
+                        std::cout << "Debug Objects" << std::endl;
+                    }
 
-            if (debugObjType > 1)
-            {
-                debugObjType = 0;
+                    if (debugObjType > 1)
+                    {
+                        debugObjType = 0;
+                    }
+                }
             }
-        }
-
-        // Cannon Movement
-        if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS)
-        {
-            cannon->isMovingLeft = true;
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_RELEASE)
-        {
-            cannon->isMovingLeft = false;
-        }
-        
-        if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS)
-        {
-            cannon->isMovingRight = true;
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_RELEASE)
-        {
-            cannon->isMovingRight = false;
-        }
-        
-        if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_PRESS)
-        {
-            cannon->isMovingUp = true;
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_RELEASE)
-        {
-            cannon->isMovingUp = false;
-        }
-        
-        if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_PRESS)
-        {
-            cannon->isMovingDown = true;
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_RELEASE)
-        {
-            cannon->isMovingDown = false;
         }
 
-        //Fire a bullet
-        if (glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_PRESS)
+        if (glfwGetKey(pWindow, GLFW_KEY_TAB) == GLFW_RELEASE)
         {
-            if (!isSpacePressed)
-            {
-                isSpacePressed = true;
-                nPhysics::cProjectile* tempProjectile = cannon->ShootBullet();
-                gParticleWorld->AddParticle(tempProjectile);
-                projectiles.push_back(tempProjectile);
-            }
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_SPACE) == GLFW_RELEASE)
-        {
-            isSpacePressed = false;
+            isTabPressed = false;
         }
 
         // Reset the camera

@@ -64,12 +64,6 @@ extern int debugObjType;
 //Debug object move amount
 extern float objectMoveValue;
 
-//The Cannon
-extern TheCannon* cannon;
-
-//List of projectiles
-extern std::vector<nPhysics::cProjectile*> projectiles;
-
 //Keyboard Modifiers
 class cGFLWKeyboardModifiers
 {

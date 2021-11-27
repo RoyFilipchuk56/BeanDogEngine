@@ -162,43 +162,23 @@ int main()
         g_vecMeshes.push_back(tempMesh);
     }
 
-    //Change to cannon
-    sModelDrawInfo cannonInfo;
-    if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("Cannon.ply"), cannonInfo, program))
-    {
-        std::cout << "Error: " << "Cannon.ply" << " Didn't load OK" << std::endl;
-    }
-    else
-    {
-        std::cout << "Good: " << "Cannon.ply" << " loaded OK" << std::endl;
-        std::cout << cannonInfo.numberOfVertices << " vertices loaded" << std::endl;
-        std::cout << cannonInfo.numberOfTriangles << " triangles loaded" << std::endl;
-    }
-
-    //Create a mesh for the cannon
-    cMesh* cannonMesh = new cMesh;
-    cannonMesh->meshName = MODEL_DIR + std::string("Cannon.ply");
-    cannonMesh->transformXYZ = glm::vec3(0, 1, 0);
-    g_vecMeshes.push_back(cannonMesh);
-
     //Change to base projectile
-    sModelDrawInfo bulletInfo;
-    if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("WhiteBall.ply"), bulletInfo, program))
+    sModelDrawInfo sphereInfo;
+    if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("WhiteBall.ply"), sphereInfo, program))
     {
         std::cout << "Error: " << "WhiteBall.ply" << " Didn't load OK" << std::endl;
     }
     else
     {
         std::cout << "Good: " << "WhiteBall.ply" << " loaded OK" << std::endl;
-        std::cout << bulletInfo.numberOfVertices << " vertices loaded" << std::endl;
-        std::cout << bulletInfo.numberOfTriangles << " triangles loaded" << std::endl;
+        std::cout << sphereInfo.numberOfVertices << " vertices loaded" << std::endl;
+        std::cout << sphereInfo.numberOfTriangles << " triangles loaded" << std::endl;
     }
 
     //Create a mesh debug sphere
     cMesh* debugMesh = new cMesh;
     debugMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
     debugMesh->transformXYZ = glm::vec3(0, 0, 0);
-    g_vecMeshes.push_back(debugMesh);
 
     //Get max texture information from OpenGL
     GLint glMaxCombinedTextureImageUnits = 0;
@@ -256,28 +236,6 @@ int main()
         gTheLights->theLights[i].diffuse = glm::vec4(currLight.diffuse.x, currLight.diffuse.y, currLight.diffuse.z, 1.0f);
         gTheLights->TurnOnLight(i);
     }
-
-    //Create a cannon and set it in globals
-    cannon = new TheCannon(cannonMesh);
-
-    //Add the plane Generator
-    nPhysics::cPlaneParticleContactGenerator* groundPlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(0, 0.5f, 0), glm::vec3(0, 1, 0));
-    gParticleWorld->AddContactGenerator(groundPlane);
-
-    nPhysics::cPlaneParticleContactGenerator* zPositivePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(0, 0, 14.5f), glm::vec3(0, 0, -1));
-    gParticleWorld->AddContactGenerator(zPositivePlane);
-
-    nPhysics::cPlaneParticleContactGenerator* zNegativePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(0, 0, -14.5f), glm::vec3(0, 0, 1));
-    gParticleWorld->AddContactGenerator(zNegativePlane);
-
-    nPhysics::cPlaneParticleContactGenerator* xNegativePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(-14.5f, 0, 0), glm::vec3(1, 0, 0));
-    gParticleWorld->AddContactGenerator(xNegativePlane);
-
-    nPhysics::cPlaneParticleContactGenerator* xPositivePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(14.5, 0, 0), glm::vec3(-1, 0, 0));
-    gParticleWorld->AddContactGenerator(xPositivePlane);
-    
-    nPhysics::cSphereParticleContactGenerator* collideThoseSpheres = new nPhysics::cSphereParticleContactGenerator();
-    gParticleWorld->AddContactGenerator(collideThoseSpheres);
     
     //Main Loop
     while (!glfwWindowShouldClose(window))
@@ -324,9 +282,6 @@ int main()
 
         glUniformMatrix4fv(matView_Location, 1, GL_FALSE, glm::value_ptr(v));
         glUniformMatrix4fv(matProjection_Location, 1, GL_FALSE, glm::value_ptr(p));
-        
-        //Update the cannon
-        cannon->Update(deltaTime);
 
         //Update the particle world
         gParticleWorld->TimeStep(deltaTime);
@@ -336,17 +291,6 @@ int main()
         {
             // So the code is a little easier...
             cMesh* curMesh = g_vecMeshes[index];
-            //curMesh->bDontLight = true;
-
-            matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)
-            DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
-        }
-
-        // Screen is cleared and we are ready to draw the projectiles...
-        for (unsigned int index = 0; index != projectiles.size(); index++)
-        {
-            // So the code is a little easier...
-            cMesh* curMesh = projectiles[index]->myMesh;
             //curMesh->bDontLight = true;
 
             matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)

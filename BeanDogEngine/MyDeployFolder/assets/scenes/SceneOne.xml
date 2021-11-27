@@ -8,7 +8,7 @@
       <Rotation x="0.0f" y="0.0f" z="0.0f"></Rotation>
       <Scale scale="15.0f"></Scale>
       <Textures>
-        <Texture name="chunky.bmp" ratio="1.0f">chunky.bmp</Texture>
+        <Texture name="chunky.bmp" ratio="1.0f"></Texture>
       </Textures>
     </Model>
 
@@ -17,7 +17,7 @@
       <Rotation x="0.0f" y="3.1f" z="0.0f"></Rotation>
       <Scale scale="1.0f"></Scale>
       <Textures>
-        <Texture name="chunky.bmp" ratio="1.0f">chunky.bmp</Texture>
+        <Texture name="chunky.bmp" ratio="1.0f"></Texture>
       </Textures>
     </Model>
 	</Models>

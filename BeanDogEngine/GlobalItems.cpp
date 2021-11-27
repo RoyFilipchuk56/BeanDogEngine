@@ -19,11 +19,6 @@ bool g_bShowDebugShere = true;
 unsigned int g_selectedObject = 0;
 unsigned int g_selectedLight = 0;
 
-//The Cannon
-TheCannon* cannon = NULL;
-//List of projectiles
-std::vector<nPhysics::cProjectile*> projectiles;
-
 // This will be printed in the title bar
 std::string g_TitleText = "";
 
