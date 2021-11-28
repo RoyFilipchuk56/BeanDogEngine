@@ -20,7 +20,8 @@ void SetUpTextures(cMesh* pCurrentMesh, GLuint shaderProgram)
     //}
 
     const GLuint FIRST_TEXTURE_UNIT = 0;
-
+    GLint isTransparent = glGetUniformLocation(shaderProgram, "isTransparent");
+    glUniform1f(isTransparent, (GLfloat)GL_FALSE);
     //*****************************************************************************************
     if (pCurrentMesh->textureRatios[0] >= 0.0f)
     {
@@ -78,6 +79,65 @@ void SetUpTextures(cMesh* pCurrentMesh, GLuint shaderProgram)
     }
     //*****************************************************************************************    
 
+    //*****************************************************************************************
+    if (pCurrentMesh->textureRatios[4] >= 0.0f)
+    {
+        GLuint TextureNumber = gTextureManager->getTextureIDFromName(pCurrentMesh->textureNames[4]);
+
+        GLuint textureUnit = FIRST_TEXTURE_UNIT + 4;			// Texture unit go from 0 to 79
+        glActiveTexture(textureUnit + GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, TextureNumber);
+
+        GLint texture_04_LocID = glGetUniformLocation(shaderProgram, "texture_04");
+        glUniform1i(texture_04_LocID, textureUnit);
+    }
+    //*****************************************************************************************
+    
+    //*****************************************************************************************
+    if (pCurrentMesh->textureRatios[5] >= 0.0f)
+    {
+        GLuint TextureNumber = gTextureManager->getTextureIDFromName(pCurrentMesh->textureNames[5]);
+
+        GLuint textureUnit = FIRST_TEXTURE_UNIT + 5;			// Texture unit go from 0 to 79
+        glActiveTexture(textureUnit + GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, TextureNumber);
+
+        GLint texture_05_LocID = glGetUniformLocation(shaderProgram, "texture_05");
+        glUniform1i(texture_05_LocID, textureUnit);
+    }
+    //*****************************************************************************************
+
+    //*****************************************************************************************
+    if (pCurrentMesh->textureRatios[6] >= 0.0f)
+    {
+        GLuint TextureNumber = gTextureManager->getTextureIDFromName(pCurrentMesh->textureNames[6]);
+
+        GLuint textureUnit = FIRST_TEXTURE_UNIT + 6;			// Texture unit go from 0 to 79
+        glActiveTexture(textureUnit + GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, TextureNumber);
+
+        GLint texture_06_LocID = glGetUniformLocation(shaderProgram, "texture_06");
+        glUniform1i(texture_06_LocID, textureUnit);
+    }
+    //*****************************************************************************************
+
+    //*****************************************************************************************
+    if (pCurrentMesh->textureRatios[7] > 0.0f)
+    {
+        //Set Transparency to true
+        glUniform1f(isTransparent, (GLfloat)GL_TRUE);
+
+        GLuint TextureNumber = gTextureManager->getTextureIDFromName(pCurrentMesh->textureNames[7]);
+
+        GLuint textureUnit = FIRST_TEXTURE_UNIT + 7;			// Texture unit go from 0 to 79
+        glActiveTexture(textureUnit + GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, TextureNumber);
+
+        GLint texture_07_LocID = glGetUniformLocation(shaderProgram, "texture_07");
+        glUniform1i(texture_07_LocID, textureUnit);
+    }
+    //*****************************************************************************************
+
     // Set all the texture ratios in the shader
     GLint textureRatios0to3_LocID = glGetUniformLocation(shaderProgram, "texture2D_Ratios0to3");
     // Set them
@@ -86,6 +146,29 @@ void SetUpTextures(cMesh* pCurrentMesh, GLuint shaderProgram)
         pCurrentMesh->textureRatios[1],
         pCurrentMesh->textureRatios[2],
         pCurrentMesh->textureRatios[3]);
+
+    // Set all the texture ratios in the shader
+    GLint textureRatios4to7_LocID = glGetUniformLocation(shaderProgram, "texture2D_Ratios4to7");
+    // Set them
+    glUniform4f(textureRatios4to7_LocID,
+        pCurrentMesh->textureRatios[4],
+        pCurrentMesh->textureRatios[5],
+        pCurrentMesh->textureRatios[6],
+        pCurrentMesh->textureRatios[7]);
+
+    //Get the texture
+    GLuint TextureNumber = ::gTextureManager->getTextureIDFromName("Jungle");
+
+    //My cube map starts at unit 40
+    GLuint textureUnit = 40;
+    glActiveTexture(textureUnit + GL_TEXTURE0);
+
+    //Bind it to a cube map not a 2D Texture
+    glBindTexture(GL_TEXTURE_CUBE_MAP, TextureNumber);
+
+    //TODO: Once again, please move this
+    GLint cubeMap_00_LocID = glGetUniformLocation(shaderProgram, "cubeMap_00");
+    glUniform1i(cubeMap_00_LocID, textureUnit);
 
     return;
 }

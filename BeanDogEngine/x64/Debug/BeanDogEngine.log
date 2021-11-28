@@ -1,5 +1,5 @@
-﻿  InputHandling.cpp
-C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\InputHandling.cpp(194,61): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+﻿  Main.cpp
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(296,19): warning C4101: 'mvp': unreferenced local variable
   BeanDogEngine.vcxproj -> C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\BeanDogEngine.exe
   
   7-Zip 19.00 (x64) : Copyright (c) 1999-2018 Igor Pavlov : 2019-02-21
@@ -8,16 +8,16 @@ C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\InputHan
   --
   Path = C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   Type = zip
-  Physical Size = 5859220
+  Physical Size = 54331910
   
   Scanning the drive:
-  19 folders, 254 files, 31431669 bytes (30 MiB)
+  20 folders, 293 files, 189947372 bytes (182 MiB)
   
   Updating archive: C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   
-  Add new data to archive: 19 folders, 254 files, 31431669 bytes (30 MiB)
+  Add new data to archive: 20 folders, 293 files, 189947372 bytes (182 MiB)
   
   
-  Files read from disk: 254
-  Archive size: 5859285 bytes (5722 KiB)
+  Files read from disk: 293
+  Archive size: 54331908 bytes (52 MiB)
   Everything is Ok

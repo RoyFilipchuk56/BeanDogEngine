@@ -1,10 +1,12 @@
 #include "SceneManager.h"
 #include <algorithm>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 SceneManager::SceneManager()
 {
-
+	doc = new rapidxml::xml_document<>;
 }
 
 bool SceneManager::LoadSceneFromXML(std::string sceneName)
@@ -133,6 +135,7 @@ bool SceneManager::ParseTextures(rapidxml::xml_node<>* valueIn, std::vector<Text
 	for (rapidxml::xml_node<>* child = valueIn->first_node("Texture"); child; child = child->next_sibling())
 	{
 		TextureInfo texture;
+		result &= SetValue(child->first_attribute("textureUnit"), texture.textureUnit);
 		result &= SetValue(child->first_attribute("name"), texture.texName);
 		result &= SetValue(child->first_attribute("ratio"), texture.ratio);
 		model.push_back(texture);
@@ -183,6 +186,18 @@ bool SceneManager::SetValue(rapidxml::xml_attribute<>* valueIn, float& valueOut)
 	return true;
 }
 
+bool SceneManager::SetValue(rapidxml::xml_attribute<>* valueIn, int& valueOut)
+{
+	if (!valueIn)
+	{
+		return false;
+	}
+
+	//convert the attribute to the included float
+	valueOut = std::stoi(valueIn->value());
+	return true;
+}
+
 bool SceneManager::SetValue(rapidxml::xml_attribute<>* valueIn, std::string& valueOut)
 {
 	if (!valueIn)
@@ -206,7 +221,108 @@ bool SceneManager::SetValue(rapidxml::xml_node<>* valueIn, std::string& valueOut
 	return false;
 }
 
-bool SceneManager::SaveScene(std::string sceneName)
+bool SceneManager::SaveScene(std::string sceneName, std::vector<cMesh*> vecMeshes)
 {
+	//Create a new root node
+	rapidxml::xml_node<>* root = doc->allocate_node(rapidxml::node_element, "Scene");
+	doc->append_node(root);
+
+	//Add the models
+	rapidxml::xml_node<>* modelsNode = doc->allocate_node(rapidxml::node_element, "Models");
+	root->append_node(modelsNode);
+	for (cMesh* mesh : vecMeshes)
+	{
+		//Start the model node
+		rapidxml::xml_node<>* modelNode = doc->allocate_node(rapidxml::node_element, "Model");
+		modelsNode->append_node(modelNode);
+		rapidxml::xml_attribute<>* nameAttribute = doc->allocate_attribute("Name", mesh->meshFriendlyName.c_str());
+		modelNode->append_attribute(nameAttribute);
+
+		//Transform node
+		rapidxml::xml_node<>* transformNode = doc->allocate_node(rapidxml::node_element, "Transform");
+		modelNode->append_node(transformNode);
+
+		//Transform Attribute
+		rapidxml::xml_attribute<>* tXAttribute = doc->allocate_attribute("x", floatToChar(mesh->transformXYZ.x));
+		rapidxml::xml_attribute<>* tYAttribute = doc->allocate_attribute("y", floatToChar(mesh->transformXYZ.y));
+		rapidxml::xml_attribute<>* tZAttribute = doc->allocate_attribute("z", floatToChar(mesh->transformXYZ.z));
+		//Append the attributes
+		transformNode->append_attribute(tXAttribute);
+		transformNode->append_attribute(tYAttribute);
+		transformNode->append_attribute(tZAttribute);
+
+		//rotation node
+		rapidxml::xml_node<>* rotationNode = doc->allocate_node(rapidxml::node_element, "Rotation");
+		modelNode->append_node(rotationNode);
+
+		//Transform Attribute
+		rapidxml::xml_attribute<>* rXAttribute = doc->allocate_attribute("x", floatToChar(mesh->rotationXYZ.x));
+		rapidxml::xml_attribute<>* rYAttribute = doc->allocate_attribute("y", floatToChar(mesh->rotationXYZ.y));
+		rapidxml::xml_attribute<>* rZAttribute = doc->allocate_attribute("z", floatToChar(mesh->rotationXYZ.z));
+		//Append the attributes
+		rotationNode->append_attribute(rXAttribute);
+		rotationNode->append_attribute(rYAttribute);
+		rotationNode->append_attribute(rZAttribute);
+
+		//scale node
+		rapidxml::xml_node<>* scaleNode = doc->allocate_node(rapidxml::node_element, "Scale");
+		modelNode->append_node(scaleNode);
+
+		//scale attribute
+		rapidxml::xml_attribute<>* scaleAttribute = doc->allocate_attribute("scale", floatToChar(mesh->scale));
+		scaleNode->append_attribute(scaleAttribute);
+
+		//Textures node
+		rapidxml::xml_node<>* TexturesNode = doc->allocate_node(rapidxml::node_element, "Textures");
+		modelNode->append_node(TexturesNode);
+
+		//Textures loop
+		for (int i = 0; i < mesh->MAX_TEXTURES; i++)
+		{
+			//Skip if its empty
+			if (mesh->textureNames[i] == "")
+			{
+				continue;
+			}
+			//create a new texture node
+			rapidxml::xml_node<>* TextureNode = doc->allocate_node(rapidxml::node_element, "Texture");
+			TexturesNode->append_node(TextureNode);
+
+			rapidxml::xml_attribute<>* textureNameAttr = doc->allocate_attribute("name", mesh->textureNames[i].c_str());
+			rapidxml::xml_attribute<>* textureRatioAttr = doc->allocate_attribute("ratio", floatToChar(mesh->textureRatios[i]));
+			rapidxml::xml_attribute<>* textureUnitAttr = doc->allocate_attribute("textureUnit", intToChar(i));
+
+			//Append the attributes
+			TextureNode->append_attribute(textureNameAttr);
+			TextureNode->append_attribute(textureRatioAttr);
+			TextureNode->append_attribute(textureUnitAttr);
+		}
+	}
+	
+	//Turn the doc into a string using the built in function
+	std::string xml_as_string;
+	rapidxml::print(std::back_inserter(xml_as_string), *doc);
+
+	//save to the prefs file
+	std::ofstream fileToWrite(CONFIG_DIR + sceneName);
+	fileToWrite << xml_as_string;
+	//clean up
+	fileToWrite.close();
+	doc->clear();
+
 	return true;
+}
+
+char* SceneManager::floatToChar(float value)
+{
+	char val[64];
+	sprintf_s(val, "%f", value);
+	return doc->allocate_string(val);
+}
+
+char* SceneManager::intToChar(int value)
+{
+	char val[64];
+	sprintf_s(val, "%d", value);
+	return doc->allocate_string(val);
 }

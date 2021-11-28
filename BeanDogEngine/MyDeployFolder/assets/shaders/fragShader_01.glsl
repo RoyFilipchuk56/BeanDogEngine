@@ -57,12 +57,31 @@ const int DIRECTIONAL_LIGHT_TYPE = 2;
 const int NUMBEROFLIGHTS = 10;
 uniform sLight theLights[NUMBEROFLIGHTS];  	// 80 uniforms
 
-uniform sampler2D texture_00;		// GL_TEXTURE_2D
-uniform sampler2D texture_01;		// GL_TEXTURE_2D
-uniform sampler2D texture_02;		// GL_TEXTURE_2D
-uniform sampler2D texture_03;		// GL_TEXTURE_2D
+uniform sampler2D texture_00;		// Main
+uniform sampler2D texture_01;		// Main
+uniform sampler2D texture_02;		// Main
+uniform sampler2D texture_03;		// Main
+
+uniform sampler2D texture_04;		// bump Map
+uniform sampler2D texture_05;		// Depth Map
+uniform sampler2D texture_06;		// Normal Map
+uniform sampler2D texture_07;		// Transparancy Map
 
 uniform vec4 texture2D_Ratios0to3;		//  = vec4( 1.0f, 0.0f, 0.0f, 0.0f );
+uniform vec4 texture2D_Ratios4to7;
+
+//The SkyBox check bool
+uniform bool isSkyBox;
+
+// Cube maps for skybox, etc.
+uniform samplerCube cubeMap_00;
+uniform vec4 cubeMap_Ratios0to3;
+
+//If true do a discard on all black pixles in texture unit 0 (The main texture)
+uniform bool mainTextureDiscard;
+
+//Gets set if theres a texture in unit 07
+uniform bool isTransparent;
 
 vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal, 
                             vec3 vertexWorldPos, vec4 vertexSpecular );
@@ -77,6 +96,25 @@ void main()
 	
 	// Set the alpha value: 0.0 = clear, 1.0 = solid
 	pixelColour.a = wholeObjectAlphaTransparency;
+
+	if(mainTextureDiscard)
+	{
+		//Sample the texture
+		vec3 vec3DisSample = texture( texture_00, fUVx2.xy ).rgb;
+		//Get the average
+		float fDisSample = (vec3DisSample.r + vec3DisSample.g + vec3DisSample.b)/3.0f;
+		//If the average is black
+		if(fDisSample < 0.05f)
+		{
+			discard;
+		}
+	}
+
+	if (isSkyBox)
+	{
+		pixelColour.rgb = texture(cubeMap_00, fNormal.xyz).rgb;
+		return;
+	}
 
 	// Copy model vertex colours?
 	vec4 vertexDiffuseColour = fVertexColour;
@@ -117,7 +155,21 @@ void main()
 	                                        fNormal.xyz, 		// Normal at the vertex (in world coords)
                                             fVertWorldLocation.xyz,	// Vertex WORLD position
 											wholeObjectSpecularColour.rgba );
-											
+		
+	if(isTransparent)
+	{
+		//Sample the texture
+		vec3 vec3TranspSample = texture( texture_07, fUVx2.xy ).rgb;
+		//Get the average
+		float fTranspSample = (vec3TranspSample.r + vec3TranspSample.g + vec3TranspSample.b)/3.0f;
+		//If the average is black
+		if(!(fTranspSample < 0.2f))
+		{
+			//Set the transparency to the transparency texture ratio
+			outColour.a = 1 - texture2D_Ratios4to7.w;
+		}
+	}
+
 	pixelColour = outColour;
 };
 

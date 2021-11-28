@@ -88,6 +88,9 @@
     <Filter Include="GraphicsEngine\ShaderManager\Shaders">
       <UniqueIdentifier>{e1dfe45f-d5ba-4130-a48a-6da4b8cdd332}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics\Particles">
+      <UniqueIdentifier>{21b756b7-2bc8-4958-b4e6-a889262b342a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -107,21 +110,6 @@
     </ClCompile>
     <ClCompile Include="cMesh.cpp">
       <Filter>GraphicsEngine\VAOManager</Filter>
-    </ClCompile>
-    <ClCompile Include="cParticleForceRegistry.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="cParticleWorld.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="particle_force_generators.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="cParticle.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="random_helpers.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Configs\SceneManager</Filter>
@@ -225,6 +213,21 @@
     <ClCompile Include="DrawFunction.cpp">
       <Filter>GraphicsEngine</Filter>
     </ClCompile>
+    <ClCompile Include="cParticle.cpp">
+      <Filter>Physics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="cParticleForceRegistry.cpp">
+      <Filter>Physics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="cParticleWorld.cpp">
+      <Filter>Physics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_force_generators.cpp">
+      <Filter>Physics\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="random_helpers.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLCommon.h">
@@ -238,9 +241,6 @@
     </ClInclude>
     <ClInclude Include="cMesh.h">
       <Filter>GraphicsEngine\VAOManager</Filter>
-    </ClInclude>
-    <ClInclude Include="random_helpers.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Configs\SceneManager</Filter>
@@ -293,21 +293,6 @@
     <ClInclude Include="TankProjectileManager.h">
       <Filter>Tanks\Bullet\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="cParticle.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="cParticleForceRegistry.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="cParticleWorld.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="iParticleForceGenerator.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="particle_force_generators.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
     <ClInclude Include="TheCannon.h">
       <Filter>GameObjects\Cannon</Filter>
     </ClInclude>
@@ -334,6 +319,24 @@
     </ClInclude>
     <ClInclude Include="CTextureFromBMP.h">
       <Filter>GraphicsEngine\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cParticle.h">
+      <Filter>Physics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="cParticleForceRegistry.h">
+      <Filter>Physics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="cParticleWorld.h">
+      <Filter>Physics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="iParticleForceGenerator.h">
+      <Filter>Physics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_force_generators.h">
+      <Filter>Physics\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="random_helpers.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

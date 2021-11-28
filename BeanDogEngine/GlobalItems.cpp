@@ -2,7 +2,7 @@
 
 cFlyCamera* g_pFlyCamera = NULL;
 
-
+SceneManager* gScene = NULL;
 cVAOManager* gVAOManager = NULL;
 cShaderManager* gShaderManager = NULL;
 cLightManager* gTheLights = NULL;

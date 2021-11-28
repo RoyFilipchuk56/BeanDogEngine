@@ -2,6 +2,7 @@
 #include "GLCommon.h"
 
 #include "cFlyCamera.h"
+#include "SceneManager.h"
 #include "cVAOManager.h"
 #include "cShaderManager.h"
 #include "cLightManager.h"
@@ -32,7 +33,7 @@ extern cFlyCamera* g_pFlyCamera; // = NULL;
 // ************************************************
 
 
-
+extern SceneManager* gScene;
 extern cVAOManager* gVAOManager;
 extern cShaderManager* gShaderManager;
 extern cLightManager* gTheLights;

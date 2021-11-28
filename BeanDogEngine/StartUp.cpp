@@ -6,6 +6,8 @@ bool StartUp(GLFWwindow* pWindow)
 
 	g_pFlyCamera = new cFlyCamera();
 
+	gScene = new SceneManager();
+
 	gShaderManager = new cShaderManager();
 
 	gTheLights = new cLightManager();

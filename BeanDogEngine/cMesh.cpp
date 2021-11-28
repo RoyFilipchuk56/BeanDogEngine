@@ -31,7 +31,7 @@ cMesh::cMesh()
 		this->textureRatios[index] = 0.0f;
 	}
 
-	//TODO: Change this to source engine texture for default
+	//0-3:main textures 5:bumpMap 6:DepthMap 7:NormalMap 8:TransparancyMap 
 	this->textureNames[0] = "MissingTexture.bmp";
 	this->textureRatios[0] = 1.0f;
 }

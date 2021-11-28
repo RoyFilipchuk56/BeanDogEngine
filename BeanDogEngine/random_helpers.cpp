@@ -52,4 +52,27 @@ namespace nPhysics
 		float angle = 0.2f * num;
 		return glm::vec3((space * angle) * cos(angle), 0, (space * angle) * sin(angle));
 	}
+
+	bool IsANumber(std::string number)
+	{
+		bool isNegative = false;
+		if (number[0] == '-')
+		{
+			number.erase(0);
+			isNegative = true;
+		}
+
+		//check if each char in the string is a number
+		for (char const& c : number)
+		{
+			//If theres a decimal
+			if (c == '.')
+			{
+				continue;
+			}
+
+			if (std::isdigit(c) == 0) return false;
+		}
+		return true;
+	}
 }

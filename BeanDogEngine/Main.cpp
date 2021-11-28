@@ -1,32 +1,26 @@
 #include "GLCommon.h"
 
-//#include "linmath.h"
 #include <glm/glm.hpp>
-#include <glm/vec3.hpp> // glm::vec3
-#include <glm/vec4.hpp> // glm::vec4
-#include <glm/mat4x4.hpp> // glm::mat4
-#include <glm/gtc/matrix_transform.hpp> 
-// glm::translate, glm::rotate, glm::scale, glm::perspective
-#include <glm/gtc/type_ptr.hpp> // glm::value_ptr
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include <vector>       // "smart array"
-#include <fstream>      // C++ file I-O library (look like any other stream)
+#include <vector>
+#include <fstream>
 #include <map>
 
 #include "GlobalItems.h"
-#include "SceneManager.h"
-#include "MapManager.h"
 #include "random_helpers.h"
 
 #include "cParticleContactGenerators.h"
 
-//check if the string is a number
-bool IsANumber(std::string number);
 //Draw send in cMesh
 void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModel, GLint matModel_Location, GLint matModelInverseTranspose_Location, GLuint program, cVAOManager* pVAOManager);
 
@@ -49,9 +43,6 @@ int main()
     GLint mvp_location = -1;
     //set current time
     float previousTime = static_cast<float>(glfwGetTime());
-
-    SceneManager scene;
-    scene.LoadSceneFromXML("SceneOne.xml");
 
     glfwSetErrorCallback(error_callback);
 
@@ -88,8 +79,11 @@ int main()
     //Set all the globals 
     StartUp(window);
 
+    //Load the scene
+    gScene->LoadSceneFromXML("SceneOne.xml");
+
     //Set camera eye (AKA Location)
-    g_pFlyCamera->setEye(scene.currentLevel.camera.tranform);
+    g_pFlyCamera->setEye(gScene->currentLevel.camera.tranform);
 
     //Load the shaders
     cShaderManager::cShader vertShader;
@@ -125,44 +119,48 @@ int main()
     // Get the uniform locations of the light shader values
     gTheLights->SetUpUniformLocations(program);
 
+    //Start of Meshes
+    // 
     //load each model into the vaoManager
-    for (int i = 0; i < scene.currentLevel.meshsToLoad.size(); i++)
+    for (int i = 0; i < gScene->currentLevel.meshsToLoad.size(); i++)
     {
         //make a temp model info
         sModelDrawInfo tempInfo;
-        if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + scene.currentLevel.meshsToLoad[i], tempInfo, program))
+        if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + gScene->currentLevel.meshsToLoad[i], tempInfo, program))
         {
-            std::cout << "Error: " << scene.currentLevel.meshsToLoad[i] << " Didn't load OK" << std::endl;
+            std::cout << "Error: " << gScene->currentLevel.meshsToLoad[i] << " Didn't load OK" << std::endl;
         }
         else
         {
-            std::cout << "Good: " << scene.currentLevel.meshsToLoad[i] << " loaded OK" << std::endl;
+            std::cout << "Good: " << gScene->currentLevel.meshsToLoad[i] << " loaded OK" << std::endl;
             std::cout << tempInfo.numberOfVertices << " vertices loaded" << std::endl;
             std::cout << tempInfo.numberOfTriangles << " triangles loaded" << std::endl;
         }
     }
 
     //load in each model in the scene
-    for (int i = 0; i < scene.currentLevel.models.size(); i++)
+    for (int i = 0; i < gScene->currentLevel.models.size(); i++)
     {
         //make a temp mesh and load in all the attributes
         cMesh* tempMesh = new cMesh;
-        tempMesh->meshName = MODEL_DIR + scene.currentLevel.models[i].fileName;
-        tempMesh->transformXYZ = scene.currentLevel.models[i].transform;
-        tempMesh->rotationXYZ = scene.currentLevel.models[i].rotation;
-        tempMesh->scale = scene.currentLevel.models[i].scale;
-        if (scene.currentLevel.models[i].textures.size() > 0)
+        tempMesh->meshName = MODEL_DIR + gScene->currentLevel.models[i].fileName;
+        tempMesh->meshFriendlyName = gScene->currentLevel.models[i].fileName;
+        tempMesh->transformXYZ = gScene->currentLevel.models[i].transform;
+        tempMesh->rotationXYZ = gScene->currentLevel.models[i].rotation;
+        tempMesh->scale = gScene->currentLevel.models[i].scale;
+        if (gScene->currentLevel.models[i].textures.size() > 0)
         {
-            for (int i = 0; i < scene.currentLevel.models[i].textures.size(); i++)
+            for (int j = 0; j < gScene->currentLevel.models[i].textures.size(); j++)
             {
-                tempMesh->textureNames[i] = scene.currentLevel.models[i].textures[i].texName;
-                tempMesh->textureRatios[i] = scene.currentLevel.models[i].textures[i].ratio;
+                //load the texture into the proper texture unit
+                tempMesh->textureNames[gScene->currentLevel.models[i].textures[j].textureUnit] = gScene->currentLevel.models[i].textures[j].texName;
+                tempMesh->textureRatios[gScene->currentLevel.models[i].textures[j].textureUnit] = gScene->currentLevel.models[i].textures[j].ratio;
             }
         }
         g_vecMeshes.push_back(tempMesh);
     }
 
-    //Change to base projectile
+    //Add the debug sphere
     sModelDrawInfo sphereInfo;
     if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("WhiteBall.ply"), sphereInfo, program))
     {
@@ -176,10 +174,32 @@ int main()
     }
 
     //Create a mesh debug sphere
-    cMesh* debugMesh = new cMesh;
-    debugMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    debugMesh->transformXYZ = glm::vec3(0, 0, 0);
+    g_pDebugSphere = new cMesh;
+    g_pDebugSphere->meshName = MODEL_DIR + std::string("WhiteBall.ply");
+    g_pDebugSphere->transformXYZ = glm::vec3(0, 0, 0);
+    g_pDebugSphere->scale = 10;
 
+    //Add the Skybox Mesh to the vao manager
+    sModelDrawInfo skyBoxInfo;
+    if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("Isosphere_Smooth_Inverted_Normals_for_SkyBox.ply"), skyBoxInfo, program))
+    {
+        std::cout << "Error: " << "Isosphere_Smooth_Inverted_Normals_for_SkyBox.ply" << " Didn't load OK" << std::endl;
+    }
+    else
+    {
+        std::cout << "Good: " << "Isosphere_Smooth_Inverted_Normals_for_SkyBox.ply" << " loaded OK" << std::endl;
+        std::cout << skyBoxInfo.numberOfVertices << " vertices loaded" << std::endl;
+        std::cout << skyBoxInfo.numberOfTriangles << " triangles loaded" << std::endl;
+    }
+
+    //Create a mesh Skybox
+    cMesh* skyBoxMesh = new cMesh;
+    skyBoxMesh->meshName = MODEL_DIR + std::string("Isosphere_Smooth_Inverted_Normals_for_SkyBox.ply");
+    skyBoxMesh->scale = 10000.0f;
+    skyBoxMesh->transformXYZ = g_pFlyCamera->getEye();
+
+    //Start of textures
+    //
     //Get max texture information from OpenGL
     GLint glMaxCombinedTextureImageUnits = 0;
     glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &glMaxCombinedTextureImageUnits);
@@ -199,11 +219,26 @@ int main()
     //Always load in the default texture
     gTextureManager->Create2DTextureFromBMPFile("MissingTexture.bmp", true);
     //Load in model textures from scene
-    for (std::string texture : scene.currentLevel.texturesToLoad)
+    for (std::string texture : gScene->currentLevel.texturesToLoad)
     {
         gTextureManager->Create2DTextureFromBMPFile(texture, true);
     }
 
+    gTextureManager->SetBasePath("assets/textures/cubemaps");
+
+    std::string errorTextString;
+    if (!gTextureManager->CreateCubeTextureFromBMPFiles("Jungle",
+        "forestSkyboxRight.bmp",
+        "forestSkyboxLeft.bmp",
+        "forestSkyboxDown.bmp",
+        "forestSkyboxUp.bmp",
+        "forestSkyboxFront.bmp",
+        "forestSkyboxBack.bmp",
+        true, errorTextString))
+    {
+        std::cout << "Didn't load because: " << errorTextString << std::endl;
+    }
+    
     //Inform user of loaded textures
     std::cout << "Textures Loaded:" << std::endl;
 
@@ -216,15 +251,17 @@ int main()
     }
 
 
+    //Start of the Lights
+    // 
     //Load in the lights
-    if (scene.currentLevel.lights.size() > GL_MAX_LIGHTS)
+    if (gScene->currentLevel.lights.size() > GL_MAX_LIGHTS)
     {
         std::cout << "Max number of lights has been reached, please stop" << std::endl;
     }
 
-    for (int i = 0; i < scene.currentLevel.lights.size(); i++)
+    for (int i = 0; i < gScene->currentLevel.lights.size(); i++)
     {
-        LightInfo currLight = scene.currentLevel.lights[i];
+        LightInfo currLight = gScene->currentLevel.lights[i];
         gTheLights->theLights[i].position = glm::vec4(currLight.transform.x, currLight.transform.y, currLight.transform.z, 1.0f);
         gTheLights->theLights[i].direction = glm::vec4(currLight.direction.x, currLight.direction.y, currLight.direction.z, 1.0f);
         gTheLights->theLights[i].param1.x = currLight.param1.x;    // directional light
@@ -286,12 +323,38 @@ int main()
         //Update the particle world
         gParticleWorld->TimeStep(deltaTime);
 
+        //Rendering the Skybox
+        //Let shader know its a skybox
+        GLint bIsSkyBox_LocID = glGetUniformLocation(program, "isSkyBox");
+        glUniform1f(bIsSkyBox_LocID, (GLfloat)GL_TRUE);
+
+        // Move the "skybox object" with the camera
+        skyBoxMesh->transformXYZ = ::g_pFlyCamera->getEye();
+        //Draw the skybox
+        DrawObject(skyBoxMesh, glm::mat4(1.0f), matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
+
+        //Let shader know its no longer a skybox
+        glUniform1f(bIsSkyBox_LocID, (GLfloat)GL_FALSE);
+
         // Screen is cleared and we are ready to draw the scene...
         for (unsigned int index = 0; index != g_vecMeshes.size(); index++)
         {
             // So the code is a little easier...
             cMesh* curMesh = g_vecMeshes[index];
             //curMesh->bDontLight = true;
+
+
+            //Call this thing literally anywhere else
+            //Get location of dicard bool in shader
+            GLint mainTextureDiscard_LodID = glGetUniformLocation(program, "mainTextureDiscard");
+            // Turn discard transparency off
+            glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_FALSE);
+
+            if (curMesh->meshFriendlyName == "Shack.ply")
+            {
+                //Turn on discard transparency
+                glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_TRUE);
+            }
 
             matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)
             DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
@@ -301,8 +364,15 @@ int main()
         if (isDebug)
         {
             matModel = glm::mat4(1.0f);
-            debugMesh->transformXYZ = gTheLights->theLights[curLight].position;
-            DrawObject(debugMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
+            if (debugObjType == 0)
+            {
+                g_pDebugSphere->transformXYZ = g_vecMeshes[curMesh]->transformXYZ;
+            }
+            else if (debugObjType == 1)
+            {
+                g_pDebugSphere->transformXYZ = gTheLights->theLights[curLight].position;
+            }
+            DrawObject(g_pDebugSphere, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
         }
 
         // "Present" what we've drawn.
@@ -321,29 +391,4 @@ int main()
 
     glfwTerminate();
     exit(EXIT_SUCCESS);
-}
-
-//TODO: Add to random helpers
-//check if the string is a number
-bool IsANumber(std::string number)
-{
-    bool isNegative = false;
-    if (number[0] == '-')
-    {
-        number.erase(0);
-        isNegative = true;
-    }
-    
-    //check if each char in the string is a number
-    for (char const& c : number)
-    {
-        //If theres a decimal
-        if (c == '.')
-        {
-            continue;
-        }
-
-        if (std::isdigit(c) == 0) return false;
-    }
-    return true;
 }

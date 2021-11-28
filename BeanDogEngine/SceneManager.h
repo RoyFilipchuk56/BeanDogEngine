@@ -2,13 +2,19 @@
 
 #include <string>
 #include <vector>
-#include <RapidXML/rapidxml.hpp>
-#include <RapidXML/rapidxml_utils.hpp>
+#include <fstream>
+#include <rapidxml/rapidxml.hpp>
+#include <rapidxml/rapidxml_utils.hpp>
+#include <rapidxml/rapidxml_print.hpp>
 #include <glm/vec3.hpp>
-#include "GlobalItems.h"
+
+#include "cMesh.h"
+#include "cLightManager.h"
+#include "iCamera.h"
 
 struct TextureInfo
 {
+	int textureUnit;
 	std::string texName;
 	float ratio;
 };
@@ -48,7 +54,8 @@ struct SceneInfo
 
 class SceneManager
 {
-//private:
+private:
+	rapidxml::xml_document<>* doc;
 //	SceneInfo currentLevel;
 public:
 	SceneManager();
@@ -72,6 +79,8 @@ public:
 	//Attribute Values
 	//sets the value of value out to the attribute for a float
 	bool SetValue(rapidxml::xml_attribute<>* valueIn, float& valueOut);
+	//sets the value of value out to the attribute for a int
+	bool SetValue(rapidxml::xml_attribute<>* valueIn, int& valueOut);
 	//sets the value of value out to the attribute for a string
 	bool SetValue(rapidxml::xml_attribute<>* valueIn, std::string& valueOut);
 
@@ -80,7 +89,10 @@ public:
 	bool SetValue(rapidxml::xml_node<>* valueIn, std::string& valueOut);
 
 	//TODO: Save a modified scene
-	bool SaveScene(std::string sceneName);
+	bool SaveScene(std::string sceneName, std::vector<cMesh*> vecMeshes);
+
+	char* floatToChar(float value);
+	char* intToChar(int value);
 
 	SceneInfo currentLevel;
 };

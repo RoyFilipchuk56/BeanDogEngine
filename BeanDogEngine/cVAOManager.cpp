@@ -10,6 +10,7 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
+#include <string>
 
 
 bool LoadPLYModelFromFile(std::string fileName, sModelDrawInfo& drawInfo);

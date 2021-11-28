@@ -12,6 +12,7 @@ class cMesh
 public:
 	cMesh();
 	std::string meshName;
+	std::string meshFriendlyName;
 
 	//Human readable and changeable values
 	glm::vec3 transformXYZ;

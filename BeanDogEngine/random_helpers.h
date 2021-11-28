@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <string>
 
 namespace nPhysics
 {
@@ -10,4 +11,5 @@ namespace nPhysics
 	glm::vec3 getRandomVec3(float length);
 	glm::vec3 getRandomVec3XZ(float length);
 	glm::vec3 getSpiralVec(int num, int space);
+	bool IsANumber(std::string number);
 }
