@@ -141,6 +141,7 @@ int main()
     //load in each model in the scene
     for (int i = 0; i < gScene->currentLevel.models.size(); i++)
     {
+        bool isTransparent = false;
         //make a temp mesh and load in all the attributes
         cMesh* tempMesh = new cMesh;
         tempMesh->meshName = MODEL_DIR + gScene->currentLevel.models[i].fileName;
@@ -152,12 +153,27 @@ int main()
         {
             for (int j = 0; j < gScene->currentLevel.models[i].textures.size(); j++)
             {
+                //Get the unit number to simplify things
+                int unitNumber = gScene->currentLevel.models[i].textures[j].textureUnit;
+                //check if an object is transparent
+                if (unitNumber == 7)
+                {
+                    isTransparent = true;
+                }
                 //load the texture into the proper texture unit
-                tempMesh->textureNames[gScene->currentLevel.models[i].textures[j].textureUnit] = gScene->currentLevel.models[i].textures[j].texName;
-                tempMesh->textureRatios[gScene->currentLevel.models[i].textures[j].textureUnit] = gScene->currentLevel.models[i].textures[j].ratio;
+                tempMesh->textureNames[unitNumber] = gScene->currentLevel.models[i].textures[j].texName;
+                tempMesh->textureRatios[unitNumber] = gScene->currentLevel.models[i].textures[j].ratio;
             }
         }
-        g_vecMeshes.push_back(tempMesh);
+
+        if (isTransparent)
+        {
+            g_transMeshes.push_back(tempMesh);
+        }
+        else
+        {
+            g_vecMeshes.push_back(tempMesh);
+        }
     }
 
     //Add the debug sphere
@@ -336,6 +352,12 @@ int main()
         //Let shader know its no longer a skybox
         glUniform1f(bIsSkyBox_LocID, (GLfloat)GL_FALSE);
 
+
+        //Draw all non transparent objects
+        // 
+        // Alpha transparency
+        glDisable(GL_BLEND);
+        
         // Screen is cleared and we are ready to draw the scene...
         for (unsigned int index = 0; index != g_vecMeshes.size(); index++)
         {
@@ -373,6 +395,53 @@ int main()
                 g_pDebugSphere->transformXYZ = gTheLights->theLights[curLight].position;
             }
             DrawObject(g_pDebugSphere, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
+        }
+
+        //Draw all transparent objects
+        // 
+        // Alpha transparency
+        glEnable(GL_BLEND);
+        // Basic "alpha transparency"
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        //Sort objects draw order by distance from camera
+        for (unsigned int index = 0; index != g_transMeshes.size() - 1; index++)
+        {
+            //Get the distances of both objects
+            float obj1Dis = glm::distance(cameraEye, g_transMeshes[index]->transformXYZ);
+            float obj2Dis = glm::distance(cameraEye, g_transMeshes[index + 1]->transformXYZ);
+            //If the first object is closer than the second 
+            if (obj1Dis < obj2Dis)
+            {
+                cMesh* obj1 = g_transMeshes[index];
+                cMesh* obj2 = g_transMeshes[index + 1];
+                g_transMeshes[index] = obj2;
+                g_transMeshes[index + 1] = obj1;
+            }
+        }
+
+
+        for (unsigned int index = 0; index != g_transMeshes.size(); index++)
+        {
+            // So the code is a little easier...
+            cMesh* curMesh = g_transMeshes[index];
+            //curMesh->bDontLight = true;
+
+
+            //Call this thing literally anywhere else
+            //Get location of dicard bool in shader
+            GLint mainTextureDiscard_LodID = glGetUniformLocation(program, "mainTextureDiscard");
+            // Turn discard transparency off
+            glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_FALSE);
+
+            if (curMesh->meshFriendlyName == "Shack.ply")
+            {
+                //Turn on discard transparency
+                glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_TRUE);
+            }
+
+            matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)
+            DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
         }
 
         // "Present" what we've drawn.

@@ -12,6 +12,8 @@ nPhysics::cParticleWorld* gParticleWorld = NULL;
 
 // List of objects to draw
 std::vector< cMesh* > g_vecMeshes;
+//List of transparent objects
+std::vector<cMesh*> g_transMeshes;
 
 cMesh* g_pDebugSphere = NULL;
 bool g_bShowDebugShere = true;

@@ -179,12 +179,6 @@ void DrawObject(cMesh* curMesh, glm::mat4 matModel, GLint matModel_Location, GLi
     //Set up the texures for the current mesh
     SetUpTextures(curMesh, program);
 
-    // Alpha transparency
-    glEnable(GL_BLEND);
-    // Basic "alpha transparency"
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
     // Get the uniform (should be outside of the draw call)
     GLint wholeObjectAlphaTransparency_LocID = glGetUniformLocation(program, "wholeObjectAlphaTransparency");
     // Set this value here

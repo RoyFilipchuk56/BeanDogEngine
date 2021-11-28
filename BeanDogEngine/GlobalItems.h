@@ -52,6 +52,8 @@ extern std::string g_TitleText;
 
 // List of objects to draw
 extern std::vector< cMesh* > g_vecMeshes;
+//List of transparent Objects
+extern std::vector<cMesh*> g_transMeshes;
 
 //Is debug mode on
 extern bool isDebug;

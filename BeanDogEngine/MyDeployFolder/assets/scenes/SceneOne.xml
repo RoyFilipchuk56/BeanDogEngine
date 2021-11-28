@@ -161,7 +161,7 @@
       <Scale scale="1.000000"/>
       <Textures>
         <Texture name="Gold.bmp" ratio="1.000000" textureUnit="0"/>
-        <Texture name="BananaTranspMap.bmp" ratio="0.200000" textureUnit="7"/>
+        <Texture name="BananaTranspMap.bmp" ratio="0.400000" textureUnit="7"/>
       </Textures>
     </Model>
   </Models>
