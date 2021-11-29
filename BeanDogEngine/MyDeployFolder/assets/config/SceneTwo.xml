@@ -144,13 +144,13 @@
 				<Texture name="ShackWood.bmp" ratio="1.000000" textureUnit="0"/>
 			</Textures>
 		</Model>
-		<Model Name="GoldenBanana.ply">
-			<Transform x="0.000000" y="1.000000" z="0.000000"/>
-			<Rotation x="0.000000" y="3.100000" z="0.000000"/>
-			<Scale scale="1.000000"/>
+		<Model Name="WoodenSign.ply">
+			<Transform x="15.229967" y="0.000000" z="-5.010004"/>
+			<Rotation x="0.000000" y="1.570800" z="0.000000"/>
+			<Scale scale="5.000000"/>
 			<Textures>
-				<Texture name="Gold.bmp" ratio="1.000000" textureUnit="0"/>
-				<Texture name="BananaTranspMap.bmp" ratio="0.500000" textureUnit="7"/>
+				<Texture name="WoodenSign.bmp" ratio="1.000000" textureUnit="0"/>
+				<Texture name="ArrowForWoodSign.bmp" ratio="0.200000" textureUnit="1"/>
 			</Textures>
 		</Model>
 	</Models>

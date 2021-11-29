@@ -40,7 +40,7 @@ cFlyCamera::cFlyCamera()
 
 	this->nearPlane = 0.1f;
 	this->farPlane = 10'000'000.0f;
-	this->FOV = 0.6f;			// Field of view
+	this->FOV = 0.9f;			// Field of view
 
 	this->m_CurrentState = cFlyCamera::DEFAULT_OR_UNSPECIFIED;
 

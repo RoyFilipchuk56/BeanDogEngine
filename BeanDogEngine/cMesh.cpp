@@ -9,6 +9,7 @@ cMesh::cMesh()
 
 	this->bIsWireframe = false;
 	this->bDisableDepthBufferCheck = false;
+	this->bHasDecal = false;
 
 	this->objectDebugColourRGBA = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);	// White
 	this->bUseObjectDebugColour = false;

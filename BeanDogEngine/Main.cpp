@@ -155,8 +155,13 @@ int main()
             {
                 //Get the unit number to simplify things
                 int unitNumber = gScene->currentLevel.models[i].textures[j].textureUnit;
+                
+                if (unitNumber == 4)
+                {
+                    tempMesh->bHasDecal = true;
+                }
                 //check if an object is transparent
-                if (unitNumber == 7)
+                else if (unitNumber == 7)
                 {
                     isTransparent = true;
                 }
@@ -366,16 +371,25 @@ int main()
             //curMesh->bDontLight = true;
 
 
-            //Call this thing literally anywhere else
+            //TODO: Call this thing literally anywhere else
             //Get location of dicard bool in shader
             GLint mainTextureDiscard_LodID = glGetUniformLocation(program, "mainTextureDiscard");
             // Turn discard transparency off
             glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_FALSE);
 
+            GLint decalTexture_LodID = glGetUniformLocation(program, "isDecal");
+            glUniform1f(decalTexture_LodID, (GLfloat)GL_FALSE);
+
+            //TODO: Change to a bitmask and check that way
             if (curMesh->meshFriendlyName == "Shack.ply")
             {
                 //Turn on discard transparency
                 glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_TRUE);
+            }
+
+            if (curMesh->bHasDecal)
+            {
+                glUniform1f(decalTexture_LodID, (GLfloat)GL_TRUE);
             }
 
             matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)
@@ -385,6 +399,13 @@ int main()
         //Render the debug sphere
         if (isDebug)
         {
+            GLint mainTextureDiscard_LodID = glGetUniformLocation(program, "mainTextureDiscard");
+            // Turn discard transparency off
+            glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_FALSE);
+            
+            GLint decalTexture_LodID = glGetUniformLocation(program, "isDecal");
+            glUniform1f(decalTexture_LodID, (GLfloat)GL_FALSE);
+
             matModel = glm::mat4(1.0f);
             if (debugObjType == 0)
             {
@@ -403,9 +424,10 @@ int main()
         glEnable(GL_BLEND);
         // Basic "alpha transparency"
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+        
+        int transparentMeshSize = g_transMeshes.size();
         //Sort objects draw order by distance from camera
-        for (unsigned int index = 0; index != g_transMeshes.size() - 1; index++)
+        for (int index = 0; index < transparentMeshSize - 1; index++)
         {
             //Get the distances of both objects
             float obj1Dis = glm::distance(cameraEye, g_transMeshes[index]->transformXYZ);
@@ -420,7 +442,7 @@ int main()
             }
         }
 
-
+        //Draw the meshes
         for (unsigned int index = 0; index != g_transMeshes.size(); index++)
         {
             // So the code is a little easier...
@@ -428,11 +450,14 @@ int main()
             //curMesh->bDontLight = true;
 
 
-            //Call this thing literally anywhere else
+            //TODO: Call this thing literally anywhere else
             //Get location of dicard bool in shader
             GLint mainTextureDiscard_LodID = glGetUniformLocation(program, "mainTextureDiscard");
             // Turn discard transparency off
             glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_FALSE);
+
+            GLint decalTexture_LodID = glGetUniformLocation(program, "isDecal");
+            glUniform1f(decalTexture_LodID, (GLfloat)GL_FALSE);
 
             if (curMesh->meshFriendlyName == "Shack.ply")
             {

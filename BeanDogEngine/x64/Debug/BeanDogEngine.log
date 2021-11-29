@@ -1,5 +1,6 @@
 ﻿  Main.cpp
-C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(301,19): warning C4101: 'mvp': unreferenced local variable
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(428,55): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp(306,19): warning C4101: 'mvp': unreferenced local variable
   BeanDogEngine.vcxproj -> C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\x64\Debug\BeanDogEngine.exe
   
   7-Zip 19.00 (x64) : Copyright (c) 1999-2018 Igor Pavlov : 2019-02-21
@@ -8,16 +9,16 @@ C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\Main.cpp
   --
   Path = C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   Type = zip
-  Physical Size = 54332362
+  Physical Size = 55223483
   
   Scanning the drive:
-  20 folders, 293 files, 189947372 bytes (182 MiB)
+  20 folders, 298 files, 196587931 bytes (188 MiB)
   
   Updating archive: C:\Users\RoyFi\Desktop\college\Gamer\Level1\BeanDogEngine\BeanDogEngine\MyDeployFolder.zip
   
-  Add new data to archive: 20 folders, 293 files, 189947372 bytes (182 MiB)
+  Add new data to archive: 20 folders, 298 files, 196587931 bytes (188 MiB)
   
   
-  Files read from disk: 293
-  Archive size: 54332353 bytes (52 MiB)
+  Files read from disk: 298
+  Archive size: 55223575 bytes (53 MiB)
   Everything is Ok

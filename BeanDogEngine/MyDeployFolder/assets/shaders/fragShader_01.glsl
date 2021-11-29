@@ -83,6 +83,9 @@ uniform bool mainTextureDiscard;
 //Gets set if theres a texture in unit 07
 uniform bool isTransparent;
 
+//Gets set if theres a texture in unit 04
+uniform bool isDecal;
+
 vec4 calcualteLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal, 
                             vec3 vertexWorldPos, vec4 vertexSpecular );
 							
@@ -105,6 +108,19 @@ void main()
 		float fDisSample = (vec3DisSample.r + vec3DisSample.g + vec3DisSample.b)/3.0f;
 		//If the average is black
 		if(fDisSample < 0.05f)
+		{
+			discard;
+		}
+	}
+
+	if(isDecal)
+	{
+		//Sample the texture
+		vec3 vec3DisSample = texture( texture_04, fUVx2.xy ).rgb;
+		//Get the average
+		float fDisSample = (vec3DisSample.r + vec3DisSample.g + vec3DisSample.b)/3.0f;
+		//If the average is black
+		if(fDisSample > 0.95f)
 		{
 			discard;
 		}

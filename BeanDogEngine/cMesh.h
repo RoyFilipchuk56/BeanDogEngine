@@ -34,6 +34,9 @@ public:
 	bool bIsWireframe;
 	// Turns of the depth buffer check when drawn
 	bool bDisableDepthBufferCheck;
+	// Will use texture 4 for a decal
+	bool bHasDecal;
+	
 
 	// These are for colouring the ENTIRE object as one colour.
 	// Later, these will be replaced:
