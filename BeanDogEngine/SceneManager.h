@@ -35,6 +35,7 @@ struct LightInfo
 	glm::vec3 param1;
 	glm::vec3 atten;
 	glm::vec3 diffuse;
+	glm::vec3 specular;
 };
 
 struct CameraInfo

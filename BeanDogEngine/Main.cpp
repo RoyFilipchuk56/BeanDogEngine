@@ -198,7 +198,8 @@ int main()
     g_pDebugSphere = new cMesh;
     g_pDebugSphere->meshName = MODEL_DIR + std::string("WhiteBall.ply");
     g_pDebugSphere->transformXYZ = glm::vec3(0, 0, 0);
-    g_pDebugSphere->scale = 10;
+    g_pDebugSphere->scale = 1;
+    g_pDebugSphere->bDontLight = true;
 
     //Add the Skybox Mesh to the vao manager
     sModelDrawInfo skyBoxInfo;
@@ -292,6 +293,7 @@ int main()
         gTheLights->theLights[i].atten.y = currLight.atten.y;
         gTheLights->theLights[i].atten.z = currLight.atten.z;
         gTheLights->theLights[i].diffuse = glm::vec4(currLight.diffuse.x, currLight.diffuse.y, currLight.diffuse.z, 1.0f);
+        gTheLights->theLights[i].specular = glm::vec4(currLight.specular.x, currLight.specular.y, currLight.specular.z, 1.0f);
         gTheLights->TurnOnLight(i);
     }
     

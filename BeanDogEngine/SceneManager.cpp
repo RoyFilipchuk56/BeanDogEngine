@@ -103,6 +103,7 @@ bool SceneManager::ParseLights(rapidxml::xml_node<>* valueIn)
 		result &= ParseVec3(child->first_node("Param1"), light.param1);
 		result &= ParseVec3(child->first_node("Atten"), light.atten);
 		result &= ParseVec3(child->first_node("Diffuse"), light.diffuse);
+		result &= ParseVec3(child->first_node("Specular"), light.specular);
 
 		currentLevel.lights.push_back(light);
 	}
