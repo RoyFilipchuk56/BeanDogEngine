@@ -33,7 +33,7 @@ namespace nPhysics
 				contact->mParticle0 = *it;
 				contact->mParticle1 = nullptr;
 				contact->mPenetration = theDot * -1;
-				contact->mRestitution = 0.7f;
+				contact->mRestitution = 0.4f;
 				contact++;
 				numContactsCreated++;
 			}

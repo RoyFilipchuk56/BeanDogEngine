@@ -156,6 +156,7 @@
     <ClCompile Include="cLightManager.cpp" />
     <ClCompile Include="cMesh.cpp" />
     <ClCompile Include="cParticle.cpp" />
+    <ClCompile Include="cParticleConstraints.cpp" />
     <ClCompile Include="cParticleContact.cpp" />
     <ClCompile Include="cParticleContactGenerators.cpp" />
     <ClCompile Include="cParticleContactResolver.cpp" />
@@ -170,11 +171,21 @@
     <ClCompile Include="Doors.cpp" />
     <ClCompile Include="DrawFunction.cpp" />
     <ClCompile Include="EnemyTank.cpp" />
+    <ClCompile Include="EntitySystem.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="GLFW_error_callback.cpp" />
     <ClCompile Include="GLFW_key_callback.cpp" />
     <ClCompile Include="GlobalItems.cpp" />
     <ClCompile Include="iMessage.h" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_opengl2.cpp" />
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="InputHandling.cpp" />
     <ClCompile Include="LeftDoor.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -191,6 +202,7 @@
     <ClCompile Include="TankLaser.cpp" />
     <ClCompile Include="TankLaserDummy.cpp" />
     <ClCompile Include="TankProjectileManager.cpp" />
+    <ClCompile Include="TestMain.cpp" />
     <ClCompile Include="TheCannon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +213,7 @@
     <ClInclude Include="cLightManager.h" />
     <ClInclude Include="cMesh.h" />
     <ClInclude Include="cParticle.h" />
+    <ClInclude Include="cParticleConstraints.h" />
     <ClInclude Include="cParticleContact.h" />
     <ClInclude Include="cParticleContactGenerators.h" />
     <ClInclude Include="cParticleContactResolver.h" />
@@ -213,16 +226,30 @@
     <ClInclude Include="cWinContextMenu.h" />
     <ClInclude Include="Doors.h" />
     <ClInclude Include="EnemyTank.h" />
+    <ClInclude Include="EntitySystem.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLCommon.h" />
     <ClInclude Include="GlobalItems.h" />
     <ClInclude Include="iCamera.h" />
+    <ClInclude Include="iEntity.h" />
     <ClInclude Include="iMediator.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="imgui\imgui_impl_opengl2.h" />
+    <ClInclude Include="imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="iParticleContactGenerator.h" />
     <ClInclude Include="iParticleForceGenerator.h" />
     <ClInclude Include="iTank.h" />
     <ClInclude Include="Mediator.h" />
     <ClInclude Include="particle_force_generators.h" />
     <ClInclude Include="PlayerTank.h" />
+    <ClInclude Include="QuaternionHelpers.h" />
     <ClInclude Include="random_helpers.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="MapManager.h" />

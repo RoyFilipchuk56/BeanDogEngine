@@ -6,6 +6,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 class cMesh
 {
@@ -17,7 +18,9 @@ public:
 	//Human readable and changeable values
 	glm::vec3 transformXYZ;
 	glm::vec3 rotationXYZ;		// "angle"
+	glm::quat rotationXYZQuat;
 	float scale;
+	glm::vec3 scaleXYZ;
 
 	//Current rotation maxtrix of model
 	glm::mat4 matRotationX;

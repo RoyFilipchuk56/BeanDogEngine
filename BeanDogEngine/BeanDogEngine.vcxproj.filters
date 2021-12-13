@@ -64,9 +64,6 @@
     <Filter Include="GameObjects\Cannon">
       <UniqueIdentifier>{89ac31f8-17f8-4d43-b1e5-0ca6ed863e00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Physics\Contact">
-      <UniqueIdentifier>{7ba31e08-8bb9-451d-bcbe-b2f2e8b38f1c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObjects\Projectiles">
       <UniqueIdentifier>{60d5b1dd-3282-4072-b8e4-168cbe233b32}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,15 @@
     </Filter>
     <Filter Include="Physics\Particles">
       <UniqueIdentifier>{21b756b7-2bc8-4958-b4e6-a889262b342a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Particles\Contact">
+      <UniqueIdentifier>{7ba31e08-8bb9-451d-bcbe-b2f2e8b38f1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{d9c69778-5cd0-447b-92a8-f2642eab2600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{3b5fbfbf-298e-4d3e-b8d7-81ad6faca907}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -190,13 +196,13 @@
       <Filter>GameObjects\Projectiles</Filter>
     </ClCompile>
     <ClCompile Include="cParticleContact.cpp">
-      <Filter>Physics\Contact</Filter>
+      <Filter>Physics\Particles\Contact</Filter>
     </ClCompile>
     <ClCompile Include="cParticleContactResolver.cpp">
-      <Filter>Physics\Contact</Filter>
+      <Filter>Physics\Particles\Contact</Filter>
     </ClCompile>
     <ClCompile Include="cParticleContactGenerators.cpp">
-      <Filter>Physics\Contact</Filter>
+      <Filter>Physics\Particles\Contact</Filter>
     </ClCompile>
     <ClCompile Include="CleanUp.cpp">
       <Filter>Global</Filter>
@@ -225,8 +231,44 @@
     <ClCompile Include="particle_force_generators.cpp">
       <Filter>Physics\Particles</Filter>
     </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_glfw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_opengl2.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_tables.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
     <ClCompile Include="random_helpers.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="cParticleConstraints.cpp">
+      <Filter>Physics\Particles\Contact</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -300,16 +342,16 @@
       <Filter>GameObjects\Projectiles</Filter>
     </ClInclude>
     <ClInclude Include="cParticleContact.h">
-      <Filter>Physics\Contact</Filter>
+      <Filter>Physics\Particles\Contact</Filter>
     </ClInclude>
     <ClInclude Include="cParticleContactResolver.h">
-      <Filter>Physics\Contact</Filter>
+      <Filter>Physics\Particles\Contact</Filter>
     </ClInclude>
     <ClInclude Include="iParticleContactGenerator.h">
-      <Filter>Physics\Contact</Filter>
+      <Filter>Physics\Particles\Contact</Filter>
     </ClInclude>
     <ClInclude Include="cParticleContactGenerators.h">
-      <Filter>Physics\Contact</Filter>
+      <Filter>Physics\Particles\Contact</Filter>
     </ClInclude>
     <ClInclude Include="C24BitBMPpixel.h">
       <Filter>GraphicsEngine\TextureManager</Filter>
@@ -335,8 +377,53 @@
     <ClInclude Include="particle_force_generators.h">
       <Filter>Physics\Particles</Filter>
     </ClInclude>
+    <ClInclude Include="iEntity.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_glfw.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_opengl2.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_opengl3.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_opengl3_loader.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
     <ClInclude Include="random_helpers.h">
-      <Filter>Physics</Filter>
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="QuaternionHelpers.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="cParticleConstraints.h">
+      <Filter>Physics\Particles\Contact</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

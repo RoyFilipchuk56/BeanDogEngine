@@ -194,7 +194,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
                         {
                             curMesh = g_vecMeshes.size() - 1;
                         }
-                        std::cout << "Current Mesh: " << curMesh << std::endl;
+                        std::cout << "Current Mesh: " << curMesh << g_vecMeshes[curMesh]->meshFriendlyName << std::endl;
                     }
 
                     else if (debugObjType == 1)
@@ -230,7 +230,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
                         {
                             curMesh = 0;
                         }
-                        std::cout << "Current Mesh: " << curMesh << std::endl;
+                        std::cout << "Current Mesh: " << curMesh << g_vecMeshes[curMesh]->meshFriendlyName << std::endl;
                     }
 
                     if (debugObjType == 1)

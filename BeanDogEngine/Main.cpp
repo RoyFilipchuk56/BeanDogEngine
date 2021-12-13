@@ -16,23 +16,30 @@
 #include <fstream>
 #include <map>
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 #include "GlobalItems.h"
+#include "EntitySystem.h"
 #include "random_helpers.h"
+#include "QuaternionHelpers.h"
 
 #include "cParticleContactGenerators.h"
+#include "cParticleConstraints.h"
+#include "particle_force_generators.h"
+#include "cProjectile.h"
 
 //Draw send in cMesh
 void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModel, GLint matModel_Location, GLint matModelInverseTranspose_Location, GLuint program, cVAOManager* pVAOManager);
 
 // Global Variables
 float deltaTime;
-
 //calls the latest error
 static void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
 }
-
 
 int main()
 {
@@ -76,11 +83,31 @@ int main()
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
 
+    // Setup ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& imIo = ImGui::GetIO();
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    // Setup Platform/Renderer bindings
+    if (!ImGui_ImplGlfw_InitForOpenGL(window, true))
+    {
+        std::cout << "GUI FAILED" << std::endl;
+    }
+
+    if (!ImGui_ImplOpenGL3_Init())
+    {
+        std::cout << "GUI FAILED PT 2" << std::endl;
+    }
+
     //Set all the globals 
     StartUp(window);
 
     //Load the scene
-    gScene->LoadSceneFromXML("SceneOne.xml");
+    if (gScene->LoadSceneFromXML("SceneOne.xml"))
+    {
+        std::cout << "Scene loaded in good" << std::endl;
+    }
 
     //Set camera eye (AKA Location)
     g_pFlyCamera->setEye(gScene->currentLevel.camera.tranform);
@@ -148,7 +175,9 @@ int main()
         tempMesh->meshFriendlyName = gScene->currentLevel.models[i].fileName;
         tempMesh->transformXYZ = gScene->currentLevel.models[i].transform;
         tempMesh->rotationXYZ = gScene->currentLevel.models[i].rotation;
+        tempMesh->rotationXYZQuat = quaternion::QuatFromAngles(gScene->currentLevel.models[i].rotation);
         tempMesh->scale = gScene->currentLevel.models[i].scale;
+        tempMesh->scaleXYZ = glm::vec3(gScene->currentLevel.models[i].scale, gScene->currentLevel.models[i].scale, gScene->currentLevel.models[i].scale);
         if (gScene->currentLevel.models[i].textures.size() > 0)
         {
             for (int j = 0; j < gScene->currentLevel.models[i].textures.size(); j++)
@@ -171,6 +200,8 @@ int main()
             }
         }
 
+
+        //Add to lists to be drawn
         if (isTransparent)
         {
             g_transMeshes.push_back(tempMesh);
@@ -179,6 +210,9 @@ int main()
         {
             g_vecMeshes.push_back(tempMesh);
         }
+        //Add the entity top the actual list
+        GameObject* obj = new GameObject(tempMesh);
+        nGameObject::AddGameObject(obj);
     }
 
     //Add the debug sphere
@@ -199,6 +233,7 @@ int main()
     g_pDebugSphere->meshName = MODEL_DIR + std::string("WhiteBall.ply");
     g_pDebugSphere->transformXYZ = glm::vec3(0, 0, 0);
     g_pDebugSphere->scale = 1;
+    g_pDebugSphere->scaleXYZ = glm::vec3(1, 1, 1);
     g_pDebugSphere->bDontLight = true;
 
     //Add the Skybox Mesh to the vao manager
@@ -218,6 +253,7 @@ int main()
     cMesh* skyBoxMesh = new cMesh;
     skyBoxMesh->meshName = MODEL_DIR + std::string("Isosphere_Smooth_Inverted_Normals_for_SkyBox.ply");
     skyBoxMesh->scale = 10000.0f;
+    skyBoxMesh->scaleXYZ = glm::vec3(skyBoxMesh->scale, skyBoxMesh->scale, skyBoxMesh->scale);
     skyBoxMesh->transformXYZ = g_pFlyCamera->getEye();
 
     //Start of textures
@@ -250,12 +286,12 @@ int main()
 
     std::string errorTextString;
     if (!gTextureManager->CreateCubeTextureFromBMPFiles("Jungle",
-        "forestSkyboxRight.bmp",
-        "forestSkyboxLeft.bmp",
-        "forestSkyboxDown.bmp",
-        "forestSkyboxUp.bmp",
-        "forestSkyboxFront.bmp",
-        "forestSkyboxBack.bmp",
+        "forestSkyboxNightRight.bmp",
+        "forestSkyboxNightLeft.bmp",
+        "forestSkyboxNightDown.bmp",
+        "forestSkyboxNightUp.bmp",
+        "forestSkyboxNightFront.bmp",
+        "forestSkyboxNightBack.bmp",
         true, errorTextString))
     {
         std::cout << "Didn't load because: " << errorTextString << std::endl;
@@ -296,7 +332,10 @@ int main()
         gTheLights->theLights[i].specular = glm::vec4(currLight.specular.x, currLight.specular.y, currLight.specular.z, 1.0f);
         gTheLights->TurnOnLight(i);
     }
-    
+
+    //Init values for imgui
+    bool showDemo = true;
+
     //Main Loop
     while (!glfwWindowShouldClose(window))
     {
@@ -314,12 +353,26 @@ int main()
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float)height;
 
+        // Start the Dear ImGui frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        // render your GUI
+        ImGui::Begin("Demo window");
+        ImGui::Button("Hello!");
+        ImGui::End();
+
+        //Call the render funtion
+        ImGui::Render();
+
         //turn on depth buffer
         glEnable(GL_DEPTH);     //turns on depth buffer
         glEnable(GL_DEPTH_TEST); // check if the pixel is already closer
 
         glViewport(0, 0, width, height);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
         gTheLights->CopyLightInfoToShader();
 
@@ -346,6 +399,9 @@ int main()
         //Update the particle world
         gParticleWorld->TimeStep(deltaTime);
 
+        //Update the gameObjects
+        nGameObject::UpdateGameObjects(deltaTime);
+
         //Rendering the Skybox
         //Let shader know its a skybox
         GLint bIsSkyBox_LocID = glGetUniformLocation(program, "isSkyBox");
@@ -362,7 +418,7 @@ int main()
 
         //Draw all non transparent objects
         // 
-        // Alpha transparency
+        // Dissable transparency
         glDisable(GL_BLEND);
         
         // Screen is cleared and we are ready to draw the scene...
@@ -471,6 +527,13 @@ int main()
             DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
         }
 
+        //TODO: remove because we disable this
+        glDisable(GL_BLEND);
+
+
+        //TODO: Why doesnt this work
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         // "Present" what we've drawn.
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -480,8 +543,16 @@ int main()
         handleAsyncMouse(window, deltaTime);
     }
 
+    // Cleanup the gui 
+    //TODO: Mode to clean up
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
     //Gotta clean up
     CleanUp(window);
+
+    nGameObject::DeleteGameObjects();
 
     glfwDestroyWindow(window);
 

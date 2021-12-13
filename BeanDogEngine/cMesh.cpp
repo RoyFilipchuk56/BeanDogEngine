@@ -4,9 +4,10 @@ cMesh::cMesh()
 {
 	this->transformXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->rotationXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
+	this->rotationXYZQuat = glm::quat(glm::vec3(0.0, 0.0, 0.0));
 
 	this->scale = 1.0f;
-
+	this->scaleXYZ = glm::vec3(1.0f, 1.0f, 1.0f);
 	this->bIsWireframe = false;
 	this->bDisableDepthBufferCheck = false;
 	this->bHasDecal = false;

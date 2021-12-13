@@ -188,6 +188,8 @@ void DrawObject(cMesh* curMesh, glm::mat4 matModel, GLint matModel_Location, GLi
     glm::mat4 matTranslate = glm::translate(glm::mat4(1.0f),
         curMesh->transformXYZ);
 
+    
+    //Easy Calulation not using quaternians for individual matrix
     // Rotation around the Z axis
     glm::mat4 rotateZ = glm::rotate(glm::mat4(1.0f),
         curMesh->rotationXYZ.z,//(float)glfwGetTime(),
@@ -209,17 +211,21 @@ void DrawObject(cMesh* curMesh, glm::mat4 matModel, GLint matModel_Location, GLi
 
     curMesh->matRotationX = rotateX;
 
+    //Were using quaternians now
+    glm::mat4 matRotationXYZ = glm::toMat4(curMesh->rotationXYZQuat);
+
     // Scale the model
     glm::mat4 matScale = glm::scale(glm::mat4(1.0f),
-        glm::vec3(curMesh->scale,  // Scale in X
-            curMesh->scale,  // Scale in Y
-            curMesh->scale));// Scale in Z
+        glm::vec3(curMesh->scaleXYZ.x,  // Scale in X
+            curMesh->scaleXYZ.y,  // Scale in Y
+            curMesh->scaleXYZ.z));// Scale in Z
 
 
     matModel = matModel * matTranslate;
-    matModel = matModel * rotateZ;
-    matModel = matModel * rotateY;
-    matModel = matModel * rotateX;
+    //matModel = matModel * rotateZ;
+    //matModel = matModel * rotateY;
+    //matModel = matModel * rotateX;
+    matModel = matModel * matRotationXYZ;
     matModel = matModel * matScale;
 
     glUniformMatrix4fv(matModel_Location, 1, GL_FALSE, glm::value_ptr(matModel));
