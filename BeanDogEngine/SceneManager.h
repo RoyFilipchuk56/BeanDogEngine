@@ -24,6 +24,7 @@ struct ModelInfo
 	std::string fileName;
 	glm::vec3 transform;
 	glm::vec3 rotation;
+	float transparency;
 	std::vector<TextureInfo> textures;
 	float scale;
 };
@@ -76,6 +77,8 @@ public:
 	bool ParseVec3(rapidxml::xml_node<>* valueIn, glm::vec3& valueOut);
 	//parse the scale node and add values to included value
 	bool ParseScale(rapidxml::xml_node<>* valueIn, float& valueOut);
+	//Parse the transparency node
+	bool ParseTransparency(rapidxml::xml_node<>* valueIn, float& valueOut);
 	
 	//Attribute Values
 	//sets the value of value out to the attribute for a float

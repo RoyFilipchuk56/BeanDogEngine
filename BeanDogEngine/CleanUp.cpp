@@ -7,12 +7,6 @@ bool CleanUp(GLFWwindow* pWindow)
 	delete gShaderManager;
 	delete gTheLights;
 	delete gParticleWorld;
-	
-	//Drawn meshes
-	for (cMesh* mesh : g_vecMeshes)
-	{
-		delete mesh;
-	}
 
 	//game objects
 	delete g_pDebugSphere;

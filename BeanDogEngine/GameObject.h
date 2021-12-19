@@ -1,5 +1,6 @@
 #pragma once
 #include "iEntity.h"
+#include "CommandController.h"
 #include "QuaternionHelpers.h"
 
 class GameObject : public iEntity
@@ -33,8 +34,7 @@ public:
 	void SetScale(float scale);
 
 	//Animation commands
-	//TODO: Implament the animation controller
-	//CommandController* GetCommandController();
+	CommandController* GetCommandController();
 
 	//iMessage 
 	virtual bool SetReciever(iMessage* receiver);
@@ -48,5 +48,5 @@ protected:
 	glm::quat rotationXYZQuat;
 	std::string friendlyName;
 	iMessage* receiver;
-	//CommandController* commands;
+	CommandController* commands;
 };

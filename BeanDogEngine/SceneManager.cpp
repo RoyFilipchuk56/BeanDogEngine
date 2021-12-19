@@ -61,6 +61,7 @@ bool SceneManager::ParseModel(rapidxml::xml_node<>* valueIn)
 		result &= ParseVec3(child->first_node("Transform"), model.transform);
 		result &= ParseVec3(child->first_node("Rotation"), model.rotation);
 		result &= ParseScale(child->first_node("Scale"), model.scale);
+		result &= ParseTransparency(child->first_node("Transparency"), model.transparency);
 		result &= ParseTextures(child->first_node("Textures"), model.textures);
 
 		currentLevel.models.push_back(model);
@@ -175,6 +176,20 @@ bool SceneManager::ParseScale(rapidxml::xml_node<>* valueIn, float& valueOut)
 	return result;
 }
 
+bool SceneManager::ParseTransparency(rapidxml::xml_node<>* valueIn, float& valueOut)
+{
+	if (!valueIn)
+	{
+		return false;
+	}
+
+	//set the scale attribute
+	bool result = true;
+	result &= SetValue(valueIn->first_attribute("a"), valueOut);
+
+	return result;
+}
+
 bool SceneManager::SetValue(rapidxml::xml_attribute<>* valueIn, float& valueOut)
 {
 	if (!valueIn)
@@ -272,6 +287,14 @@ bool SceneManager::SaveScene(std::string sceneName, std::vector<cMesh*> vecMeshe
 		//scale attribute
 		rapidxml::xml_attribute<>* scaleAttribute = doc->allocate_attribute("scale", floatToChar(mesh->scale));
 		scaleNode->append_attribute(scaleAttribute);
+
+		//transparency node
+		rapidxml::xml_node<>* transparencyNode = doc->allocate_node(rapidxml::node_element, "Transparency");
+		modelNode->append_node(transparencyNode);
+
+		//transparency attribute
+		rapidxml::xml_attribute<>* transparencyAttribute = doc->allocate_attribute("a", floatToChar(mesh->alphaTransparency));
+		transparencyNode->append_attribute(transparencyAttribute);
 
 		//Textures node
 		rapidxml::xml_node<>* TexturesNode = doc->allocate_node(rapidxml::node_element, "Textures");

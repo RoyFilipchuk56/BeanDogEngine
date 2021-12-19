@@ -9,11 +9,11 @@
 
 struct sMessage
 {
-public:
 	sMessage() {};
 	std::string command;
 	std::vector< std::string > vec_sData;
 	std::vector< glm::vec4 > vec_fData;
+	std::vector<int> iData;
 	std::vector< bool> vec_bData;
 };
 
@@ -25,8 +25,8 @@ public:
 	virtual ~iMessage() {}
 
 	// Asyncronous (don't return)
-	virtual bool RecieveMessage(sMessage message) = 0;
 	virtual bool SetReciever(iMessage* reciever) = 0;
+	virtual bool RecieveMessage(sMessage message) = 0;
 
 	// Syncronous (do return with something)
 	virtual bool RecieveMessage(sMessage message, sMessage& messageReply) = 0;

@@ -4,13 +4,16 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "EntitySystem.h"
+#include "cVAOManager.h"
 
 class MapManager
 {
 public:
-	std::vector<std::vector<char>> mapLayout;
+	std::vector<std::vector<std::string>> mapLayout;
 	MapManager();
 	void LoadMap();
 	void PrintMap();
-	std::vector<std::vector<char>> GetMap();
+	void DrawMap(std::vector<cMesh*>& vecMesh, cVAOManager* vaoManager, unsigned int program);
+	std::vector<std::vector<std::string>> GetMap();
 };

@@ -154,7 +154,15 @@
     <ClCompile Include="CleanUp.cpp" />
     <ClCompile Include="cLightHelper.cpp" />
     <ClCompile Include="cLightManager.cpp" />
+    <ClCompile Include="CmdFollowObject.cpp" />
+    <ClCompile Include="CmdMoveToPosition.cpp" />
+    <ClCompile Include="CmdOrientTo.cpp" />
+    <ClCompile Include="CmdWaypoint.cpp" />
     <ClCompile Include="cMesh.cpp" />
+    <ClCompile Include="CommandController.cpp" />
+    <ClCompile Include="CommandFactory.cpp" />
+    <ClCompile Include="CommandGroup.cpp" />
+    <ClCompile Include="CommandReader.cpp" />
     <ClCompile Include="cParticle.cpp" />
     <ClCompile Include="cParticleConstraints.cpp" />
     <ClCompile Include="cParticleContact.cpp" />
@@ -187,11 +195,16 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="InputHandling.cpp" />
+    <ClCompile Include="InvaderEnemy.cpp" />
+    <ClCompile Include="InvaderEnemyManager.cpp" />
+    <ClCompile Include="InvaderLazer.cpp" />
     <ClCompile Include="LeftDoor.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Mediator.cpp" />
+    <ClCompile Include="ObjectReader.cpp" />
     <ClCompile Include="particle_force_generators.cpp" />
+    <ClCompile Include="PlayerShip.cpp" />
     <ClCompile Include="PlayerTank.cpp" />
     <ClCompile Include="random_helpers.cpp" />
     <ClCompile Include="RightDoor.cpp" />
@@ -204,6 +217,8 @@
     <ClCompile Include="TankProjectileManager.cpp" />
     <ClCompile Include="TestMain.cpp" />
     <ClCompile Include="TheCannon.cpp" />
+    <ClCompile Include="Torch.cpp" />
+    <ClCompile Include="TriggerController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C24BitBMPpixel.h" />
@@ -211,7 +226,15 @@
     <ClInclude Include="cFlyCamera.h" />
     <ClInclude Include="cLightHelper.h" />
     <ClInclude Include="cLightManager.h" />
+    <ClInclude Include="CmdFollowObject.h" />
+    <ClInclude Include="CmdMoveToPosition.h" />
+    <ClInclude Include="CmdOrientTo.h" />
+    <ClInclude Include="CmdWaypoint.h" />
     <ClInclude Include="cMesh.h" />
+    <ClInclude Include="CommandController.h" />
+    <ClInclude Include="CommandFactory.h" />
+    <ClInclude Include="CommandGroup.h" />
+    <ClInclude Include="CommandReader.h" />
     <ClInclude Include="cParticle.h" />
     <ClInclude Include="cParticleConstraints.h" />
     <ClInclude Include="cParticleContact.h" />
@@ -231,8 +254,8 @@
     <ClInclude Include="GLCommon.h" />
     <ClInclude Include="GlobalItems.h" />
     <ClInclude Include="iCamera.h" />
+    <ClInclude Include="iCommand.h" />
     <ClInclude Include="iEntity.h" />
-    <ClInclude Include="iMediator.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
@@ -243,11 +266,17 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="InvaderEnemy.h" />
+    <ClInclude Include="InvaderEnemyManager.h" />
+    <ClInclude Include="InvaderLazer.h" />
     <ClInclude Include="iParticleContactGenerator.h" />
     <ClInclude Include="iParticleForceGenerator.h" />
     <ClInclude Include="iTank.h" />
     <ClInclude Include="Mediator.h" />
+    <ClInclude Include="MoveTowards.h" />
+    <ClInclude Include="ObjectReader.h" />
     <ClInclude Include="particle_force_generators.h" />
+    <ClInclude Include="PlayerShip.h" />
     <ClInclude Include="PlayerTank.h" />
     <ClInclude Include="QuaternionHelpers.h" />
     <ClInclude Include="random_helpers.h" />
@@ -257,6 +286,8 @@
     <ClInclude Include="iTankProjectile.h" />
     <ClInclude Include="TankProjectileManager.h" />
     <ClInclude Include="TheCannon.h" />
+    <ClInclude Include="Torch.h" />
+    <ClInclude Include="TriggerController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
@@ -274,7 +305,10 @@
     <AssetCopyFiles Include="$(ProjectDir)assets\**\*.*" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="assets\config\Cannon.xml" />
+    <InstallerCopyFile Include="$(ProjectDir)BeandogInstaller.nsi" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="assets\config\ObjectConfig.xml" />
     <Xml Include="assets\config\Projectile.xml" />
     <Xml Include="assets\scenes\SceneOne.xml" />
   </ItemGroup>
@@ -282,18 +316,4 @@
     <None Include="assets\shaders\fragShader_01.glsl" />
     <None Include="assets\shaders\vertShader_01.glsl" />
   </ItemGroup>
-  <PropertyGroup>
-    <DeploymentPath>$(ProjectDir)$(DeploymentFolderName)</DeploymentPath>
-  </PropertyGroup>
-  <Target Name="CreateMyDeployfolder">
-    <Message Text="Creating the deployment folder" />
-    <MakeDir Directories="$(DeploymentPath)" />
-  </Target>
-  <Target Name="AfterBuild" DependsOnTargets="CreateMyDeployfolder">
-    <Message Text="Copying Files Into Deployment Folder" />
-    <Copy sourceFiles="@(DeploymentCopyFiles)" DestinationFolder="$(DeploymentPath)" />
-    <Copy sourceFiles="@(AssetCopyFiles)" DestinationFolder="$(DeploymentPath)\assets\%(RecursiveDir)" />
-    <Message Text="Creating Zip Folder" />
-    <Exec Command="$(ProjectDir)7z.exe a &quot;$(ProjectDir)$(DeploymentFolderName).zip&quot; &quot;$(DeploymentPath)&quot;" />
-  </Target>
 </Project>

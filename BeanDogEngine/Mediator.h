@@ -1,24 +1,26 @@
 #pragma once
-#include "iMediator.h"
-#include "iTank.h"
-#include "MapManager.h"
-#include "GlobalItems.h"
+#include "iMessage.h"
+#include "EntitySystem.h"
+#include "TriggerController.h"
 
-class Mediator : public iMediator
+//forward declaration
+class TriggerController;
+
+class Mediator : public iMessage
 {
 public:
 	Mediator();
 	virtual ~Mediator();
 
-	// From iMessage interface
-	// Asyncronous
+	void SetCommandFactory(iMessage* factory);
+	void SetTriggerController(TriggerController* triggerController);
+	// From iMessage
+	virtual bool SetReciever(iMessage* receiver);
 	virtual bool RecieveMessage(sMessage message);
-	// Syncronous (do return with something)
-	virtual bool RecieveMessage(sMessage theMessage, sMessage& messageReply);
-	virtual bool SetReciever(iMessage* reciever);
+	virtual bool RecieveMessage(sMessage message, sMessage& reply);
 
-	void setMap(std::vector<std::vector<char>> map);
 
 private:
-	std::vector<std::vector<char>> myMap;
+	iMessage* commandFactory;
+	TriggerController* triggerController;
 };

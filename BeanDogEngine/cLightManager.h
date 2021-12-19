@@ -53,7 +53,7 @@ public:
 
 	// Here's an array of lights that match
 	//	the ones inside the shader
-	static const unsigned int NUMBER_OF_LIGHTS = 10;
+	static const unsigned int NUMBER_OF_LIGHTS = 20;
 	sLight theLights[NUMBER_OF_LIGHTS];	
 
 	// This sets up the initial uniform locations from the shader

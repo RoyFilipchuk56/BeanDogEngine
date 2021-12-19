@@ -19,6 +19,15 @@ void SetUpTextures(cMesh* pCurrentMesh, GLuint shaderProgram)
     //    shaderProgram = -1;
     //}
 
+    if (isWireframe)
+    {
+        pCurrentMesh->bIsWireframe = true;
+    }
+    else
+    {
+        pCurrentMesh->bIsWireframe = false;
+    }
+
     const GLuint FIRST_TEXTURE_UNIT = 0;
     GLint isTransparent = glGetUniformLocation(shaderProgram, "isTransparent");
     glUniform1f(isTransparent, (GLfloat)GL_FALSE);
@@ -212,8 +221,8 @@ void DrawObject(cMesh* curMesh, glm::mat4 matModel, GLint matModel_Location, GLi
     curMesh->matRotationX = rotateX;
 
     //Were using quaternians now
-    glm::mat4 matRotationXYZ = glm::toMat4(curMesh->rotationXYZQuat);
-
+    curMesh->matRotationXYZ = glm::toMat4(curMesh->rotationXYZQuat);
+    
     // Scale the model
     glm::mat4 matScale = glm::scale(glm::mat4(1.0f),
         glm::vec3(curMesh->scaleXYZ.x,  // Scale in X
@@ -225,7 +234,7 @@ void DrawObject(cMesh* curMesh, glm::mat4 matModel, GLint matModel_Location, GLi
     //matModel = matModel * rotateZ;
     //matModel = matModel * rotateY;
     //matModel = matModel * rotateX;
-    matModel = matModel * matRotationXYZ;
+    matModel = matModel * curMesh->matRotationXYZ;
     matModel = matModel * matScale;
 
     glUniformMatrix4fv(matModel_Location, 1, GL_FALSE, glm::value_ptr(matModel));

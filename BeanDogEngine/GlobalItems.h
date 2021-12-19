@@ -66,6 +66,11 @@ extern int curMesh;
 extern int debugObjType;
 //Debug object move amount
 extern float objectMoveValue;
+//Debug object wireframe or not
+extern bool isWireframe;
+
+//Projectile list
+extern std::vector<nPhysics::cProjectile*> projectiles;
 
 //Keyboard Modifiers
 class cGFLWKeyboardModifiers

@@ -35,3 +35,8 @@ int curMesh = 0;
 int debugObjType = 0;
 //Debug object move amount
 float objectMoveValue = 0.03f;
+//Wireframe
+bool isWireframe = false;
+
+//Projectiles
+std::vector<nPhysics::cProjectile*> projectiles;

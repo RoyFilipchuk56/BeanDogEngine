@@ -1,5 +1,6 @@
 #include "GLCommon.h" 
 #include "GlobalItems.h"
+#include "EntitySystem.h"
 
 #include <sstream>
 #include <iostream>
@@ -26,37 +27,38 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
 {
     float cameraMoveSpeed = ::g_pFlyCamera->movementSpeed;
 
-    float objectMovementSpeed = 0.1f;
-    float lightMovementSpeed = 10.0f;
+    float objectMovementSpeed = 1.0f;
+    float lightMovementSpeed = 1.0f;
 
     if ( cGFLWKeyboardModifiers::areAllModsUp(pWindow) )
     {
+        
         // Use "fly" camera (keyboard for movement, mouse for aim)
         if ( glfwGetKey(pWindow, GLFW_KEY_W) == GLFW_PRESS )
         {
-            ::g_pFlyCamera->MoveForward_Z(+cameraMoveSpeed);
+            ::g_pFlyCamera->MoveForward_Z(+cameraMoveSpeed * deltaTime);
         }
         if ( glfwGetKey(pWindow, GLFW_KEY_S) == GLFW_PRESS )	// "backwards"
         {
-            ::g_pFlyCamera->MoveForward_Z(-cameraMoveSpeed);
+            ::g_pFlyCamera->MoveForward_Z(-cameraMoveSpeed * deltaTime);
         }
         if ( glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS )	// "left"
         {
-            ::g_pFlyCamera->MoveLeftRight_X(-cameraMoveSpeed);
+            ::g_pFlyCamera->MoveLeftRight_X(-cameraMoveSpeed * deltaTime);
         }
         if ( glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS )	// "right"
         {
-            ::g_pFlyCamera->MoveLeftRight_X(+cameraMoveSpeed);
+            ::g_pFlyCamera->MoveLeftRight_X(+cameraMoveSpeed * deltaTime);
         }
         if ( glfwGetKey(pWindow, GLFW_KEY_Q) == GLFW_PRESS )	// "up"
         {
-            ::g_pFlyCamera->MoveUpDown_Y(-cameraMoveSpeed);
+            ::g_pFlyCamera->MoveUpDown_Y(-cameraMoveSpeed * deltaTime);
         }
         if ( glfwGetKey(pWindow, GLFW_KEY_E) == GLFW_PRESS )	// "down"
         {
-            ::g_pFlyCamera->MoveUpDown_Y(+cameraMoveSpeed);
+            ::g_pFlyCamera->MoveUpDown_Y(+cameraMoveSpeed * deltaTime);
         }
-        
+       
         //Cannon Movement
 
         //Toggle Debug
@@ -89,12 +91,12 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             {
                 if (debugObjType == 0)
                 {
-                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, objectMoveValue, 0);
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, objectMovementSpeed, 0);
                 }
 
                 else if (debugObjType == 1)
                 {
-                    gTheLights->theLights[curLight].position += glm::vec4(0, objectMoveValue, 0, 1);
+                    gTheLights->theLights[curLight].position += glm::vec4(0, lightMovementSpeed, 0, 1);
                     std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
                 }
             }
@@ -105,12 +107,12 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             {
                 if (debugObjType == 0)
                 {
-                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, -objectMoveValue, 0);
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, -objectMovementSpeed, 0);
                 }
 
                 else if (debugObjType == 1)
                 {
-                    gTheLights->theLights[curLight].position += glm::vec4(0, -objectMoveValue, 0, 1);
+                    gTheLights->theLights[curLight].position += glm::vec4(0, -lightMovementSpeed, 0, 1);
                     std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
                 }
             }
@@ -121,12 +123,12 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             {
                 if (debugObjType == 0)
                 {
-                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(objectMoveValue, 0, 0);
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(objectMovementSpeed, 0, 0);
                 }
 
                 else if (debugObjType == 1)
                 {
-                    gTheLights->theLights[curLight].position += glm::vec4(objectMoveValue, 0, 0, 1);
+                    gTheLights->theLights[curLight].position += glm::vec4(lightMovementSpeed, 0, 0, 1);
                     std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
                 }
             }
@@ -137,12 +139,12 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             {
                 if (debugObjType == 0)
                 {
-                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(-objectMoveValue, 0, 0);
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(-objectMovementSpeed, 0, 0);
                 }
 
                 else if (debugObjType == 1)
                 {
-                    gTheLights->theLights[curLight].position += glm::vec4(-objectMoveValue, 0, 0, 1);
+                    gTheLights->theLights[curLight].position += glm::vec4(-lightMovementSpeed, 0, 0, 1);
                     std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
                 }
             }
@@ -153,12 +155,12 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             {
                 if (debugObjType == 0)
                 {
-                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, 0, objectMoveValue);
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, 0, objectMovementSpeed);
                 }
 
                 else if (debugObjType == 1)
                 {
-                    gTheLights->theLights[curLight].position += glm::vec4(0, 0, objectMoveValue, 1);
+                    gTheLights->theLights[curLight].position += glm::vec4(0, 0, lightMovementSpeed, 1);
                     std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
                 }
             }
@@ -169,12 +171,12 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             {
                 if (debugObjType == 0)
                 {
-                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, 0, -objectMoveValue);
+                    g_vecMeshes[curMesh]->transformXYZ += glm::vec3(0, 0, -objectMovementSpeed);
                 }
 
                 else if (debugObjType == 1)
                 {
-                    gTheLights->theLights[curLight].position += glm::vec4(0, 0, -objectMoveValue, 1);
+                    gTheLights->theLights[curLight].position += glm::vec4(0, 0, -lightMovementSpeed, 1);
                     std::cout << "Light " << curLight << " - x: " << gTheLights->theLights[curLight].position.x << " y: " << gTheLights->theLights[curLight].position.y << " z: " << gTheLights->theLights[curLight].position.z << std::endl;
                 }
             }
@@ -282,11 +284,47 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
             isTabPressed = false;
         }
 
-        // Reset the camera
+        // Reset the camera to start
         if (glfwGetKey(pWindow, GLFW_KEY_1) == GLFW_PRESS)
         {
-            g_pFlyCamera->setEye(glm::vec3(0.0f, 30.09f, -116.68f));
-            //g_pFlyCamera->m_at;
+            g_pFlyCamera->setEye(glm::vec3(0.0f, 15.00f, -30.0f));
+        }
+
+        // Cannon Movement
+        if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS)
+        {
+            nGameObject::cannon->isMovingLeft = true;
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_RELEASE)
+        {
+            nGameObject::cannon->isMovingLeft = false;
+        }
+
+        if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        {
+            nGameObject::cannon->isMovingRight = true;
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_RELEASE)
+        {
+            nGameObject::cannon->isMovingRight = false;
+        }
+
+        if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_PRESS)
+        {
+            nGameObject::cannon->isMovingUp = true;
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_RELEASE)
+        {
+            nGameObject::cannon->isMovingUp = false;
+        }
+
+        if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_PRESS)
+        {
+            nGameObject::cannon->isMovingDown = true;
+        }
+        if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_RELEASE)
+        {
+            nGameObject::cannon->isMovingDown = false;
         }
     }
 
@@ -326,7 +364,7 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
 // We call these every frame
 void handleAsyncMouse(GLFWwindow* window, double deltaTime)
 {
-
+    
     double x, y;
     glfwGetCursorPos(window, &x, &y);
 
@@ -364,7 +402,7 @@ void handleAsyncMouse(GLFWwindow* window, double deltaTime)
             ::g_pFlyCamera->movementSpeed = 0.0f;
         }
     }
-
+    
 
     return;
 }

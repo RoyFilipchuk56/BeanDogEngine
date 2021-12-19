@@ -43,10 +43,10 @@ GameObject::~GameObject()
 		delete mesh;
 	}
 
-	/*
+	
 	if (commands != NULL)
 		delete commands;
-	*/
+	
 }
 
 void GameObject::Update(float deltaTime)
@@ -55,12 +55,10 @@ void GameObject::Update(float deltaTime)
 
 void GameObject::UpdateCommands(float deltaTime)
 {
-	/*
 	if (commands != NULL)
 	{
 		commands->Update(deltaTime);
 	}
-	*/
 }
 
 void GameObject::SetFriendlyName(std::string friendlyName)
@@ -149,6 +147,14 @@ void GameObject::SetScale(float scale)
 {
 	mesh->scale = scale;
 	mesh->scaleXYZ = glm::vec3(scale, scale, scale);
+}
+
+CommandController* GameObject::GetCommandController()
+{
+	if (commands == NULL)
+		commands = new CommandController();
+
+	return commands;
 }
 
 bool GameObject::SetReciever(iMessage* receiver)

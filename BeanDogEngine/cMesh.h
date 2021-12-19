@@ -26,6 +26,7 @@ public:
 	glm::mat4 matRotationX;
 	glm::mat4 matRotationY;
 	glm::mat4 matRotationZ;
+	glm::mat4 matRotationXYZ;
 	
 	// Sets the overall colour of the object
 	//	by overwriting the colour variable

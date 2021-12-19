@@ -97,6 +97,30 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{3b5fbfbf-298e-4d3e-b8d7-81ad6faca907}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{37569951-dc3f-48c2-9bf9-676234f6d0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\IndividualCommands">
+      <UniqueIdentifier>{e29b3132-1b48-485e-953b-26291b7179ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configs\CommandReader">
+      <UniqueIdentifier>{bd9b1a1f-33ab-4b90-965e-42b1cd559095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Torches">
+      <UniqueIdentifier>{042ebea7-1f14-488f-81ab-664ad981bddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\PlayerShip">
+      <UniqueIdentifier>{65ca8ed0-9f76-4834-ad60-80575fca239d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\InvaderEnemeys">
+      <UniqueIdentifier>{66c64f8c-f0d3-4be2-9c69-26268814fc8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\InvaderEnemeys\Manager">
+      <UniqueIdentifier>{2bd8bf59-f126-4783-bfb4-13d2d718a5cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configs\ObjectReader">
+      <UniqueIdentifier>{13c88753-dfb3-461f-aeec-174e7f57681a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -270,6 +294,51 @@
     <ClCompile Include="EntitySystem.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="CmdFollowObject.cpp">
+      <Filter>Commands\IndividualCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="CmdMoveToPosition.cpp">
+      <Filter>Commands\IndividualCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="CmdOrientTo.cpp">
+      <Filter>Commands\IndividualCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="CmdWaypoint.cpp">
+      <Filter>Commands\IndividualCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandController.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandFactory.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandGroup.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerController.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandReader.cpp">
+      <Filter>Configs\CommandReader</Filter>
+    </ClCompile>
+    <ClCompile Include="Torch.cpp">
+      <Filter>GameObjects\Torches</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerShip.cpp">
+      <Filter>GameObjects\PlayerShip</Filter>
+    </ClCompile>
+    <ClCompile Include="InvaderLazer.cpp">
+      <Filter>GameObjects\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="InvaderEnemyManager.cpp">
+      <Filter>GameObjects\InvaderEnemeys\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="InvaderEnemy.cpp">
+      <Filter>GameObjects\InvaderEnemeys</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectReader.cpp">
+      <Filter>Configs\ObjectReader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLCommon.h">
@@ -307,9 +376,6 @@
     </ClInclude>
     <ClInclude Include="Doors.h">
       <Filter>GameObjects\Doors</Filter>
-    </ClInclude>
-    <ClInclude Include="iMediator.h">
-      <Filter>Mediator</Filter>
     </ClInclude>
     <ClInclude Include="MapManager.h">
       <Filter>MapManager</Filter>
@@ -425,9 +491,60 @@
     <ClInclude Include="EntitySystem.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="CmdFollowObject.h">
+      <Filter>Commands\IndividualCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="CmdMoveToPosition.h">
+      <Filter>Commands\IndividualCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="CmdOrientTo.h">
+      <Filter>Commands\IndividualCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="CmdWaypoint.h">
+      <Filter>Commands\IndividualCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandController.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandFactory.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandGroup.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="iCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="TriggerController.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandReader.h">
+      <Filter>Configs\CommandReader</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveTowards.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Torch.h">
+      <Filter>GameObjects\Torches</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerShip.h">
+      <Filter>GameObjects\PlayerShip</Filter>
+    </ClInclude>
+    <ClInclude Include="InvaderLazer.h">
+      <Filter>GameObjects\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="InvaderEnemyManager.h">
+      <Filter>GameObjects\InvaderEnemeys\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="InvaderEnemy.h">
+      <Filter>GameObjects\InvaderEnemeys</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectReader.h">
+      <Filter>Configs\ObjectReader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="assets\config\Cannon.xml">
+    <Xml Include="assets\config\ObjectConfig.xml">
       <Filter>Configs\XML</Filter>
     </Xml>
     <Xml Include="assets\config\Projectile.xml">

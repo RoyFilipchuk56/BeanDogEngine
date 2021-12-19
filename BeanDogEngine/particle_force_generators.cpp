@@ -37,7 +37,6 @@ namespace nPhysics
 		//If were above the water do nothing
 		if (particleYPos >= waterHeight + maxDepth)
 		{
-			particle->ApplyForce(theForce);
 			return;
 		}
 
