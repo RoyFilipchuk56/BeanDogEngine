@@ -15,8 +15,14 @@ std::vector< cMesh* > g_vecMeshes;
 //List of transparent objects
 std::vector<cMesh*> g_transMeshes;
 
+//Debug sphere for visual location
 cMesh* g_pDebugSphere = NULL;
 bool g_bShowDebugShere = true;
+
+//Full screen quad mesh for 2nd rendering pass
+cMesh* g_pFullScreenQuad = NULL;
+//The FBO for the full screen quad
+cFBO* g_pFBO = NULL;
 
 unsigned int g_selectedObject = 0;
 unsigned int g_selectedLight = 0;

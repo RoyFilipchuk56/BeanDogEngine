@@ -121,6 +121,9 @@
     <Filter Include="Configs\ObjectReader">
       <UniqueIdentifier>{13c88753-dfb3-461f-aeec-174e7f57681a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\FBO">
+      <UniqueIdentifier>{eba9029a-2beb-4aae-b3b0-d2345a78b328}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -339,6 +342,9 @@
     <ClCompile Include="ObjectReader.cpp">
       <Filter>Configs\ObjectReader</Filter>
     </ClCompile>
+    <ClCompile Include="cFBO.cpp">
+      <Filter>GraphicsEngine\FBO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLCommon.h">
@@ -541,6 +547,9 @@
     </ClInclude>
     <ClInclude Include="ObjectReader.h">
       <Filter>Configs\ObjectReader</Filter>
+    </ClInclude>
+    <ClInclude Include="cFBO.h">
+      <Filter>GraphicsEngine\FBO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

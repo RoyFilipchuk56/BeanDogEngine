@@ -11,6 +11,7 @@
 #include "cProjectile.h"
 #include "cMesh.h"
 #include "TheCannon.h"
+#include "cFBO.h"
 #include <vector>
 
 // These are all things that are "project global", 
@@ -68,6 +69,11 @@ extern int debugObjType;
 extern float objectMoveValue;
 //Debug object wireframe or not
 extern bool isWireframe;
+
+//Full screen quad mesh for 2nd rendering pass
+extern cMesh* g_pFullScreenQuad;
+//The FBO for the full screen quad
+extern cFBO* g_pFBO;
 
 //Projectile list
 extern std::vector<nPhysics::cProjectile*> projectiles;

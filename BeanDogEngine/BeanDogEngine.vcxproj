@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="C24BitBMPpixel.cpp" />
     <ClCompile Include="cBasicTextureManager.cpp" />
+    <ClCompile Include="cFBO.cpp" />
     <ClCompile Include="cFlyCamera.cpp" />
     <ClCompile Include="cGFLWKeyboardModifiers.cpp" />
     <ClCompile Include="CleanUp.cpp" />
@@ -223,6 +224,7 @@
   <ItemGroup>
     <ClInclude Include="C24BitBMPpixel.h" />
     <ClInclude Include="cBasicTextureManager.h" />
+    <ClInclude Include="cFBO.h" />
     <ClInclude Include="cFlyCamera.h" />
     <ClInclude Include="cLightHelper.h" />
     <ClInclude Include="cLightManager.h" />
@@ -316,4 +318,17 @@
     <None Include="assets\shaders\fragShader_01.glsl" />
     <None Include="assets\shaders\vertShader_01.glsl" />
   </ItemGroup>
+  <PropertyGroup>
+    <DeploymentPath>$(ProjectDir)$(DeploymentFolderName)</DeploymentPath>
+  </PropertyGroup>
+  <Target Name="CreateMyDeployfolder">
+    <Message Text="Creating the deployment folder" />
+    <MakeDir Directories="$(DeploymentPath)" />
+  </Target>
+  <Target Name="AfterBuild" DependsOnTargets="CreateMyDeployfolder" Condition="'$(Configuration)'=='Release'">
+    <Message Text="Copying Files Into Deployment Folder" />
+    <Copy sourceFiles="@(DeploymentCopyFiles)" DestinationFolder="$(DeploymentPath)" />
+    <Copy sourceFiles="@(InstallerCopyFile)" DestinationFolder="$(DeploymentPath)" />
+    <Copy sourceFiles="@(AssetCopyFiles)" DestinationFolder="$(DeploymentPath)\assets\%(RecursiveDir)" />
+  </Target>
 </Project>

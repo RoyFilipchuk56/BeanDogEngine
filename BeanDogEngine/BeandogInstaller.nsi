@@ -1,8 +1,8 @@
-#Configuration Project 3: Nsi Files
+#Configuration Exam
 
-#Compile this script in the same folder as the hello.exe and hello.txt
-#This program will create a hello_installer.exe file
-#Running the installer will copy the hello.exe and hello.txt to a desktop folder
+#Compile this script in the Deployment Folder
+#This program will create a BeandogInstaller.exe file
+#Running the installer will copy the deployment folder contents to a desktop folder
 
 #Running the included uninstaller will remove the folder on the desktop
 
@@ -10,7 +10,7 @@
 OutFile "BeandogInstaller.exe"
 
 # directory of the installer
-InstallDir "$DESKTOP\Hello"
+InstallDir "$DESKTOP\6019Exam"
 
 # first and default section
 Section

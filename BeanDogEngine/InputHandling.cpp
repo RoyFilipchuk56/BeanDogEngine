@@ -289,43 +289,6 @@ void handleAsyncKeyboard(GLFWwindow* pWindow, double deltaTime)
         {
             g_pFlyCamera->setEye(glm::vec3(0.0f, 15.00f, -30.0f));
         }
-
-        // Cannon Movement
-        if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS)
-        {
-            nGameObject::cannon->isMovingLeft = true;
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_RELEASE)
-        {
-            nGameObject::cannon->isMovingLeft = false;
-        }
-
-        if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS)
-        {
-            nGameObject::cannon->isMovingRight = true;
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_RELEASE)
-        {
-            nGameObject::cannon->isMovingRight = false;
-        }
-
-        if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_PRESS)
-        {
-            nGameObject::cannon->isMovingUp = true;
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_RELEASE)
-        {
-            nGameObject::cannon->isMovingUp = false;
-        }
-
-        if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_PRESS)
-        {
-            nGameObject::cannon->isMovingDown = true;
-        }
-        if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_RELEASE)
-        {
-            nGameObject::cannon->isMovingDown = false;
-        }
     }
 
 

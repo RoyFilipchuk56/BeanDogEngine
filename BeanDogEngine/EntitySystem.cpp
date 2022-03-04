@@ -3,7 +3,6 @@
 namespace nGameObject
 {
 	std::vector<GameObject*> gameObjects;
-	TheCannon* cannon = NULL;
 	int gameObjectCount = 0;
 
 	void nGameObject::AddGameObject(GameObject* gameObject)

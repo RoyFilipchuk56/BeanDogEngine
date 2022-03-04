@@ -16,7 +16,6 @@
 namespace nGameObject
 {
 	extern std::vector<GameObject*> gameObjects;
-	extern TheCannon* cannon;
 	
 	extern int gameObjectCount;
 

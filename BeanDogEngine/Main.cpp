@@ -37,12 +37,6 @@
 void DrawObject(cMesh* pCurrentMesh, glm::mat4 matModel, GLint matModel_Location, GLint matModelInverseTranspose_Location, GLuint program, cVAOManager* pVAOManager);
 //Load The meshes
 void LoadMeshes(GLuint program);
-//Create the triangle boat
-void CreateTriangleBoat(glm::vec3 origin);
-//Create cube boat
-void CreateCubeBoat(glm::vec3 origin);
-//Create funky Boat
-void CreateFunkyBoat(glm::vec3 origin);
 
 // Global Variables
 float deltaTime;
@@ -123,6 +117,10 @@ int main()
     {
         std::cout << "Scene loaded in good" << std::endl;
     }
+    else
+    {
+        std::cout << "Scene loaded in bad" << std::endl;
+    }
 
     //Set camera eye (AKA Location)
     g_pFlyCamera->setEye(gScene->currentLevel.camera.tranform);
@@ -152,6 +150,22 @@ int main()
     //We only use one shader so just set it
     glUseProgram(program);
 
+    //TODO: Remove, Trying to get the fbo to work
+    cShaderManager::cShaderProgram* pShaderProc = gShaderManager->pGetShaderProgramFromFriendlyName("Shader#1");
+
+    int theUniformIDLoc = -1;
+    theUniformIDLoc = glGetUniformLocation(program, "matModel");
+    pShaderProc->mapUniformName_to_UniformLocation["matModel"] = theUniformIDLoc;
+
+    pShaderProc->mapUniformName_to_UniformLocation["matModel"] = glGetUniformLocation(program, "matModel");
+    pShaderProc->mapUniformName_to_UniformLocation["matView"] = glGetUniformLocation(program, "matView");
+    pShaderProc->mapUniformName_to_UniformLocation["matProjection"] = glGetUniformLocation(program, "matProjection");
+    pShaderProc->mapUniformName_to_UniformLocation["matModelInverseTranspose"] = glGetUniformLocation(program, "matModelInverseTranspose");
+
+    pShaderProc->mapUniformName_to_UniformLocation["wholeObjectSpecularColour"] = glGetUniformLocation(program, "wholeObjectSpecularColour");
+
+    //Get the mvp location
+    mvp_location = glGetUniformLocation(program, "MVP");
     // Get "uniform locations" (aka the registers these are in)
     GLint matModel_Location = glGetUniformLocation(program, "matModel");
     GLint matView_Location = glGetUniformLocation(program, "matView");
@@ -280,13 +294,6 @@ int main()
         gTextureManager->Create2DTextureFromBMPFile(texture, true);
     }
 
-    //TODO: Remove
-    //Load in the textures for the various game objects
-    gTextureManager->Create2DTextureFromBMPFile("WoodenPlanks.bmp", true);
-    gTextureManager->Create2DTextureFromBMPFile("OakLogs.bmp", true);
-    gTextureManager->Create2DTextureFromBMPFile("Cannon.bmp", true);
-    gTextureManager->Create2DTextureFromBMPFile("IronBlock.bmp", true);
-
     gTextureManager->SetBasePath("assets/textures/cubemaps");
 
     std::string errorTextString;
@@ -338,108 +345,94 @@ int main()
         gTheLights->TurnOnLight(i);
     }
 
-    //Init values for imgui
-    bool showDemo = true;
-    
-    if (objectLoader.LoadObejctsFromXML(CONFIG_DIR + std::string("ObjectConfig.xml")))
+    // Create the FBO (Frame Buffer Object)
+    // The texture we can render to
+    ::g_pFBO = new cFBO();
+    // Set this off screen texture buffer to some random size
+    std::string FBOerrorString;
+    //    if (::g_pFBO->init(1024, 1024, FBOerrorString))
+    //    if (::g_pFBO->init( 8 * 1024, 8 * 1024, FBOerrorString))
+    if (::g_pFBO->init(1920, 1080, FBOerrorString))
     {
-        std::cout << "Object info loaded in" << std::endl;
+        std::cout << "FBO is all set!" << std::endl;
+    }
+    else
+    {
+        std::cout << "FBO Error: " << FBOerrorString << std::endl;
     }
 
-    //Add the plane Generator
-    nPhysics::cPlaneParticleContactGenerator* groundPlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(0, 7.0f, 0), glm::vec3(0, 1, 0));
-    gParticleWorld->AddContactGenerator(groundPlane);
+    // Clear the OG back buffer once, BEFORE we render anything
+    float ratio;
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    ratio = width / (float)height;
+    glViewport(0, 0, width, height);
+    glClearColor(0.0f, 164.0f / 255.0f, 239.0f / 255.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    nPhysics::cPlaneParticleContactGenerator* zPositivePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(0, 0, 14.5f), glm::vec3(0, 0, -1));
-    gParticleWorld->AddContactGenerator(zPositivePlane);
+    enum eRenderPasses
+    {
+        PASS_1_G_BUFFER_PASS = 1,	// Renders only geometry to G-Buffer
+        PASS_2_LIGHT_PASS = 2,		// Apply lighting to G-Buffer
+        PASS_3_2D_EFFECTS_PASS = 3		// Optional effects (blur, whatever...)
+    };
 
-    nPhysics::cPlaneParticleContactGenerator* zNegativePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(0, 0, -14.5f), glm::vec3(0, 0, 1));
-    gParticleWorld->AddContactGenerator(zNegativePlane);
-
-    nPhysics::cPlaneParticleContactGenerator* xNegativePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(-14.5f, 0, 0), glm::vec3(1, 0, 0));
-    gParticleWorld->AddContactGenerator(xNegativePlane);
-
-    nPhysics::cPlaneParticleContactGenerator* xPositivePlane = new nPhysics::cPlaneParticleContactGenerator(glm::vec3(14.5, 0, 0), glm::vec3(-1, 0, 0));
-    gParticleWorld->AddContactGenerator(xPositivePlane);
-
-    //Add the sphere contacts
-    nPhysics::cSphereParticleContactGenerator* collideThoseSpheres = new nPhysics::cSphereParticleContactGenerator();
-    gParticleWorld->AddContactGenerator(collideThoseSpheres);
-
-
-    CreateTriangleBoat(glm::vec3(0,12,0));
-    CreateCubeBoat(glm::vec3(10, 12, 0));
-
-    //Making the cannon
-    //Create a mesh for the cannon
-    cMesh* cannonMesh = new cMesh;
-    cannonMesh->meshName = MODEL_DIR + std::string("Cannon.ply");
-    cannonMesh->transformXYZ = glm::vec3(0, 11, -15);
-    cannonMesh->textureNames[0] = "Cannon.bmp";
-    cannonMesh->textureRatios[0] = 1.0f;
-
-    g_vecMeshes.push_back(cannonMesh);
-    nGameObject::cannon = new TheCannon(cannonMesh);
-    nGameObject::cannon->SetCannonConfig(objectLoader.curObjectInfo.cannonInfo.pitchMin,
-        objectLoader.curObjectInfo.cannonInfo.pitchMax,
-        objectLoader.curObjectInfo.cannonInfo.yawMin,
-        objectLoader.curObjectInfo.cannonInfo.yawMax,
-        objectLoader.curObjectInfo.cannonInfo.movementSpeed);
-    nGameObject::AddGameObject(nGameObject::cannon);
-
-    //Dont render the back of the plane
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    GLint renderPassNumber_LocID = glGetUniformLocation(program, "renderPassNumber");
 
     //Main Loop
     while (!glfwWindowShouldClose(window))
     {
-        float ratio;
-        int width, height;
+        // Set pass to #0
+        glUniform1ui(renderPassNumber_LocID, PASS_1_G_BUFFER_PASS);
+
         glm::mat4 matModel;    // used to be "m"; Sometimes it's called "world"
         glm::mat4 p;
         glm::mat4 v;
-        glm::mat4 mvp;
         //Set Times for physics
         float currentTime = static_cast<float>(glfwGetTime());
         deltaTime = currentTime - previousTime;
         previousTime = currentTime;
-
-        glfwGetFramebufferSize(window, &width, &height);
-        ratio = width / (float)height;
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        
         // render your GUI
-        ImGui::Begin("Debug Window");
-        ImGui::SetNextWindowSize(ImVec2{ 300, 1000 });
-        if (ImGui::Button("Spawn Cube"))
-        {
-            CreateCubeBoat(glm::vec3(nPhysics::getRandom(-12, 12), 15, nPhysics::getRandom(-12, 12)));
-        }
-        if (ImGui::Button("Spawn Pyramid"))
-        {
-            CreateTriangleBoat(glm::vec3(nPhysics::getRandom(-12, 12), 15, nPhysics::getRandom(-12, 12)));
-        }
-        if (ImGui::Button("Spawn Funky Boat"))
-        {
-            CreateFunkyBoat(glm::vec3(nPhysics::getRandom(-12, 12), 15, nPhysics::getRandom(-12, 12)));
-        }
+        ImGui::Begin("Cam position");
+        ImGui::SetNextWindowSize(ImVec2{ 200, 1000 });
+
+        std::stringstream ss;
+        ss << "Position: " << g_pFlyCamera->eye.x << ", " << g_pFlyCamera->eye.y << ", " << g_pFlyCamera->eye.z;
+
+        ImGui::Text(ss.str().c_str());
+
         ImGui::End();
 
         //Call the render funtion
         ImGui::Render();
 
+        // Set the output of the renderer to the screen (default FBO)
+        GLuint FBO_ID = ::g_pFBO->ID;
+        glBindFramebuffer(GL_FRAMEBUFFER, ::g_pFBO->ID);
+
+        // Set the viewport to the size of my offscreen texture (FBO)
+        glViewport(0, 0, ::g_pFBO->width, ::g_pFBO->height);
+        ratio = ::g_pFBO->width / (float)::g_pFBO->height;
+
         //turn on depth buffer
         glEnable(GL_DEPTH);     //turns on depth buffer
         glEnable(GL_DEPTH_TEST); // check if the pixel is already closer
 
+
+        //We now clear buffers using the fbo
+        ::g_pFBO->clearBuffers(true, true);
+
+        /*glfwGetFramebufferSize(window, &width, &height);
+        ratio = width / (float)height;
+
         glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);*/
 
 
         gTheLights->CopyLightInfoToShader();
@@ -461,9 +454,10 @@ int main()
             cameraAt,    // "at"
             cameraUp);
 
-        glUniformMatrix4fv(matView_Location, 1, GL_FALSE, glm::value_ptr(v));
-        glUniformMatrix4fv(matProjection_Location, 1, GL_FALSE, glm::value_ptr(p));
+        cShaderManager::cShaderProgram* pShaderProc = gShaderManager->pGetShaderProgramFromFriendlyName("Shader#1");
 
+        glUniformMatrix4fv(pShaderProc->getUniformID_From_Name("matView"), 1, GL_FALSE, glm::value_ptr(v));
+        glUniformMatrix4fv(pShaderProc->getUniformID_From_Name("matProjection"), 1, GL_FALSE, glm::value_ptr(p));
         //Update the particle world
         gParticleWorld->TimeStep(deltaTime);
 
@@ -488,56 +482,19 @@ int main()
         // Dissable transparency
         glDisable(GL_BLEND);
 
-        // Screen is cleared and we are ready to draw the scene...
+        // Screen is cleared and its time for the 1st pass
         for (unsigned int index = 0; index != g_vecMeshes.size(); index++)
         {
             // So the code is a little easier...
             cMesh* curMesh = g_vecMeshes[index];
-            curMesh->bDontLight = true;
-
-            //Check if mesh is near the camera
-            //The radius is half of the skybox scale
-            /*
-            float radius = skyBoxMesh->scale;
-            glm::vec3 midline = cameraEye - curMesh->transformXYZ;
-            float mag = glm::length(midline);
-            //we we aint colliding
-            if (mag <= 0.0f || mag >= radius)
+            if (index == 20)
             {
+                //curMesh->bDontLight = true;
+                curMesh->bUseObjectDebugColour = true;
+                curMesh->objectDebugColourRGBA = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
+                curMesh->transformXYZ = glm::vec3(0, 0, 500);
                 continue;
             }
-            */
-
-            //TODO: Call this thing literally anywhere else
-            //Get location of dicard bool in shader
-            GLint mainTextureDiscard_LodID = glGetUniformLocation(program, "mainTextureDiscard");
-            // Turn discard transparency off
-            glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_FALSE);
-
-            GLint decalTexture_LodID = glGetUniformLocation(program, "isDecal");
-            glUniform1f(decalTexture_LodID, (GLfloat)GL_FALSE);
-
-            //TODO: Change to a bitmask and check that way
-            if (curMesh->meshFriendlyName == "Shack.ply")
-            {
-                //Turn on discard transparency
-                glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_TRUE);
-            }
-
-            if (curMesh->bHasDecal)
-            {
-                glUniform1f(decalTexture_LodID, (GLfloat)GL_TRUE);
-            }
-
-            matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)
-            DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
-        }
-
-        // Draw the projectiles, please swap projectiles over to gameobjects already
-        for (unsigned int index = 0; index != projectiles.size(); index++)
-        {
-            // So the code is a little easier...
-            cMesh* curMesh = projectiles[index]->myMesh;
             curMesh->bDontLight = true;
 
             //Check if mesh is near the camera
@@ -584,7 +541,7 @@ int main()
             GLint mainTextureDiscard_LodID = glGetUniformLocation(program, "mainTextureDiscard");
             // Turn discard transparency off
             glUniform1f(mainTextureDiscard_LodID, (GLfloat)GL_FALSE);
-            
+
             GLint decalTexture_LodID = glGetUniformLocation(program, "isDecal");
             glUniform1f(decalTexture_LodID, (GLfloat)GL_FALSE);
 
@@ -606,7 +563,7 @@ int main()
         glEnable(GL_BLEND);
         // Basic "alpha transparency"
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        
+
         int transparentMeshSize = g_transMeshes.size();
         //Sort objects draw order by distance from camera
         for (int index = 0; index < transparentMeshSize - 1; index++)
@@ -650,12 +607,176 @@ int main()
             matModel = glm::mat4(1.0f);  // "Identity" ("do nothing", like x1)
             DrawObject(curMesh, matModel, matModel_Location, matModelInverseTranspose_Location, program, gVAOManager);
         }
+        //End of the 1st pass
+
+        //Start of the 2nd pass
+        {
+            // 2nd pass of the render, where we do something bizzare
+            if (::g_pFullScreenQuad == NULL)
+            {
+                ::g_pFullScreenQuad = new cMesh;
+                //            ::g_pFullScreenQuad->meshName = "Imposter_Shapes/Quad_2_sided_aligned_on_XY_plane.ply";
+                ::g_pFullScreenQuad->meshName = "Quad_2_sided_aligned_on_XY_plane.ply";
+                ::g_pFullScreenQuad->transformXYZ = glm::vec3(0.0f, 0.0f, 500.0f);
+                ::g_pFullScreenQuad->scale = 100.0f;
+                ::g_pFullScreenQuad->scaleXYZ = glm::vec3(g_pFullScreenQuad->scale, g_pFullScreenQuad->scale, g_pFullScreenQuad->scale);
+                ::g_pFullScreenQuad->bDontLight = true;
+                //::g_pFullScreenQuad->bUseObjectDebugColour = true;
+                //::g_pFullScreenQuad->objectDebugColourRGBA = glm::vec4(0.7f, 0.7f, 0.7f, 1.0f);
+            }
+
+            //Set the viewport size to the fbo size
+            glViewport(0, 0, ::g_pFBO->width, ::g_pFBO->height);
+            ratio = ::g_pFBO->width / (float)::g_pFBO->height;
+
+            v = glm::mat4(1.0f);
+
+
+            glm::vec3 eyeForFullScreenQuad = glm::vec3(0.0f, 0.0f, 450.0f);   // "eye" is 100 units away from the quad
+            glm::vec3 atForFullScreenQuad = glm::vec3(0.0f, 0.0f, 500.0f);    // "at" the quad
+            glm::vec3 upForFullScreenQuad = glm::vec3(0.0f, 1.0f, 0.0f);      // "at" the quad
+            v = glm::lookAt(eyeForFullScreenQuad, atForFullScreenQuad, upForFullScreenQuad);
+
+            //glUniformMatrix4fv(pShaderProc->getUniformID_From_Name("matView"),
+            //    1, GL_FALSE, glm::value_ptr(v));
+
+            p = glm::ortho(
+                0.0f,   // Left
+                1.0f / (float)width,  // Right
+                0.0f,   // Top
+                1.0f / (float)height, // Bottom
+                30.0f, // zNear  Eye is at 450, quad is at 500, so 50 units away
+                5000.0f); // zFar
+
+            //glUniformMatrix4fv(pShaderProc->getUniformID_From_Name("matProjection"),
+            //    1, GL_FALSE, glm::value_ptr(p));
+
+            //Get and set the screen width and height in the shader
+            GLint screenWidthHeight_locID = glGetUniformLocation(program, "screenWidthHeight");
+            glUniform2f(screenWidthHeight_locID, (float)width, (float)height);
+
+            //Set shader to render pass 2
+            glUniform1ui(renderPassNumber_LocID, PASS_2_LIGHT_PASS);
+
+            //Setting all the 4 FBO G-Buffer textures in shader
+            GLuint FSO_texVertexMaterialColour_TextureUnit = 5;	    // I picked 5 just because
+            glActiveTexture(FSO_texVertexMaterialColour_TextureUnit + GL_TEXTURE0);
+            GLuint texVertexMaterialColourTextureNumber = ::g_pFBO->vertexMaterialColour_1_ID;
+            glBindTexture(GL_TEXTURE_2D, texVertexMaterialColourTextureNumber);
+            // uniform sampler2D texVertexMaterialColour;
+            GLint FSQ_textureSamplerSamplerID = glGetUniformLocation(program, "texVertexMaterialColour");
+            glUniform1i(FSQ_textureSamplerSamplerID, FSO_texVertexMaterialColour_TextureUnit);
+
+            GLuint FSO_texVertexNormal_TextureUnit = 6;	    // I picked 6 just because
+            glActiveTexture(FSO_texVertexNormal_TextureUnit + GL_TEXTURE0);
+            GLuint texVertexNormalTextureNumber = ::g_pFBO->vertexNormal_2_ID;
+            glBindTexture(GL_TEXTURE_2D, texVertexNormalTextureNumber);
+            // uniform sampler2D texVertexNormal;
+            GLint FSQ_VertexNormalSamplerID = glGetUniformLocation(program, "texVertexNormal");
+            glUniform1i(FSQ_VertexNormalSamplerID, FSO_texVertexNormal_TextureUnit);
+
+            GLuint FSO_texVertexWorldPos_TextureUnit = 7;	    // I picked 7 just because
+            glActiveTexture(FSO_texVertexWorldPos_TextureUnit + GL_TEXTURE0);
+            GLuint texVertexWorldPosTextureNumber = ::g_pFBO->vertexWorldPos_3_ID;
+            glBindTexture(GL_TEXTURE_2D, texVertexWorldPosTextureNumber);
+            // uniform sampler2D texVertexWorldPos;
+            GLint FSQ_VertexWorldPosSamplerID = glGetUniformLocation(program, "texVertexWorldPos");
+            glUniform1i(FSQ_VertexWorldPosSamplerID, FSO_texVertexWorldPos_TextureUnit);
+
+            GLuint FSO_texVertexSpecular_TextureUnit = 8;	    // I picked 8 just because
+            glActiveTexture(FSO_texVertexSpecular_TextureUnit + GL_TEXTURE0);
+            GLuint texVertexSpecularTextureNumber = ::g_pFBO->vertexSpecular_4_ID;
+            glBindTexture(GL_TEXTURE_2D, texVertexSpecularTextureNumber);
+            // uniform sampler2D texVertexSpecular;
+            GLint FSQ_VertexSpecularSamplerID = glGetUniformLocation(program, "texVertexSpecular");
+            glUniform1i(FSQ_VertexSpecularSamplerID, FSO_texVertexSpecular_TextureUnit);
+
+            glm::mat4x4 matModelFullScreenQuad = glm::mat4(1.0f);   // identity matrix
+
+            //glCullFace(GL_FRONT);
+
+            DrawObject(g_vecMeshes[20],
+                matModelFullScreenQuad,
+                matModel_Location,
+                matModelInverseTranspose_Location,
+                program,
+                gVAOManager);
+        }//End of 2nd pass
+
+        //Start of 3rd pass
+        
+        // Point the output of the renderer to the real framebuffer
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        glClearColor(0.0f, 164.0f / 255.0f, 239.0f / 255.0f, 1.0f);
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glfwGetFramebufferSize(window, &width, &height);
+        ratio = width / (float)height;
+
+        p = glm::perspective<float>(
+            ::g_pFlyCamera->FOV,
+            ratio,
+            ::g_pFlyCamera->nearPlane,      // Near plane (as large as possible)
+            ::g_pFlyCamera->farPlane);      // Far plane (as small as possible)
+
+        glViewport(0, 0, width, height);
+
+        GLint screenWidthHeight_locID = glGetUniformLocation(program, "screenWidthHeight");
+        glUniform2f(screenWidthHeight_locID, (float)width, (float)height);
+
+        glUniform1ui(renderPassNumber_LocID, PASS_3_2D_EFFECTS_PASS);
+
+        GLuint FSQ_textureUnit = 9;	    // We picked 9 just because yolo (i.e. it doesn't matter, we just had to pick one)
+        glActiveTexture(FSQ_textureUnit + GL_TEXTURE0);
+        GLuint TextureNumber = ::g_pFBO->colourTexture_0_ID;
+        glBindTexture(GL_TEXTURE_2D, TextureNumber);
+
+        // uniform sampler2D texLightPassColourBuffer;
+        GLint FSQ_textureSamplerID = glGetUniformLocation(program, "texLightPassColourBuffer");
+        glUniform1i(FSQ_textureSamplerID, FSQ_textureUnit);
+
+        glm::mat4x4 matModelFullScreenQuad = glm::mat4(1.0f);   // identity matrix
+
+        //glCullFace(GL_FRONT);
+
+        // Place the camera in front of the quad(the "full screen" quad)
+        //v = glm::mat4(1.0f);
+        //
+        //glm::vec3 eyeForFullScreenQuad = glm::vec3(0.0f, 0.0f, 0.0f);   // "eye" is 100 units away from the quad
+        //glm::vec3 atForFullScreenQuad = glm::vec3(0.0f, 0.0f, 500.0f);    // "at" the quad
+        //glm::vec3 upForFullScreenQuad = glm::vec3(0.0f, 1.0f, 0.0f);      // "at" the quad
+        //v = glm::lookAt(eyeForFullScreenQuad,
+        //    atForFullScreenQuad,
+        //    upForFullScreenQuad);
+        //
+        //p = glm::ortho(
+        //    0.0f,   // Left
+        //    1.0f / (float)width,  // Right
+        //    0.0f,   // Top
+        //    1.0f / (float)height, // Bottom
+        //    30.0f, // zNear  Eye is at 450, quad is at 500, so 50 units away
+        //    5000.0f); // zFar
+        //
+        //glUniformMatrix4fv(pShaderProc->getUniformID_From_Name("matProjection"),
+        //    1, GL_FALSE, glm::value_ptr(p));
+
+ 
+        
+        DrawObject(g_vecMeshes[20],
+            matModelFullScreenQuad,
+            matModel_Location,
+            matModelInverseTranspose_Location,
+            program,
+            gVAOManager);
+            
+        //End of 3rd pass
+
 
         //TODO: remove because we disable this
-        glDisable(GL_BLEND);
+        //glDisable(GL_BLEND);
 
-
-        //TODO: Why doesnt this work
+        //Render the GUI data
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         // "Present" what we've drawn.
@@ -713,562 +834,16 @@ void LoadMeshes(GLuint program)
         std::cout << skyBoxInfo.numberOfTriangles << " triangles loaded" << std::endl;
     }
 
-    //Add the cannon mesh
-    sModelDrawInfo cannonInfo;
-    if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("Cannon.ply"), cannonInfo, program))
+    //Add the Skybox Mesh to the vao manager
+    sModelDrawInfo drawingQuadInfo;
+    if (!gVAOManager->LoadModelIntoVAO(MODEL_DIR + std::string("Quad_1_sided_aligned_on_XY_plane.ply"), skyBoxInfo, program))
     {
-        std::cout << "Error: " << "Cannon.ply" << " Didn't load OK" << std::endl;
+        std::cout << "Error: " << "Quad_1_sided_aligned_on_XY_plane.ply" << " Didn't load OK" << std::endl;
     }
     else
     {
-        std::cout << "Good: " << "Cannon.ply" << " loaded OK" << std::endl;
-        std::cout << cannonInfo.numberOfVertices << " vertices loaded" << std::endl;
-        std::cout << cannonInfo.numberOfTriangles << " triangles loaded" << std::endl;
+        std::cout << "Good: " << "Quad_1_sided_aligned_on_XY_plane.ply" << " loaded OK" << std::endl;
+        std::cout << skyBoxInfo.numberOfVertices << " vertices loaded" << std::endl;
+        std::cout << skyBoxInfo.numberOfTriangles << " triangles loaded" << std::endl;
     }
-}
-
-void CreateTriangleBoat(glm::vec3 origin)
-{
-    //Particles
-    //Particle A
-    cMesh* particleAMesh = new cMesh;
-    particleAMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleAMesh->transformXYZ = origin + glm::vec3(0, 2, 0);
-    particleAMesh->scale = 1;
-    particleAMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleAMesh->bDontLight = true;
-    particleAMesh->textureNames[0] = "OakLogs.bmp";
-    particleAMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleAMesh);
-    nPhysics::cProjectile* particleA = new nPhysics::cProjectile(1, particleAMesh->transformXYZ, particleAMesh);
-    particleA->SetAcceleration(glm::vec3(0.0f, -9.8f, 0.0f));
-    gParticleWorld->AddParticle(particleA);
-
-    //Particle b
-    cMesh* particleBMesh = new cMesh;
-    particleBMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleBMesh->transformXYZ = origin + glm::vec3(1, 0, 1);
-    particleBMesh->scale = 1;
-    particleBMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleBMesh->bDontLight = true;
-    particleBMesh->textureNames[0] = "OakLogs.bmp";
-    particleBMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleBMesh);
-    nPhysics::cProjectile* particleB = new nPhysics::cProjectile(10, particleBMesh->transformXYZ, particleBMesh);
-    particleB->SetAcceleration(glm::vec3(0.0f, -9.8f, 0.0f));
-    gParticleWorld->AddParticle(particleB);
-
-    //Particle c
-    cMesh* particleCMesh = new cMesh;
-    particleCMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleCMesh->transformXYZ = origin + glm::vec3(-1, 0, 1);
-    particleCMesh->scale = 1;
-    particleCMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleCMesh->bDontLight = true;
-    particleCMesh->textureNames[0] = "OakLogs.bmp";
-    particleCMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleCMesh);
-    nPhysics::cProjectile* particleC = new nPhysics::cProjectile(10, particleCMesh->transformXYZ, particleCMesh);
-    particleC->SetAcceleration(glm::vec3(0.0f, -9.8f, 0.0f));
-    gParticleWorld->AddParticle(particleC);
-
-    //Particle d
-    cMesh* particleDMesh = new cMesh;
-    particleDMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleDMesh->transformXYZ = origin + glm::vec3(-1, 0, -1);
-    particleDMesh->scale = 1;
-    particleDMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleDMesh->bDontLight = true;
-    particleDMesh->textureNames[0] = "OakLogs.bmp";
-    particleDMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleDMesh);
-    nPhysics::cProjectile* particleD = new nPhysics::cProjectile(10, particleDMesh->transformXYZ, particleDMesh);
-    particleD->SetAcceleration(glm::vec3(0.0f, -9.8f, 0.0f));
-    gParticleWorld->AddParticle(particleD);
-
-    //Particle e
-    
-    cMesh* particleEMesh = new cMesh;
-    particleEMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleEMesh->transformXYZ = origin + glm::vec3(1, 0, -1);
-    particleEMesh->scale = 1;
-    particleEMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleEMesh->bDontLight = true;
-    particleEMesh->textureNames[0] = "OakLogs.bmp";
-    particleEMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleEMesh);
-    nPhysics::cProjectile* particleE = new nPhysics::cProjectile(10, particleEMesh->transformXYZ, particleEMesh);
-    particleE->SetAcceleration(glm::vec3(0.0f, -9.8f, 0.0f));
-    gParticleWorld->AddParticle(particleE);
-    
-
-    //Particle A Constraints
-    nPhysics::cParticleRodConstraint* mConstraintAB = new nPhysics::cParticleRodConstraint(particleA, particleB);
-    gParticleWorld->AddContactGenerator(mConstraintAB);
-    nPhysics::cParticleRodConstraint* mConstraintAC = new nPhysics::cParticleRodConstraint(particleA, particleC);
-    gParticleWorld->AddContactGenerator(mConstraintAC);
-    nPhysics::cParticleRodConstraint* mConstraintAD = new nPhysics::cParticleRodConstraint(particleA, particleD);
-    gParticleWorld->AddContactGenerator(mConstraintAD);
-    nPhysics::cParticleRodConstraint* mConstraintAE = new nPhysics::cParticleRodConstraint(particleA, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintAE);
-
-    //Base Constraints
-    nPhysics::cParticleRodConstraint* mConstraintBC = new nPhysics::cParticleRodConstraint(particleB, particleC);
-    gParticleWorld->AddContactGenerator(mConstraintBC);
-    //nPhysics::cParticleRodConstraint* mConstraintDB = new nPhysics::cParticleRodConstraint(particleB, particleD);
-    //gParticleWorld->AddContactGenerator(mConstraintDB);
-    //nPhysics::cParticleRodConstraint* mConstraintCE = new nPhysics::cParticleRodConstraint(particleC, particleE);
-    //gParticleWorld->AddContactGenerator(mConstraintCE);
-    nPhysics::cParticleRodConstraint* mConstraintED = new nPhysics::cParticleRodConstraint(particleE, particleD);
-    gParticleWorld->AddContactGenerator(mConstraintED);
-    //nPhysics::cParticleRodConstraint* mConstraintCD = new nPhysics::cParticleRodConstraint(particleC, particleD);
-    //gParticleWorld->AddContactGenerator(mConstraintCD);
-
-    //Base triangle constraints
-    nPhysics::cParticleRodConstraint* mConstraintBE = new nPhysics::cParticleRodConstraint(particleB, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintBE);
-    nPhysics::cParticleRodConstraint* mConstraintDC = new nPhysics::cParticleRodConstraint(particleD, particleC);
-    gParticleWorld->AddContactGenerator(mConstraintDC);
-
-    //Add Buoyancy
-    nPhysics::cBuoyancyForceGenerator* particleABuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 100.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleA, particleABuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleBBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 100.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleB, particleBBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleCBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 100.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleC, particleCBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleDBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 100.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleD, particleDBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleEBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 100.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleE, particleEBuoyancy);
-}
-
-void CreateCubeBoat(glm::vec3 origin)
-{
-    //glm::vec3(0.0f, -9.8f, 0.0f)
-    //Particles
-    //Particle A
-    cMesh* particleAMesh = new cMesh;
-    particleAMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleAMesh->transformXYZ = origin + glm::vec3(1, 1, 1);
-    particleAMesh->scale = 1;
-    particleAMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleAMesh->bDontLight = true;
-    particleAMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleAMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleAMesh);
-    nPhysics::cProjectile* particleA = new nPhysics::cProjectile(1, particleAMesh->transformXYZ, particleAMesh);
-    particleA->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleA);
-
-    //Particle b
-    cMesh* particleBMesh = new cMesh;
-    particleBMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleBMesh->transformXYZ = origin + glm::vec3(-1, 1, 1);
-    particleBMesh->scale = 1;
-    particleBMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleBMesh->bDontLight = true;
-    particleBMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleBMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleBMesh);
-    nPhysics::cProjectile* particleB = new nPhysics::cProjectile(10, particleBMesh->transformXYZ, particleBMesh);
-    particleB->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleB);
-
-    //Particle c
-    cMesh* particleCMesh = new cMesh;
-    particleCMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleCMesh->transformXYZ = origin + glm::vec3(-1, 1, -1);
-    particleCMesh->scale = 1;
-    particleCMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleCMesh->bDontLight = true;
-    particleCMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleCMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleCMesh);
-    nPhysics::cProjectile* particleC = new nPhysics::cProjectile(10, particleCMesh->transformXYZ, particleCMesh);
-    particleC->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleC);
-
-    //Particle d
-    cMesh* particleDMesh = new cMesh;
-    particleDMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleDMesh->transformXYZ = origin + glm::vec3(1, 1, -1);
-    particleDMesh->scale = 1;
-    particleDMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleDMesh->bDontLight = true;
-    particleDMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleDMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleDMesh);
-    nPhysics::cProjectile* particleD = new nPhysics::cProjectile(10, particleDMesh->transformXYZ, particleDMesh);
-    particleD->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleD);
-
-    //Particle e
-
-    cMesh* particleEMesh = new cMesh;
-    particleEMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleEMesh->transformXYZ = origin + glm::vec3(1, -1, 1);
-    particleEMesh->scale = 1;
-    particleEMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleEMesh->bDontLight = true;
-    particleEMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleEMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleEMesh);
-    nPhysics::cProjectile* particleE = new nPhysics::cProjectile(10, particleEMesh->transformXYZ, particleEMesh);
-    particleE->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleE);
-
-    //Particle f
-
-    cMesh* particleFMesh = new cMesh;
-    particleFMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleFMesh->transformXYZ = origin + glm::vec3(-1, -1, 1);
-    particleFMesh->scale = 1;
-    particleFMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleFMesh->bDontLight = true;
-    particleFMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleFMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleFMesh);
-    nPhysics::cProjectile* particleF = new nPhysics::cProjectile(10, particleFMesh->transformXYZ, particleFMesh);
-    particleF->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleF);
-
-    //Particle g
-
-    cMesh* particleGMesh = new cMesh;
-    particleGMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleGMesh->transformXYZ = origin + glm::vec3(-1, -1, -1);
-    particleGMesh->scale = 1;
-    particleGMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleGMesh->bDontLight = true;
-    particleGMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleGMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleGMesh);
-    nPhysics::cProjectile* particleG = new nPhysics::cProjectile(10, particleGMesh->transformXYZ, particleGMesh);
-    particleG->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleG);
-
-    //Particle h
-
-    cMesh* particleHMesh = new cMesh;
-    particleHMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleHMesh->transformXYZ = origin + glm::vec3(1, -1, -1);
-    particleHMesh->scale = 1;
-    particleHMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleHMesh->bDontLight = true;
-    particleHMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleHMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleHMesh);
-    nPhysics::cProjectile* particleH = new nPhysics::cProjectile(10, particleHMesh->transformXYZ, particleHMesh);
-    particleH->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleH);
-
-
-    //Top Constraints
-    nPhysics::cParticleRodConstraint* mConstraintAB = new nPhysics::cParticleRodConstraint(particleA, particleB);
-    gParticleWorld->AddContactGenerator(mConstraintAB);
-    nPhysics::cParticleRodConstraint* mConstraintBD = new nPhysics::cParticleRodConstraint(particleB, particleD);
-    gParticleWorld->AddContactGenerator(mConstraintBD);
-    nPhysics::cParticleRodConstraint* mConstraintDC = new nPhysics::cParticleRodConstraint(particleD, particleC);
-    gParticleWorld->AddContactGenerator(mConstraintDC);
-    nPhysics::cParticleRodConstraint* mConstraintCA = new nPhysics::cParticleRodConstraint(particleC, particleA);
-    gParticleWorld->AddContactGenerator(mConstraintCA);
-
-    //Top Diagonals
-    nPhysics::cParticleRodConstraint* mConstraintBC = new nPhysics::cParticleRodConstraint(particleB, particleC);
-    gParticleWorld->AddContactGenerator(mConstraintBC);
-    nPhysics::cParticleRodConstraint* mConstraintAD = new nPhysics::cParticleRodConstraint(particleA, particleD);
-    gParticleWorld->AddContactGenerator(mConstraintAD);
-    
-    //Bottom constraints
-    nPhysics::cParticleRodConstraint* mConstraintEF = new nPhysics::cParticleRodConstraint(particleE, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintEF);
-    nPhysics::cParticleRodConstraint* mConstraintFG = new nPhysics::cParticleRodConstraint(particleF, particleG);
-    gParticleWorld->AddContactGenerator(mConstraintFG);
-    nPhysics::cParticleRodConstraint* mConstraintGH = new nPhysics::cParticleRodConstraint(particleG, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintGH);
-    nPhysics::cParticleRodConstraint* mConstraintHE = new nPhysics::cParticleRodConstraint(particleH, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintHE);
-
-    //Bottom Diagonals
-    nPhysics::cParticleRodConstraint* mConstraintEH = new nPhysics::cParticleRodConstraint(particleE, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintEH);
-    nPhysics::cParticleRodConstraint* mConstraintGF = new nPhysics::cParticleRodConstraint(particleG, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintGF);
-
-    //Top to bottom connectors
-    nPhysics::cParticleRodConstraint* mConstraintAE = new nPhysics::cParticleRodConstraint(particleA, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintAE);
-    nPhysics::cParticleRodConstraint* mConstraintBF = new nPhysics::cParticleRodConstraint(particleB, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintBF);
-    nPhysics::cParticleRodConstraint* mConstraintCG = new nPhysics::cParticleRodConstraint(particleC, particleG);
-    gParticleWorld->AddContactGenerator(mConstraintCG);
-    nPhysics::cParticleRodConstraint* mConstraintDH = new nPhysics::cParticleRodConstraint(particleD, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintDH);
-
-    //Front Diagonals
-    nPhysics::cParticleRodConstraint* mConstraintCH = new nPhysics::cParticleRodConstraint(particleC, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintCH);
-    nPhysics::cParticleRodConstraint* mConstraintGD = new nPhysics::cParticleRodConstraint(particleG, particleD);
-    gParticleWorld->AddContactGenerator(mConstraintGD);
-
-    //Back Diagonals
-    nPhysics::cParticleRodConstraint* mConstraintAF = new nPhysics::cParticleRodConstraint(particleA, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintAF);
-    nPhysics::cParticleRodConstraint* mConstraintBE = new nPhysics::cParticleRodConstraint(particleB, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintBE);
-
-    //left diagonals
-    nPhysics::cParticleRodConstraint* mConstraintAG = new nPhysics::cParticleRodConstraint(particleA, particleG);
-    gParticleWorld->AddContactGenerator(mConstraintAG);
-    nPhysics::cParticleRodConstraint* mConstraintCE = new nPhysics::cParticleRodConstraint(particleC, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintCE);
-
-    //right diagonals
-    nPhysics::cParticleRodConstraint* mConstraintDF = new nPhysics::cParticleRodConstraint(particleD, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintDF);
-    nPhysics::cParticleRodConstraint* mConstraintBH = new nPhysics::cParticleRodConstraint(particleB, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintBH);
-
-    //Add Buoyancy
-    nPhysics::cBuoyancyForceGenerator* particleABuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleA, particleABuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleBBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleB, particleBBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleCBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleC, particleCBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleDBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleD, particleDBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleEBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleE, particleEBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleFBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleF, particleFBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleGBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleG, particleGBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleHBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleH, particleHBuoyancy);
-}
-
-void CreateFunkyBoat(glm::vec3 origin)
-{
-    //glm::vec3(0.0f, -9.8f, 0.0f)
-    //Particles
-    //Particle A
-    cMesh* particleAMesh = new cMesh;
-    particleAMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleAMesh->transformXYZ = origin + glm::vec3(0, 1, 1);
-    particleAMesh->scale = 1;
-    particleAMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleAMesh->bDontLight = true;
-    particleAMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleAMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleAMesh);
-    nPhysics::cProjectile* particleA = new nPhysics::cProjectile(1, particleAMesh->transformXYZ, particleAMesh);
-    particleA->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleA);
-
-    //Particle b
-    cMesh* particleBMesh = new cMesh;
-    particleBMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleBMesh->transformXYZ = origin + glm::vec3(-2.0, 1, 1);
-    particleBMesh->scale = 1;
-    particleBMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleBMesh->bDontLight = true;
-    particleBMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleBMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleBMesh);
-    nPhysics::cProjectile* particleB = new nPhysics::cProjectile(10, particleBMesh->transformXYZ, particleBMesh);
-    particleB->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleB);
-
-    //Particle c
-    cMesh* particleCMesh = new cMesh;
-    particleCMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleCMesh->transformXYZ = origin + glm::vec3(-1, 1, -1);
-    particleCMesh->scale = 1;
-    particleCMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleCMesh->bDontLight = true;
-    particleCMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleCMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleCMesh);
-    nPhysics::cProjectile* particleC = new nPhysics::cProjectile(10, particleCMesh->transformXYZ, particleCMesh);
-    particleC->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleC);
-
-    //Particle d
-    cMesh* particleDMesh = new cMesh;
-    particleDMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleDMesh->transformXYZ = origin + glm::vec3(1, 1, -1);
-    particleDMesh->scale = 1;
-    particleDMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleDMesh->bDontLight = true;
-    particleDMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleDMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleDMesh);
-    nPhysics::cProjectile* particleD = new nPhysics::cProjectile(10, particleDMesh->transformXYZ, particleDMesh);
-    particleD->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleD);
-
-    //Particle e
-
-    cMesh* particleEMesh = new cMesh;
-    particleEMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleEMesh->transformXYZ = origin + glm::vec3(0, -1, 1);
-    particleEMesh->scale = 1;
-    particleEMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleEMesh->bDontLight = true;
-    particleEMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleEMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleEMesh);
-    nPhysics::cProjectile* particleE = new nPhysics::cProjectile(10, particleEMesh->transformXYZ, particleEMesh);
-    particleE->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleE);
-
-    //Particle f
-
-    cMesh* particleFMesh = new cMesh;
-    particleFMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleFMesh->transformXYZ = origin + glm::vec3(-2.0, -1, 1);
-    particleFMesh->scale = 1;
-    particleFMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleFMesh->bDontLight = true;
-    particleFMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleFMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleFMesh);
-    nPhysics::cProjectile* particleF = new nPhysics::cProjectile(10, particleFMesh->transformXYZ, particleFMesh);
-    particleF->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleF);
-
-    //Particle g
-
-    cMesh* particleGMesh = new cMesh;
-    particleGMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleGMesh->transformXYZ = origin + glm::vec3(-1, -1, -1);
-    particleGMesh->scale = 1;
-    particleGMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleGMesh->bDontLight = true;
-    particleGMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleGMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleGMesh);
-    nPhysics::cProjectile* particleG = new nPhysics::cProjectile(10, particleGMesh->transformXYZ, particleGMesh);
-    particleG->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleG);
-
-    //Particle h
-
-    cMesh* particleHMesh = new cMesh;
-    particleHMesh->meshName = MODEL_DIR + std::string("WhiteBall.ply");
-    particleHMesh->transformXYZ = origin + glm::vec3(1, -1, -1);
-    particleHMesh->scale = 1;
-    particleHMesh->scaleXYZ = glm::vec3(1, 1, 1);
-    particleHMesh->bDontLight = true;
-    particleHMesh->textureNames[0] = "WoodenPlanks.bmp";
-    particleHMesh->textureRatios[0] = 1.0f;
-    g_vecMeshes.push_back(particleHMesh);
-    nPhysics::cProjectile* particleH = new nPhysics::cProjectile(10, particleHMesh->transformXYZ, particleHMesh);
-    particleH->SetAcceleration(glm::vec3(0.0f, -1.255f, 0.0f));
-    gParticleWorld->AddParticle(particleH);
-
-
-    //Top Constraints
-    nPhysics::cParticleRodConstraint* mConstraintAB = new nPhysics::cParticleRodConstraint(particleA, particleB);
-    gParticleWorld->AddContactGenerator(mConstraintAB);
-    nPhysics::cParticleRodConstraint* mConstraintBD = new nPhysics::cParticleRodConstraint(particleB, particleD);
-    gParticleWorld->AddContactGenerator(mConstraintBD);
-    nPhysics::cParticleRodConstraint* mConstraintDC = new nPhysics::cParticleRodConstraint(particleD, particleC);
-    gParticleWorld->AddContactGenerator(mConstraintDC);
-    nPhysics::cParticleRodConstraint* mConstraintCA = new nPhysics::cParticleRodConstraint(particleC, particleA);
-    gParticleWorld->AddContactGenerator(mConstraintCA);
-
-    //Top Diagonals
-    nPhysics::cParticleRodConstraint* mConstraintBC = new nPhysics::cParticleRodConstraint(particleB, particleC);
-    gParticleWorld->AddContactGenerator(mConstraintBC);
-    nPhysics::cParticleRodConstraint* mConstraintAD = new nPhysics::cParticleRodConstraint(particleA, particleD);
-    gParticleWorld->AddContactGenerator(mConstraintAD);
-
-    //Bottom constraints
-    nPhysics::cParticleRodConstraint* mConstraintEF = new nPhysics::cParticleRodConstraint(particleE, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintEF);
-    nPhysics::cParticleRodConstraint* mConstraintFG = new nPhysics::cParticleRodConstraint(particleF, particleG);
-    gParticleWorld->AddContactGenerator(mConstraintFG);
-    nPhysics::cParticleRodConstraint* mConstraintGH = new nPhysics::cParticleRodConstraint(particleG, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintGH);
-    nPhysics::cParticleRodConstraint* mConstraintHE = new nPhysics::cParticleRodConstraint(particleH, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintHE);
-
-    //Bottom Diagonals
-    nPhysics::cParticleRodConstraint* mConstraintEH = new nPhysics::cParticleRodConstraint(particleE, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintEH);
-    nPhysics::cParticleRodConstraint* mConstraintGF = new nPhysics::cParticleRodConstraint(particleG, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintGF);
-
-    //Top to bottom connectors
-    nPhysics::cParticleRodConstraint* mConstraintAE = new nPhysics::cParticleRodConstraint(particleA, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintAE);
-    nPhysics::cParticleRodConstraint* mConstraintBF = new nPhysics::cParticleRodConstraint(particleB, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintBF);
-    nPhysics::cParticleRodConstraint* mConstraintCG = new nPhysics::cParticleRodConstraint(particleC, particleG);
-    gParticleWorld->AddContactGenerator(mConstraintCG);
-    nPhysics::cParticleRodConstraint* mConstraintDH = new nPhysics::cParticleRodConstraint(particleD, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintDH);
-
-    //Front Diagonals
-    nPhysics::cParticleRodConstraint* mConstraintCH = new nPhysics::cParticleRodConstraint(particleC, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintCH);
-    nPhysics::cParticleRodConstraint* mConstraintGD = new nPhysics::cParticleRodConstraint(particleG, particleD);
-    gParticleWorld->AddContactGenerator(mConstraintGD);
-
-    //Back Diagonals
-    nPhysics::cParticleRodConstraint* mConstraintAF = new nPhysics::cParticleRodConstraint(particleA, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintAF);
-    nPhysics::cParticleRodConstraint* mConstraintBE = new nPhysics::cParticleRodConstraint(particleB, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintBE);
-
-    //left diagonals
-    nPhysics::cParticleRodConstraint* mConstraintAG = new nPhysics::cParticleRodConstraint(particleA, particleG);
-    gParticleWorld->AddContactGenerator(mConstraintAG);
-    nPhysics::cParticleRodConstraint* mConstraintCE = new nPhysics::cParticleRodConstraint(particleC, particleE);
-    gParticleWorld->AddContactGenerator(mConstraintCE);
-
-    //right diagonals
-    nPhysics::cParticleRodConstraint* mConstraintDF = new nPhysics::cParticleRodConstraint(particleD, particleF);
-    gParticleWorld->AddContactGenerator(mConstraintDF);
-    nPhysics::cParticleRodConstraint* mConstraintBH = new nPhysics::cParticleRodConstraint(particleB, particleH);
-    gParticleWorld->AddContactGenerator(mConstraintBH);
-
-    //Add Buoyancy
-    nPhysics::cBuoyancyForceGenerator* particleABuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleA, particleABuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleBBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleB, particleBBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleCBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleC, particleCBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleDBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleD, particleDBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleEBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleE, particleEBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleFBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleF, particleFBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleGBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleG, particleGBuoyancy);
-
-    nPhysics::cBuoyancyForceGenerator* particleHBuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 50.0f, 1.0f);
-    gParticleWorld->GetForceRegistry()->Register(particleH, particleHBuoyancy);
 }

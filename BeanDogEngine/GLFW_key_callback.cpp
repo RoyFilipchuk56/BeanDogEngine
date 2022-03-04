@@ -18,15 +18,7 @@
 
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
     {
-        //create the projectile
-        nPhysics::cProjectile* tempProjectile = nGameObject::cannon->ShootBullet();
-        gParticleWorld->AddParticle(tempProjectile);
         
-        //Make it boyent
-        nPhysics::cBuoyancyForceGenerator* particleABuoyancy = new nPhysics::cBuoyancyForceGenerator(0.5f, 10.0f, 10.0f, 1.0f);
-        gParticleWorld->GetForceRegistry()->Register(tempProjectile, particleABuoyancy);
-        //Add it to the list
-        projectiles.push_back(tempProjectile);
     }
 
     float cameraSpeed = 1.0f;
